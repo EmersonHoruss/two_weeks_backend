@@ -5,7 +5,9 @@
         "outDir": "dist", // Compiled files go here
         "rootDir": "src", // All your source files are here
         "strict": true, // Enforce type checking
-        "esModuleInterop": true // Ensures compatibility between TypeScript modules and CommonJS
+        "esModuleInterop": true, // Ensures compatibility between TypeScript modules and CommonJS
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
     "include": [
         "src"
