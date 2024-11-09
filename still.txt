@@ -1,0 +1,3 @@
+-> hacer los tests
+-> ver el linting
+-> ver el formatting
