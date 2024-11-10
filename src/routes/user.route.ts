@@ -1,12 +1,14 @@
-import { Router } from 'express';
-import * as userController from '../controllers/user.controller'; // Importar los controladores
+import { Router } from "express";
+import { UserController } from "../controllers/user.controller";
 
 const router = Router();
+const userController = new UserController();
 
-router.post('/', userController.createUser);
-router.get('/', userController.getUsers);
-router.get('/:id', userController.getUser);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
+router.post("/", (req, res) => userController.create(req, res));
+router.get("/", (req, res) => userController.findAll(req, res));
+router.get("/:id", (req, res) => userController.findById(req, res));
+router.put("/:id", (req, res) => userController.update(req, res));
+router.delete("/:id", (req, res) => userController.delete(req, res));
+router.get("/paginate", (req, res) => userController.findAndPaginate(req, res));
 
 export default router;

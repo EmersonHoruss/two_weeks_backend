@@ -1,18 +1,8 @@
-import {
-  Table,
-  Column,
-  Model,
-  PrimaryKey,
-  AutoIncrement,
-} from "sequelize-typescript";
+import { Table, Column } from "sequelize-typescript";
+import { BaseModel } from "./base.model";
 
 @Table
-export class User extends Model {
-  @PrimaryKey
-  @AutoIncrement
-  @Column
-  declare id: number;
-
+export class User extends BaseModel {
   @Column
   name!: string;
 
