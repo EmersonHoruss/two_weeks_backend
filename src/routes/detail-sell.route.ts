@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { UserController } from "../controllers/user.controller";
+import { DetailSellController } from "../controllers/detail-sell.controller";
 
 const router = Router();
-const controller = new UserController();
+const controller = new DetailSellController();
 
 router.post("/", (req, res) => controller.create(req, res));
 router.get("/", (req, res) => controller.findAll(req, res));

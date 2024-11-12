@@ -1,5 +1,8 @@
 import { Sequelize } from "sequelize-typescript";
 import { User } from "../models/user.model";
+import { Product } from "../models/product.model";
+import { Sell } from "../models/sell.model";
+import { DetailSell } from "../models/detail-sell.model";
 import mysql from "mysql2/promise"; // Import mysql2 for raw database handling
 
 // Function to create the database if it doesn't exist
@@ -39,7 +42,7 @@ async function initializeSequelize() {
     password: process.env.DB_PASSWORD,
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
-    models: [User],
+    models: [User, Product, Sell, DetailSell],
     logging: process.env.NODE_ENV === "development", // Logging based on environment
   });
 

@@ -3,3 +3,5 @@ okey, create a module to map from an string to findoptions
 i want you create a module to calculate the offset according the page, if i say page 1 it should maps one page and calculate the offset, and if there are 20 pages y i put 21 should send me a through if there is not 20 page of a page with specific size
 
 implement DTOs
+
+i want both creation and updating transactional. REQUIRED AS SOON AS POSSIBLE!!!!!!!!
