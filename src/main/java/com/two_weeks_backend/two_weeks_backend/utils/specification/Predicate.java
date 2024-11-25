@@ -20,7 +20,7 @@ public class Predicate {
 
     private jakarta.persistence.criteria.Predicate predicate;
 
-    public Predicate(String query, Integer startIndex, Integer endIndex, Root root, CriteriaBuilder cb) {
+    public Predicate(String query, Integer startIndex, Integer endIndex, @SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
         Pattern pattern = Pattern.compile("([\\w.]+)<(\\w+)>([\\w,]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
         if(matcher.find()) {
@@ -56,8 +56,10 @@ public class Predicate {
         }
     }
 
-    private jakarta.persistence.criteria.Predicate buildPredicate(Root root, CriteriaBuilder cb) {
+    @SuppressWarnings("unchecked")
+    private jakarta.persistence.criteria.Predicate buildPredicate(@SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
         jakarta.persistence.criteria.Predicate predicate = null;
+        @SuppressWarnings("rawtypes")
         Path attribute = getAttribute(root);
 
         switch (this.operator){
@@ -89,12 +91,13 @@ public class Predicate {
                 predicate = cb.lessThanOrEqualTo(attribute, this.getValue());
                 break;
             case "in":
-                predicate = attribute.in(this.getValues());
+                //predicate = attribute.in(this.getValues());
                 break;
         }
         return predicate;
     }
 
+    @SuppressWarnings("rawtypes")
     private Path getAttribute(Root root) {
         if(this.containsNestedEntities()){
             String[] nestedEntitiesAndAttribute = this.getNestedEntitiesAndAttribute();

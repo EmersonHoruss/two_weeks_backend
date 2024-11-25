@@ -20,9 +20,10 @@ public class Group {
     private Integer endIndex;
 
     private CriteriaBuilder cb;
+    @SuppressWarnings("rawtypes")
     private Root root;
 
-    public Group(String query, Root root, CriteriaBuilder cb) {
+    public Group(String query, @SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
         this.query = query;
         this.startIndex = null;
         this.endIndex = null;
@@ -35,7 +36,7 @@ public class Group {
         this.cb = cb;
     }
 
-    public Group(String query, Integer startIndex, Integer endIndex, Root root, CriteriaBuilder cb) {
+    public Group(String query, Integer startIndex, Integer endIndex, @SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
         this.query = query;
         this.startIndex = startIndex;
         this.endIndex = endIndex;

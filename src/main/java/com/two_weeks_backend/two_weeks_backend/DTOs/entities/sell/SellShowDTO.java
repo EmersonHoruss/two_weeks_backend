@@ -2,7 +2,6 @@ package com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.user.UserShowDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.user.UserShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.customer.CustomerShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.*;
 import lombok.Getter;

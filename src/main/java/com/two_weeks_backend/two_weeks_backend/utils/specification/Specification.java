@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings("rawtypes")
 @Getter
 @Setter
 public class Specification<E extends BaseEntity> implements org.springframework.data.jpa.domain.Specification<E> {

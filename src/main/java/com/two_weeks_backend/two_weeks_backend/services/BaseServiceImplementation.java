@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+@SuppressWarnings("rawtypes")
 public abstract class BaseServiceImplementation<E extends BaseEntity> {
     @Autowired
     protected BaseRepository<E> baseRepository;

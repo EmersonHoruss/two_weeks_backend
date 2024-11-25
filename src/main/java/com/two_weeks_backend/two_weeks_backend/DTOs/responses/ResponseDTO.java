@@ -17,7 +17,7 @@ public class ResponseDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String query;
 
-    public ResponseDTO(Object content, Page page, String query){
+    public ResponseDTO(Object content, @SuppressWarnings("rawtypes") Page page, String query){
         this.content = content;
         if(page != null) {
             this.pageable = new PageableDTO(page);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectorList {
+    @SuppressWarnings("unused")
     private List<Connector> connectors;
 
     public ConnectorList(){

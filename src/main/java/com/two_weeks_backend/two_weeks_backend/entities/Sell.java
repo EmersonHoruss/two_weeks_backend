@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
+@SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "sell")
 @Getter

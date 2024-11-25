@@ -3,8 +3,8 @@ package com.two_weeks_backend.two_weeks_backend.entities;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.user.UserShowDTO;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDate;
 
+@SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "user")
 @Getter

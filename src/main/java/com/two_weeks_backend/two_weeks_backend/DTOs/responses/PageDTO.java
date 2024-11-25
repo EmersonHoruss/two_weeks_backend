@@ -11,7 +11,7 @@ public class PageDTO {
     private boolean first;
     private boolean last;
 
-    public PageDTO(Page page){
+    public PageDTO(@SuppressWarnings("rawtypes") Page page){
         this.size = page.getSize();
         this.number = page.getNumber();
         this.numberOfElements = page.getNumberOfElements();

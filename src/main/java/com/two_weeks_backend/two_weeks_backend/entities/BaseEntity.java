@@ -5,6 +5,7 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+@SuppressWarnings("rawtypes")
 @MappedSuperclass
 @Getter
 @Setter

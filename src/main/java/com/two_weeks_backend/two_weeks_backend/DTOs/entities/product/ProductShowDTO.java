@@ -4,7 +4,6 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.*;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter

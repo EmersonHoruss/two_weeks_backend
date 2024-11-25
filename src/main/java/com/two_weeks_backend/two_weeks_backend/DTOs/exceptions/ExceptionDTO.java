@@ -6,7 +6,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

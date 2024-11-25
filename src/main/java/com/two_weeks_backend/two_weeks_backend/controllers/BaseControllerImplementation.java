@@ -22,6 +22,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("rawtypes")
 public class BaseControllerImplementation<
     E extends BaseEntity,
     CreateDTO extends BaseCreateDTO<E>,
@@ -41,6 +42,7 @@ public class BaseControllerImplementation<
         E entity = service.create(createDTO.asEntity());
         String requestUri = request.getRequestURI() + "/{id}";
         URI uri = uriBuilder.path(requestUri).buildAndExpand(entity.getId()).toUri();
+        @SuppressWarnings("unchecked")
         BaseShowDTO<E> dto = entity.asShowDTO();
         return ResponseEntity.created(uri).body(new ResponseDTO(dto));
     }

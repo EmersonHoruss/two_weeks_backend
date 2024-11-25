@@ -9,7 +9,7 @@ public class PageableDTO {
     private int totalPages;
     private long totalElements;
 
-    public PageableDTO(Page page){
+    public PageableDTO(@SuppressWarnings("rawtypes") Page page){
         this.page = new PageDTO(page);
         this.totalPages = page.getTotalPages();
         this.totalElements = page.getTotalElements();

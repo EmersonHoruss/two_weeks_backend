@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SortDTO {
     private List<OrderDTO> orders;
 
-    public SortDTO(Page page){
+    public SortDTO(@SuppressWarnings("rawtypes") Page page){
         Iterator<Sort.Order> iterator = page.getSort().iterator();
         this.orders = new ArrayList<>();
         while(iterator.hasNext()){
