@@ -8,30 +8,67 @@ export class Product extends BaseModel {
     type: DataType.STRING,
     allowNull: false,
   })
-  name!: string;
+  name!: string; // Calculated attribute: type + brand + size
 
   @Column({
     type: DataType.STRING,
-  })
-  description!: string;
-
-  @Column({
-    type: DataType.FLOAT,
     allowNull: false,
   })
-  price!: number;
+  type!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  brand!: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  size!: string;
 
   @Column({
     type: DataType.INTEGER,
+    allowNull: false,
     defaultValue: 0,
   })
   stock!: number;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.FLOAT,
     allowNull: false,
   })
-  category!: string;
+  purchasePrice!: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  sellPriceNormal!: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  sellPriceWholesale1!: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  sellPriceWholesale2!: number;
+
+  @Column({
+    type: DataType.FLOAT,
+    allowNull: false,
+  })
+  sellPriceCustomized!: number;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  code?: string;
 
   @HasMany(() => DetailSell)
   DetailSells!: DetailSell[];

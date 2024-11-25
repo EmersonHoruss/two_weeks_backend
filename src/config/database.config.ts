@@ -48,7 +48,7 @@ async function initializeSequelize() {
 
   // Sync the models (without dropping tables or data)
   try {
-    await sequelize.sync({ alter: true }); // Automatically adjust the schema without data loss
+    await sequelize.sync({ force: true }); // Automatically adjust the schema without data loss
     console.log("Database synced!");
   } catch (error) {
     console.error("Error syncing database:", error);

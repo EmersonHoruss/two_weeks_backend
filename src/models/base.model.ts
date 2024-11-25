@@ -6,6 +6,7 @@ import {
   AutoIncrement,
   CreatedAt,
   UpdatedAt,
+  DataType,
 } from "sequelize-typescript";
 
 @Table
@@ -22,4 +23,10 @@ export class BaseModel extends Model {
   @UpdatedAt
   @Column
   declare updatedAt: Date;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    defaultValue: true,
+  })
+  activated?: boolean;
 }
