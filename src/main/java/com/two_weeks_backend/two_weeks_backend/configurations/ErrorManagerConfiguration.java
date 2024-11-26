@@ -17,17 +17,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.exceptions.ExceptionDTO;
-import com.two_weeks_backend.two_weeks_backend.constants.EntityConstraints;
 import com.two_weeks_backend.two_weeks_backend.exceptions.NotImplemented;
 import com.two_weeks_backend.two_weeks_backend.exceptions.UnableToExecute;
-import com.two_weeks_backend.two_weeks_backend.utils.translator.Translator;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
 @ControllerAdvice
 public class ErrorManagerConfiguration {
-@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             DuplicateKeyException.class,
             HttpRequestMethodNotSupportedException.class,
@@ -46,21 +43,25 @@ public class ErrorManagerConfiguration {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-            ConstraintViolationException.class,
             DataIntegrityViolationException.class
     })
     @ResponseBody
     public ResponseEntity<ExceptionDTO> constraintViolationException(Exception ex, HttpServletRequest request) {
         ConstraintViolationException constraintViolationException = (ConstraintViolationException) ex.getCause();
-        String[] messageErrorsParts = constraintViolationException.getSQLException().getMessage().split("'");
-        String[] constraint = messageErrorsParts[3].split("[.]");
-        String table = constraint[0];
-        String column = constraint[1].split(EntityConstraints.SEPARATOR)[1];
-        String columnEs = new Translator().getEs(column);
-        String tableEs = new Translator().getEs(table);
-        String messageError = "Ya existe un(a) " + tableEs + " con el(la) mismo " + columnEs;
+        String messageError = "El recurso ya existe";
+        String exceptionMessage = constraintViolationException.getSQLException().getMessage();
+
+        if (exceptionMessage.contains("Duplicate entry")) {
+            String[] messageParts = exceptionMessage.split("'");
+
+            if (messageParts.length >= 2) {
+                String duplicateValue = messageParts[1];
+                messageError = "El(la) '" + duplicateValue + "' ya existe";
+            }
+        }
+
         ExceptionDTO exDTO = new ExceptionDTO(messageError, request);
-        return new ResponseEntity<ExceptionDTO>(exDTO, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exDTO, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

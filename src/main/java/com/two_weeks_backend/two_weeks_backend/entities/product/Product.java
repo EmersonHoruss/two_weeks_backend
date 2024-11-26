@@ -8,7 +8,10 @@ import lombok.*;
 
 @SuppressWarnings("rawtypes")
 @Entity
-@Table(name = "product")
+@Table(name = "product", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_product_name", columnNames = "name"),
+        @UniqueConstraint(name = "uq_product_code", columnNames = "code")
+})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -31,23 +34,23 @@ public class Product extends BaseEntity {
     private float sellPriceWholesale1;
     @Column(nullable = false)
     private float sellPriceWholesale2;
-    @Column(length = 255)
+    @Column(length = 255, unique = true)
     private String name;
-    @Column(length = 255)
+    @Column(length = 255, unique = true)
     private String code;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
     @PrePersist
-    private void prePersist(){
-        if(activated == null){
+    private void prePersist() {
+        if (activated == null) {
             activated = true;
         }
     }
 
     @Override
-    public ProductShowDTO asShowDTO(){
+    public ProductShowDTO asShowDTO() {
         ProductShowDTO productShowDTO = new ProductShowDTO();
         productShowDTO.setId(this.getId());
         productShowDTO.setActivated(this.getActivated());

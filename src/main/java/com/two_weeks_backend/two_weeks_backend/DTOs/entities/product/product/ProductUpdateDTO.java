@@ -28,7 +28,6 @@ public class ProductUpdateDTO extends BaseUpdateDTO<Product>{
     @NotNull
     @Min(0)
     private float sellPriceWholesale2;
-    private String name;
     private String code;
 
     @Override
@@ -42,7 +41,8 @@ public class ProductUpdateDTO extends BaseUpdateDTO<Product>{
         product.setSellPriceNormal(this.getSellPriceNormal());
         product.setSellPriceWholesale1(this.getSellPriceWholesale1());
         product.setSellPriceWholesale2(this.getSellPriceWholesale2());
-        product.setName(this.getName());
+        String name = this.getType() + " " + this.getBrand() + " " + this.getSize();
+        product.setName(name);
         product.setCode(this.getCode());
         return product;
     }
