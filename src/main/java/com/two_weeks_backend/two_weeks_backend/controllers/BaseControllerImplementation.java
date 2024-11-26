@@ -31,7 +31,7 @@ public class BaseControllerImplementation<
     ActivatedDTO extends BaseActivatedDTO<E>
 >{
     @Autowired
-    private BaseServiceImplementation<E> service;
+    protected BaseServiceImplementation<E> service;
 
     @PostMapping("")
     public ResponseEntity<ResponseDTO> create(
