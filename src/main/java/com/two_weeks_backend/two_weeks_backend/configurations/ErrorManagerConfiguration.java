@@ -19,6 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.two_weeks_backend.two_weeks_backend.DTOs.exceptions.ExceptionDTO;
 import com.two_weeks_backend.two_weeks_backend.constants.EntityConstraints;
 import com.two_weeks_backend.two_weeks_backend.exceptions.NotImplemented;
+import com.two_weeks_backend.two_weeks_backend.exceptions.UnableToExecute;
 import com.two_weeks_backend.two_weeks_backend.utils.translator.Translator;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,7 +77,8 @@ public class ErrorManagerConfiguration {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-            NotImplemented.class
+            NotImplemented.class,
+            UnableToExecute.class
     })
     @ResponseBody
     public ResponseEntity<ExceptionDTO> notFoundStaticValue(Exception ex, HttpServletRequest request) {

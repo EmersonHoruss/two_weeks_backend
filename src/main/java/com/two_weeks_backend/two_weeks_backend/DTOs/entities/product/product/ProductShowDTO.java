@@ -19,4 +19,5 @@ public class ProductShowDTO extends BaseShowDTO<Product>{
     private float sellPriceWholesale2;
     private String name;
     private String code;
+    private boolean activated;
 }

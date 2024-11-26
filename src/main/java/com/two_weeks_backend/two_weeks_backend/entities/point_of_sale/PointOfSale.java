@@ -31,7 +31,6 @@ public class PointOfSale extends BaseEntity {
     public PointOfSaleShowDTO asShowDTO() {
         PointOfSaleShowDTO pointOfSaleShowDTO = new PointOfSaleShowDTO();
         pointOfSaleShowDTO.setId(this.getId());
-        pointOfSaleShowDTO.setActivated(this.getActivated());
         pointOfSaleShowDTO.setDate(this.getDate());
         pointOfSaleShowDTO.setInitialAmount(this.getInitialAmount());
         pointOfSaleShowDTO.setBrutalEarning(this.getBrutalEarning());

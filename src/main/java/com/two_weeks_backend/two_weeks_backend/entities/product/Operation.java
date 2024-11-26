@@ -6,7 +6,6 @@ import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "operation")
 @Getter
@@ -14,7 +13,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Operation extends BaseEntity {
+public class Operation extends BaseEntity<OperationShowDTO> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(length = 255, nullable = false)
     private String type;
     @Column(nullable = false)
@@ -24,11 +27,9 @@ public class Operation extends BaseEntity {
     @ManyToOne(optional = false)
     private Product product;
 
-    @Override
-    public OperationShowDTO asShowDTO(){
+    public OperationShowDTO asShowDTO() {
         OperationShowDTO operationShowDTO = new OperationShowDTO();
         operationShowDTO.setId(this.getId());
-        operationShowDTO.setActivated(this.getActivated());
         operationShowDTO.setType(this.getType());
         operationShowDTO.setAmount(this.getAmount());
         operationShowDTO.setDate(this.getDate());

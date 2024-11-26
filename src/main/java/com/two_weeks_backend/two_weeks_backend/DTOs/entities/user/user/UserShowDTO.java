@@ -14,4 +14,5 @@ public class UserShowDTO extends BaseShowDTO<User>{
     private String password;
     private String userStatus;
     private ProfileShowDTO profile;
+    private boolean activated;
 }

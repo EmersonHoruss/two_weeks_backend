@@ -32,6 +32,16 @@ public class Sell extends BaseEntity {
     @ManyToOne
     private Customer customer;
 
+    @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
+    private Boolean activated;
+
+    @PrePersist
+    private void prePersist(){
+        if(activated == null){
+            activated = true;
+        }
+    }
+
     @Override
     public SellShowDTO asShowDTO(){
         SellShowDTO sellShowDTO = new SellShowDTO();

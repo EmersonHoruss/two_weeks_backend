@@ -17,8 +17,6 @@ public class ProductUpdateDTO extends BaseUpdateDTO<Product>{
     @NotNull
     private String size;
     @NotNull
-    private short stock;
-    @NotNull
     @Min(0)
     private float purchasePrice;
     @NotNull
@@ -40,7 +38,6 @@ public class ProductUpdateDTO extends BaseUpdateDTO<Product>{
         product.setType(this.getType());
         product.setBrand(this.getBrand());
         product.setSize(this.getSize());
-        product.setStock(this.getStock());
         product.setPurchasePrice(this.getPurchasePrice());
         product.setSellPriceNormal(this.getSellPriceNormal());
         product.setSellPriceWholesale1(this.getSellPriceWholesale1());

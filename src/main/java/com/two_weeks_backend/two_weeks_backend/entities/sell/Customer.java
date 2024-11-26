@@ -28,6 +28,16 @@ public class Customer extends BaseEntity {
     @Column(length = 255)
     private String fullName;
 
+    @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
+    private Boolean activated;
+
+    @PrePersist
+    private void prePersist(){
+        if(activated == null){
+            activated = true;
+        }
+    }
+
     @Override
     public CustomerShowDTO asShowDTO(){
         CustomerShowDTO customerShowDTO = new CustomerShowDTO();

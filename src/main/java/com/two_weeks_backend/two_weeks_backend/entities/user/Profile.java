@@ -40,7 +40,6 @@ public class Profile extends BaseEntity {
     public ProfileShowDTO asShowDTO(){
         ProfileShowDTO profileShowDTO = new ProfileShowDTO();
         profileShowDTO.setId(this.getId());
-        profileShowDTO.setActivated(this.getActivated());
         profileShowDTO.setName(this.getName());
         profileShowDTO.setSecondName(this.getSecondName());
         profileShowDTO.setSurname(this.getSurname());

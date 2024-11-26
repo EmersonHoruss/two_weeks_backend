@@ -75,16 +75,8 @@ public class BaseControllerImplementation<
         return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
     }
 
-    @PatchMapping("")
-    public ResponseEntity<ResponseDTO> setActivation(
-        @Valid @RequestBody ActivatedDTO dto
-    ){
-        E entity = service.setActivation(dto.asEntity());
-        return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
-    }
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deactivated(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

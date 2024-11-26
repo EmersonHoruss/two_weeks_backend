@@ -19,4 +19,5 @@ public class SellShowDTO extends BaseShowDTO<Sell>{
     private UserShowDTO seller;
     private UserShowDTO debtCollector;
     private CustomerShowDTO customer;
+    private boolean activated;
 }

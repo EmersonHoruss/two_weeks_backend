@@ -9,5 +9,4 @@ import lombok.Setter;
 @Setter
 public abstract class BaseShowDTO<E extends BaseEntity> {
     private Long id;
-    private Boolean activated;
 }

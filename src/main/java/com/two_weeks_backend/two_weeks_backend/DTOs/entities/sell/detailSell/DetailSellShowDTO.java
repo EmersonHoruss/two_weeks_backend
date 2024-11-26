@@ -16,4 +16,5 @@ public class DetailSellShowDTO extends BaseShowDTO<DetailSell>{
     private float totalPrice;
     private SellShowDTO sell;
     private ProductShowDTO product;
+    private boolean activated;
 }

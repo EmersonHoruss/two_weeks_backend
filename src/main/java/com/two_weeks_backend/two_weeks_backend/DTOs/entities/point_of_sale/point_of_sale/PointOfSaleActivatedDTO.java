@@ -13,7 +13,6 @@ public class PointOfSaleActivatedDTO extends BaseActivatedDTO<PointOfSale> {
     public PointOfSale asEntity() {
         PointOfSale pointOfSale = new PointOfSale();
         pointOfSale.setId(this.getId());
-        pointOfSale.setActivated(this.getActivated());
         return pointOfSale;
     }
 }

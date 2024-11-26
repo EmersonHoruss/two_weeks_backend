@@ -36,6 +36,16 @@ public class Product extends BaseEntity {
     @Column(length = 255)
     private String code;
 
+    @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
+    private Boolean activated;
+
+    @PrePersist
+    private void prePersist(){
+        if(activated == null){
+            activated = true;
+        }
+    }
+
     @Override
     public ProductShowDTO asShowDTO(){
         ProductShowDTO productShowDTO = new ProductShowDTO();

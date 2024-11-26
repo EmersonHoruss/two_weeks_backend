@@ -15,4 +15,5 @@ public class CustomerShowDTO extends BaseShowDTO<Customer>{
     private String secondName;
     private String secondSurname;
     private String fullName;
+    private boolean activated;
 }

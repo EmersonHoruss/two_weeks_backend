@@ -27,6 +27,16 @@ public class DetailSell extends BaseEntity {
     @ManyToOne(optional = false)
     private Product product;
 
+    @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
+    private Boolean activated;
+
+    @PrePersist
+    private void prePersist(){
+        if(activated == null){
+            activated = true;
+        }
+    }
+
     @Override
     public DetailSellShowDTO asShowDTO(){
         DetailSellShowDTO detailSellShowDTO = new DetailSellShowDTO();

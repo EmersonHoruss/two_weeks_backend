@@ -13,7 +13,6 @@ public class ProfileActivatedDTO extends BaseActivatedDTO<Profile> {
     public Profile asEntity() {
         Profile profile = new Profile();
         profile.setId(this.getId());
-        profile.setActivated(this.getActivated());
         return profile;
     }
 }

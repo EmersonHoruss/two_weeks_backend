@@ -1,6 +1,5 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.operation;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Operation;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
 
@@ -10,7 +9,7 @@ import jakarta.validation.constraints.*;
 
 @Getter
 @Setter
-public class OperationCreateDTO extends BaseCreateDTO<Operation> {
+public class OperationCreateDTO {
     @NotNull
     private String type;
     @NotNull
@@ -21,7 +20,6 @@ public class OperationCreateDTO extends BaseCreateDTO<Operation> {
     @NotNull
     private Long product;
 
-    @Override
     public Operation asEntity() {
         Operation operation = new Operation();
         operation.setType(this.getType());

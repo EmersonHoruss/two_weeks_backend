@@ -15,5 +15,4 @@ public class ProductService extends BaseServiceImplementation<Product>{
         Product savedProduct = super.create(product);
         return savedProduct;
     }
-
 }
