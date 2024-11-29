@@ -18,7 +18,7 @@ public class OperationCreateDTO {
     @NotNull
     private String date;
     @NotNull
-    private Long product;
+    private Long productId;
 
     public Operation asEntity() {
         Operation operation = new Operation();
@@ -29,10 +29,10 @@ public class OperationCreateDTO {
         return operation;
     }
 
-    private Product getProductEntity(){
-        if(this.getProduct()!=null){
+    private Product getProductEntity() {
+        if (this.getProductId() != null) {
             Product product = new Product();
-            product.setId(this.getProduct());
+            product.setId(this.getProductId());
             return product;
         }
         return null;

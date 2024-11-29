@@ -18,7 +18,7 @@ public class OperationService extends BaseServiceImplementation<Operation> {
 
     @Transactional
     public Operation create(OperationCreateDTO operation) {
-        Long productId = operation.getProduct();
+        Long productId = operation.getProductId();
         Product product = this.loadProduct(productId);
         if (!product.getActivated()) {
             throw new UnableToExecute("el producto está eliminado lógicamente");
