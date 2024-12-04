@@ -18,12 +18,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Product extends BaseEntity {
-    @Column(length = 255, nullable = false)
-    private String type;
-    @Column(length = 255, nullable = false)
-    private String brand;
-    @Column(length = 255, nullable = false)
-    private String size;
     @Column(nullable = false)
     private short stock;
     @Column(nullable = false)
@@ -38,6 +32,15 @@ public class Product extends BaseEntity {
     private String name;
     @Column(length = 255, unique = true)
     private String code;
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false)
+    private Type type;
+    @ManyToOne
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
+    @ManyToOne
+    @JoinColumn(name = "size_id", nullable = false)
+    private Size size;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
@@ -54,16 +57,15 @@ public class Product extends BaseEntity {
         ProductShowDTO productShowDTO = new ProductShowDTO();
         productShowDTO.setId(this.getId());
         productShowDTO.setActivated(this.getActivated());
-        productShowDTO.setType(this.getType());
-        productShowDTO.setBrand(this.getBrand());
-        productShowDTO.setSize(this.getSize());
         productShowDTO.setStock(this.getStock());
         productShowDTO.setPurchasePrice(this.getPurchasePrice());
         productShowDTO.setSellPriceNormal(this.getSellPriceNormal());
         productShowDTO.setSellPriceWholesale1(this.getSellPriceWholesale1());
         productShowDTO.setSellPriceWholesale2(this.getSellPriceWholesale2());
-        productShowDTO.setName(this.getName());
         productShowDTO.setCode(this.getCode());
+        productShowDTO.setType(this.getType().asShowDTO());
+        productShowDTO.setBrand(this.getBrand().asShowDTO());
+        productShowDTO.setSize(this.getSize().asShowDTO());
         return productShowDTO;
     }
 }
