@@ -33,13 +33,13 @@ public class Product extends BaseEntity {
     @Column(length = 255, unique = true)
     private String code;
     @ManyToOne
-    @JoinColumn(name = "type_id", nullable = false)
+    @JoinColumn(name = "type_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_type"))
     private Type type;
     @ManyToOne
-    @JoinColumn(name = "brand_id", nullable = false)
+    @JoinColumn(name = "brand_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_brand"))
     private Brand brand;
     @ManyToOne
-    @JoinColumn(name = "size_id", nullable = false)
+    @JoinColumn(name = "size_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_size"))
     private Size size;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)

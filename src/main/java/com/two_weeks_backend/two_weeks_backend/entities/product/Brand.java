@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @SuppressWarnings("rawtypes")
 @Entity
-@Table(name = "size")
+@Table(name = "brand")
 @Getter
 @Setter
 @AllArgsConstructor
