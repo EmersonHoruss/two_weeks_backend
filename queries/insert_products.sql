@@ -30,7 +30,8 @@ VALUES
 ('Furniture', 'La-Z-Boy', 'Medium', 15, 300.00, 450.00, 430.00, 420.00, 'La-Z-Boy Recliner', 'PRD022', true),
 ('Appliances', 'KitchenAid', 'Small', 30, 120.00, 220.00, 210.00, 200.00, 'KitchenAid Mixer', 'PRD023', true),
 ('Electronics', 'GoPro', 'Small', 25, 200.00, 350.00, 340.00, 330.00, 'GoPro Camera', 'PRD024', true),
-('Appliances', 'Samsung', 'Large', 10, 500.00, 700.00, 680.00, 670.00, 'Samsung Dryer', 'PRD025', true);
+('Appliances', 'Samsung', 'Large', 10, 500.00, 700.00, 680.00, 670.00, 'Samsung Dryer', 'PRD025', true),
+('Appliances1', 'Samsung1', 'Large1', 101, 5001.00, 7001.00, 6801.00, 6701.00, 'Samsung Dryer1', 'PRD0251', true);
 
 SELECT * FROM product\G;
 
