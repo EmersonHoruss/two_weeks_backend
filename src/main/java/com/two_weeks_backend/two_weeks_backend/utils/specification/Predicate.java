@@ -21,7 +21,7 @@ public class Predicate {
     private jakarta.persistence.criteria.Predicate predicate;
 
     public Predicate(String query, Integer startIndex, Integer endIndex, @SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
-        Pattern pattern = Pattern.compile("([\\w.]+)<(\\w+)>([\\w,]+)", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("([\\w.]+)<(\\w+)>([\\w,\\s]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
         if(matcher.find()) {
             this.attribute = matcher.group(1);

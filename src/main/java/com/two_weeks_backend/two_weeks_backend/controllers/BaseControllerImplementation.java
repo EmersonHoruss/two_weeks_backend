@@ -58,7 +58,8 @@ public class BaseControllerImplementation<
         @RequestParam(required = false) String query,
         @PageableDefault(size = 10) Pageable pageable
     ){
-        Page<E> page = service.get(new Specification<E>(query), pageable);
+        String queryWithBlankSpaces = query != null ? query.replace("%20", " ") : "";
+        Page<E> page = service.get(new Specification<E>(queryWithBlankSpaces), pageable);
         List<BaseShowDTO> dtos = page
             .getContent()
             .stream()
