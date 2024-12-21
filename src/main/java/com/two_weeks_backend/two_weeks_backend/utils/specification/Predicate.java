@@ -20,10 +20,11 @@ public class Predicate {
 
     private jakarta.persistence.criteria.Predicate predicate;
 
-    public Predicate(String query, Integer startIndex, Integer endIndex, @SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
+    public Predicate(String query, Integer startIndex, Integer endIndex, @SuppressWarnings("rawtypes") Root root,
+            CriteriaBuilder cb) {
         Pattern pattern = Pattern.compile("([\\w.]+)<(\\w+)>([\\w,\\s]+)", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
-        if(matcher.find()) {
+        if (matcher.find()) {
             this.attribute = matcher.group(1);
             this.operator = matcher.group(2);
             this.values = matcher.group(3);
@@ -40,7 +41,7 @@ public class Predicate {
         this.predicate = predicate.getJavaxPredicate().not();
     }
 
-    public Predicate(Predicate predicate1, Predicate predicate2, Connector connector, CriteriaBuilder cb){
+    public Predicate(Predicate predicate1, Predicate predicate2, Connector connector, CriteriaBuilder cb) {
         this.startIndex = predicate1.getStartIndex();
         this.endIndex = predicate2.getEndIndex();
 
@@ -57,17 +58,26 @@ public class Predicate {
     }
 
     @SuppressWarnings("unchecked")
-    private jakarta.persistence.criteria.Predicate buildPredicate(@SuppressWarnings("rawtypes") Root root, CriteriaBuilder cb) {
+    private jakarta.persistence.criteria.Predicate buildPredicate(@SuppressWarnings("rawtypes") Root root,
+            CriteriaBuilder cb) {
         jakarta.persistence.criteria.Predicate predicate = null;
         @SuppressWarnings("rawtypes")
         Path attribute = getAttribute(root);
 
-        switch (this.operator){
+        switch (this.operator) {
             case "eq":
-                predicate = cb.equal(attribute, this.getValue());
+                Object valueEq = this.getValue();
+                if (this.getValue().equalsIgnoreCase("true") || this.getValue().equalsIgnoreCase("false")) {
+                    valueEq = Boolean.parseBoolean(this.getValue());
+                }
+                predicate = cb.equal(attribute, valueEq);
                 break;
             case "ne":
-                predicate = cb.notEqual(attribute, this.getValue());
+                Object valueNe = this.getValue();
+                if (this.getValue().equalsIgnoreCase("true") || this.getValue().equalsIgnoreCase("false")) {
+                    valueNe = Boolean.parseBoolean(this.getValue());
+                }
+                predicate = cb.notEqual(attribute, valueNe);
                 break;
             case "ct":
                 predicate = cb.like(attribute, "%" + this.getValue() + "%");
@@ -91,7 +101,7 @@ public class Predicate {
                 predicate = cb.lessThanOrEqualTo(attribute, this.getValue());
                 break;
             case "in":
-                //predicate = attribute.in(this.getValues());
+                // predicate = attribute.in(this.getValues());
                 break;
         }
         return predicate;
@@ -99,7 +109,7 @@ public class Predicate {
 
     @SuppressWarnings("rawtypes")
     private Path getAttribute(Root root) {
-        if(this.containsNestedEntities()){
+        if (this.containsNestedEntities()) {
             String[] nestedEntitiesAndAttribute = this.getNestedEntitiesAndAttribute();
 
             String firstNestedEntity = nestedEntitiesAndAttribute[0];
@@ -138,27 +148,27 @@ public class Predicate {
         return this.predicate;
     }
 
-    public Integer getEndIndex(){
+    public Integer getEndIndex() {
         return endIndex;
     }
 
-    public Integer getStartIndex(){
+    public Integer getStartIndex() {
         return startIndex;
     }
 
-    public void setEndIndex(Integer endIndex){
+    public void setEndIndex(Integer endIndex) {
         this.endIndex = endIndex;
     }
 
-    public void setStartIndex(Integer startIndex){
+    public void setStartIndex(Integer startIndex) {
         this.startIndex = startIndex;
     }
 
-    public boolean isEndIndex(Integer endIndex){
+    public boolean isEndIndex(Integer endIndex) {
         return this.endIndex == endIndex;
     }
 
-    public boolean isStartIndex(Integer startIndex){
+    public boolean isStartIndex(Integer startIndex) {
         return this.startIndex == startIndex;
     }
 }
