@@ -1,5 +1,6 @@
 package com.two_weeks_backend.two_weeks_backend.controllers.product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,6 +15,7 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.type.TypeUp
 import com.two_weeks_backend.two_weeks_backend.DTOs.responses.ResponseDTO;
 import com.two_weeks_backend.two_weeks_backend.controllers.BaseControllerImplementation;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Type;
+import com.two_weeks_backend.two_weeks_backend.services.product.TypeService;
 
 import jakarta.validation.Valid;
 
@@ -23,9 +25,12 @@ import jakarta.validation.Valid;
 public class TypeController
         extends BaseControllerImplementation<Type, TypeCreateDTO, TypeShowDTO, TypeUpdateDTO, TypeActivatedDTO> {
 
+    @Autowired
+    private TypeService typeService;
+
     @PatchMapping("")
     public ResponseEntity<ResponseDTO> setActivation(@Valid @RequestBody TypeActivatedDTO dto) {
-        Type entity = this.service.update(dto.asEntity());
+        Type entity = this.typeService.setActivation(dto.asEntity());
         return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
     }
 }

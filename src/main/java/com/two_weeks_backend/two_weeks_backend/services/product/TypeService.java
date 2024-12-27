@@ -19,4 +19,10 @@ public class TypeService extends BaseServiceImplementation<Type> {
         type.setActivated(retrievedType.getActivated());
         return baseRepository.save(type);
     }
+
+    public Type setActivation(Type type) {
+        Type retrievedType = baseRepository.getReferenceById(type.getId());
+        retrievedType.setActivated(type.getActivated());
+        return baseRepository.save(retrievedType);
+    }
 }
