@@ -12,4 +12,11 @@ public class TypeService extends BaseServiceImplementation<Type> {
         Type savedType = super.create(type);
         return savedType;
     }
+
+    @Override
+    public Type update(Type type) {
+        Type retrievedType = baseRepository.getReferenceById(type.getId());
+        type.setActivated(retrievedType.getActivated());
+        return baseRepository.save(type);
+    }
 }
