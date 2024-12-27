@@ -17,6 +17,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import java.net.URI;
 import java.util.List;
@@ -50,8 +52,16 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     public ResponseEntity<ResponseDTO> get(
             @RequestParam(required = false) String query,
             @PageableDefault(size = 10) Pageable pageable) {
-        String queryWithBlankSpaces = query != null ? query.replace("%20", " ") : "";
-        Page<E> page = service.get(new Specification<E>(queryWithBlankSpaces), pageable);
+        String decodedQuery = "";
+        if (query != null) {
+            try {
+                decodedQuery = URLDecoder.decode(query, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Page<E> page = service.get(new Specification<E>(decodedQuery), pageable);
         List<BaseShowDTO> dtos = page
                 .getContent()
                 .stream()
