@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.exceptions.ExceptionDTO;
+import com.two_weeks_backend.two_weeks_backend.exceptions.NotAllowed;
 import com.two_weeks_backend.two_weeks_backend.exceptions.NotImplemented;
 import com.two_weeks_backend.two_weeks_backend.exceptions.UnableToExecute;
 
@@ -79,7 +80,8 @@ public class ErrorManagerConfiguration {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             NotImplemented.class,
-            UnableToExecute.class
+            UnableToExecute.class,
+            NotAllowed.class
     })
     @ResponseBody
     public ResponseEntity<ExceptionDTO> notFoundStaticValue(Exception ex, HttpServletRequest request) {

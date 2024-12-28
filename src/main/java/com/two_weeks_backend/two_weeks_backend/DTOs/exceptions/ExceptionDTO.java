@@ -15,6 +15,7 @@ public class ExceptionDTO {
     private String message;
     private final String path;
     private List<SubExceptionDTO> errors;
+    private String sign = "DANIELITO_BACKEND";
 
     public ExceptionDTO(Exception ex, HttpServletRequest request) {
         this.timestamp = new Date();
