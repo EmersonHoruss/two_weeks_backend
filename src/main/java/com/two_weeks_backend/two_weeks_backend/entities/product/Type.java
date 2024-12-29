@@ -28,6 +28,9 @@ public class Type extends BaseEntity {
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @PrePersist
     private void prePersist() {
         if (activated == null) {
