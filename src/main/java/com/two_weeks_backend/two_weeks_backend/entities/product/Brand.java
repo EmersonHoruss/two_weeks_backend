@@ -25,6 +25,9 @@ public class Brand extends BaseEntity {
     @Column(length = 255, nullable = false, unique = true)
     private String name;
 
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
@@ -41,6 +44,7 @@ public class Brand extends BaseEntity {
         brandShowDTO.setId(this.getId());
         brandShowDTO.setActivated(this.getActivated());
         brandShowDTO.setName(this.getName());
+        brandShowDTO.setCode(this.getCode());
         return brandShowDTO;
     }
 }
