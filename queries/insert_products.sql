@@ -1,35 +1,41 @@
 USE two_weeks_backend;
 
-DESCRIBE brand;
-DESCRIBE size;
-DESCRIBE type;
-DESCRIBE product;
+DESCRIBE management_code;
+INSERT INTO management_code (entity_name, codes, digits) VALUES 
+('TYPE', '005,006,007,008,009,010,999', 'THREE'),
+('BRAND', '00,01,02,03,04,05,06,07,08,09,10,99', 'TWO'),
+('SIZE', '00,01,02,03,04,05,06,07,08,09,10,99', 'TWO'),
+('PRODUCT', '0000,0001,0002,0003,0004,0005,9999', 'FOUR');
+SELECT * FROM management_code\G;
 
--- Inserting Brands
+DESCRIBE type;
+INSERT INTO type (id, name, code, activated) VALUES
+(1, 'Type A', '000', true),
+(2, 'Type B', '001', true),
+(3, 'Type C', '002', true),
+(4, 'Type D', '003', true),
+(5, 'Type E', '004', true);
+SELECT * FROM type\G;
+
+DESCRIBE brand;
 INSERT INTO brand (id, name, activated) VALUES
 (1, 'Brand A', true),
 (2, 'Brand B', true),
 (3, 'Brand C', true),
 (4, 'Brand D', true),
 (5, 'Brand E', true);
+SELECT * FROM brand\G;
 
--- Inserting Sizes
+DESCRIBE size;
 INSERT INTO size (id, name, activated) VALUES
 (1, 'Small', true),
 (2, 'Medium', true),
 (3, 'Large', true),
 (4, 'Extra Large', true),
 (5, 'XXL', true);
+SELECT * FROM size\G;
 
--- Inserting Types
-INSERT INTO type (id, name, activated) VALUES
-(1, 'Type A', true),
-(2, 'Type B', true),
-(3, 'Type C', true),
-(4, 'Type D', true),
-(5, 'Type E', true);
-
--- Inserting Products
+DESCRIBE product;
 INSERT INTO product (id, stock, purchase_price, sell_price_normal, sell_price_wholesale1, sell_price_wholesale2, name, code, type_id, brand_id, size_id, activated) VALUES
 (1, 10, 100.50, 150.75, 140.00, 130.00, '1-1-1', '1-1-1', 1, 1, 1, true),
 (2, 20, 200.00, 250.00, 240.00, 230.00, '1-2-2', '1-2-2', 1, 2, 2, true),
@@ -57,10 +63,6 @@ INSERT INTO product (id, stock, purchase_price, sell_price_normal, sell_price_wh
 (24, 34, 340.00, 390.00, 380.00, 370.00, '5-4-5', '5-4-5', 5, 4, 5, true),
 (25, 29, 290.00, 340.00, 330.00, 320.00, '5-5-1', '5-5-1', 5, 5, 1, true),
 (26, 18, 150.00, 200.00, 190.00, 180.00, '1-1-2', '1-1-2', 1, 1, 2, true);
-
-SELECT * FROM brand\G;
-SELECT * FROM size\G;
-SELECT * FROM type\G;
 SELECT * FROM product\G;
 
 SELECT 'Insertion of products done successfully!' AS message;
