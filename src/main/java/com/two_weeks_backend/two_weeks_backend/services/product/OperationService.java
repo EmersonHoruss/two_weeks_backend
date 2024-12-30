@@ -7,7 +7,7 @@ import com.two_weeks_backend.two_weeks_backend.exceptions.UnableToExecute;
 import com.two_weeks_backend.two_weeks_backend.repositories.product.ProductRepository;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
