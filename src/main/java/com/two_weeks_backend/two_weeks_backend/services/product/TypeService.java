@@ -25,6 +25,10 @@ public class TypeService extends BaseServiceImplementation<Type> {
             code = managementCode.getFirstCode();
             managementCode.subtractCode(code);
             this.managementCodeService.create(managementCode);
+        } else {
+            code = managementCode.getFirstCode();
+            managementCode.subtractCode(code);
+            this.managementCodeService.update(managementCode);
         }
 
         if (managementCode.allCodesAreUsed()) {
