@@ -27,7 +27,7 @@ public class Type extends BaseEntity {
 
     @Column(name = "code", nullable = false, unique = true)
     private String code;
-    
+
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
@@ -44,6 +44,7 @@ public class Type extends BaseEntity {
         typeShowDTO.setId(this.getId());
         typeShowDTO.setActivated(this.getActivated());
         typeShowDTO.setName(this.getName());
+        typeShowDTO.setCode(this.getCode());
         return typeShowDTO;
     }
 }
