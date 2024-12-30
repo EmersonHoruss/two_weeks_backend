@@ -4,7 +4,7 @@ DESCRIBE management_code;
 INSERT INTO management_code (entity_name, codes, digits) VALUES 
 ('TYPE', '005,006,007,008,009,010,999', 'THREE'),
 ('BRAND', '05,06,07,08,09,10,99', 'TWO'),
-('SIZE', '00,01,02,03,04,05,06,07,08,09,10,99', 'TWO'),
+('SIZE', '05,06,07,08,09,10,99', 'TWO'),
 ('PRODUCT', '0026,0027,0028,0029,0030,0031,9999', 'FOUR');
 SELECT * FROM management_code\G;
 
