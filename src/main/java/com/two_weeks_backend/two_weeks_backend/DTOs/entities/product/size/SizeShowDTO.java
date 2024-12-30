@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 public class SizeShowDTO extends BaseShowDTO<Size> {
     private String name;
+    private String code;
     private boolean activated;
 }
