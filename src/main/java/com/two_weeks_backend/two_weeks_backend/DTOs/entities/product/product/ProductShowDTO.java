@@ -1,9 +1,9 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.product;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.brand.BrandShowDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.size.SizeShowDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.type.TypeShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.brand.BrandShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.size.SizeShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.type.TypeShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
 
 import lombok.Getter;

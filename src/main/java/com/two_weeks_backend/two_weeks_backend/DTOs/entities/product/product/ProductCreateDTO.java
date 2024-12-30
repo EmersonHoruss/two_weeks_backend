@@ -1,10 +1,10 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.product;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Brand;
+import com.two_weeks_backend.two_weeks_backend.entities.brand.Brand;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Type;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Size;
+import com.two_weeks_backend.two_weeks_backend.entities.size.Size;
+import com.two_weeks_backend.two_weeks_backend.entities.type.Type;
 
 import lombok.Getter;
 import lombok.Setter;

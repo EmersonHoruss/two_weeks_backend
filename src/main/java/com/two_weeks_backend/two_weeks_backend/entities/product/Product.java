@@ -2,6 +2,9 @@ package com.two_weeks_backend.two_weeks_backend.entities.product;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.product.ProductShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
+import com.two_weeks_backend.two_weeks_backend.entities.brand.Brand;
+import com.two_weeks_backend.two_weeks_backend.entities.size.Size;
+import com.two_weeks_backend.two_weeks_backend.entities.type.Type;
 
 import jakarta.persistence.*;
 import lombok.*;
