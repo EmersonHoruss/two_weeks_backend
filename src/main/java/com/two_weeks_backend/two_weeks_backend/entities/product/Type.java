@@ -25,11 +25,11 @@ public class Type extends BaseEntity {
     @Column(length = 255, nullable = false, unique = true)
     private String name;
 
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+    
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
-
-    @Column(name = "code", nullable = false)
-    private String code;
 
     @PrePersist
     private void prePersist() {
