@@ -36,7 +36,7 @@ public class ManagementCode {
     @Enumerated(EnumType.STRING)
     private EntityName entityName;
 
-    @Column(name = "codes", length = 3000, nullable = false)
+    @Column(name = "codes", length = 50000, nullable = false)
     private String codes;
 
     @Column(name = "digits", nullable = false)
