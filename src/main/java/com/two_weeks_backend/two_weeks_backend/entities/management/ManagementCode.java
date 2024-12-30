@@ -32,7 +32,7 @@ public class ManagementCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "entity_name", nullable = false)
+    @Column(name = "entity_name", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private EntityName entityName;
 
@@ -42,6 +42,13 @@ public class ManagementCode {
     @Column(name = "digits", nullable = false)
     @Enumerated(EnumType.STRING)
     private Digits digits;
+
+    public ManagementCode(EntityName entityName) {
+        this.entityName = entityName;
+        this.digits = ManagementCode.generateDigits(this.entityName);
+        List<String> codes = ManagementCode.generateCodes(this.digits);
+        this.saveCodes(codes);
+    }
 
     public String getFirstCode() {
         List<String> codes = this.parseCodes();
@@ -75,11 +82,11 @@ public class ManagementCode {
         List<String> codeList = this.parseCodes();
         if (!codeList.contains(code)) {
             codeList.add(code);
-            this.saveFreeCodes(codeList);
+            this.saveCodes(codeList);
         }
     }
 
-    private void saveFreeCodes(List<String> codes) {
+    private void saveCodes(List<String> codes) {
         this.codes = String.join(",", codes);
     }
 
@@ -87,12 +94,16 @@ public class ManagementCode {
         List<String> codeList = this.parseCodes();
         if (codeList.contains(code)) {
             codeList.remove(code);
-            this.saveFreeCodes(codeList);
+            this.saveCodes(codeList);
         }
     }
 
     public static List<String> generateCodes(Digits digits) {
-        int maxDigits = digits == Digits.TWO ? 99 : 999;
+        int maxDigits = digits == Digits.TWO
+                ? 99
+                : digits == Digits.THREE
+                        ? 999
+                        : 9999;
         List<String> generatedCodes = new ArrayList<>();
 
         for (int i = 0; i <= maxDigits; i++) {
@@ -101,5 +112,18 @@ public class ManagementCode {
         }
 
         return generatedCodes;
+    }
+
+    public static Digits generateDigits(EntityName entityName) {
+        if (entityName == EntityName.TYPE)
+            return Digits.THREE;
+        if (entityName == EntityName.BRAND)
+            return Digits.TWO;
+        if (entityName == EntityName.SIZE)
+            return Digits.TWO;
+        if (entityName == EntityName.PRODUCT)
+            return Digits.FOUR;
+
+        throw new IllegalArgumentException("nombre de entidad no reconocida: " + entityName);
     }
 }

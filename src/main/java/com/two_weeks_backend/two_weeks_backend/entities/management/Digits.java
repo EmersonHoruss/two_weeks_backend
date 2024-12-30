@@ -2,7 +2,8 @@ package com.two_weeks_backend.two_weeks_backend.entities.management;
 
 public enum Digits {
     TWO(2),
-    THREE(3);
+    THREE(3),
+    FOUR(4);
 
     private int value;
 
