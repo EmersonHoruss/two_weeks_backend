@@ -17,5 +17,8 @@ public abstract class BaseEntity<ShowDTO extends BaseShowDTO> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private Long version; 
+
     public abstract ShowDTO asShowDTO();
 }
