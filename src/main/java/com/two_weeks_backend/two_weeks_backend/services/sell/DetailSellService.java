@@ -19,7 +19,7 @@ public class DetailSellService extends BaseServiceImplementation<DetailSell> {
     private ProductRepository productRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public DetailSell create(DetailSell detailSell) {
         DetailSell savedDetailSell = super.create(detailSell);
         savedDetailSell.setSell(this.loadSell(savedDetailSell.getSell().getId()));

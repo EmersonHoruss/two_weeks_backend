@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class CustomerService extends BaseServiceImplementation<Customer> {
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Customer create(Customer customer) {
         Customer savedCustomer = super.create(customer);
         return savedCustomer;

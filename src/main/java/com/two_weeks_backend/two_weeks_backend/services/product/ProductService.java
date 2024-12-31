@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ProductService extends BaseServiceImplementation<Product> {
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Product create(Product product) {
         Product savedProduct = super.create(product);
         return savedProduct;

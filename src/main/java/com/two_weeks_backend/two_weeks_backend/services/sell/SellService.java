@@ -21,7 +21,7 @@ public class SellService extends BaseServiceImplementation<Sell> {
     private CustomerRepository customerRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Sell create(Sell sell) {
         Sell savedSell = super.create(sell);
         savedSell.setSeller(this.loadSeller(savedSell.getSeller().getId()));

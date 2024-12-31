@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ProfileService extends BaseServiceImplementation<Profile> {
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Profile create(Profile profile) {
         Profile savedProfile = super.create(profile);
         return savedProfile;

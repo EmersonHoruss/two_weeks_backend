@@ -15,7 +15,7 @@ public class UserService extends BaseServiceImplementation<User> {
     private ProfileRepository profileRepository;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public User create(User user) {
         User savedUser = super.create(user);
         savedUser.setProfile(this.loadProfile(savedUser.getProfile().getId()));

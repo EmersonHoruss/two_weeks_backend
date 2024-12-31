@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class PointOfSaleService extends BaseServiceImplementation<PointOfSale> {
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public PointOfSale create(PointOfSale pointOfSale) {
         PointOfSale savedPointOfSale = super.create(pointOfSale);
         return savedPointOfSale;

@@ -16,7 +16,7 @@ public class OperationService extends BaseServiceImplementation<Operation> {
     @Autowired
     private ProductRepository productRepository;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Operation create(OperationCreateDTO operation) {
         Long productId = operation.getProductId();
         Product product = this.loadProduct(productId);
