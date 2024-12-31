@@ -3,6 +3,7 @@ package com.two_weeks_backend.two_weeks_backend.configurations;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -89,5 +90,18 @@ public class ErrorManagerConfiguration {
     public ResponseEntity<ExceptionDTO> notFoundStaticValue(Exception ex, HttpServletRequest request) {
         ExceptionDTO exDTO = new ExceptionDTO(ex, request);
         return new ResponseEntity<ExceptionDTO>(exDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({ OptimisticLockingFailureException.class })
+    @ResponseBody
+    public ResponseEntity<ExceptionDTO> handleOptimisticLockingFailure(OptimisticLockingFailureException ex,
+            HttpServletRequest request) {
+        String message = "El o los recursos a los que estás intentando actualizar están siendo actualizados por alguien más. Intentar nuevamente más tarde.";
+
+        ex.printStackTrace();
+
+        ExceptionDTO exDTO = new ExceptionDTO(message, request);
+        return new ResponseEntity<>(exDTO, HttpStatus.CONFLICT);
     }
 }
