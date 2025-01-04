@@ -1,4 +1,4 @@
-package com.two_weeks_backend.two_weeks_backend.entities.xd.catalog;
+package com.two_weeks_backend.two_weeks_backend.entities.catalog;
 
 public class Type {
 

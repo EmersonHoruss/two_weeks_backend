@@ -1,4 +1,4 @@
-package com.two_weeks_backend.two_weeks_backend.entities.xd.human_resource;
+package com.two_weeks_backend.two_weeks_backend.entities.human_resource;
 
 public class Salary {
 
