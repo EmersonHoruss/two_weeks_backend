@@ -58,8 +58,9 @@ public class BrandController
         Page<Product> page = this.productService.get(specification, pageable);
         if (!page.isEmpty()) {
             throw new NotAllowed(
-                    "No se puede eliminar la marca porque hay productos con esa marca, eliminar primero todos los productos relacionados a la marca para eliminar la marca");
+                    "Operación fallida: Necesitas eliminar todos los productos relacionados a la marca a eliminar");
         }
+
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }

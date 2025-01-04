@@ -1,5 +1,8 @@
 package com.two_weeks_backend.two_weeks_backend.entities.product;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.operation.OperationShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 
@@ -14,26 +17,31 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Operation extends BaseEntity<OperationShowDTO> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false)
+    private OperationType type;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_operation_product"))
+    private Product product;
+
+    @Column(nullable = false)
+    private int amount;
 
     @Column(length = 255, nullable = false)
-    private String type;
-    @Column(nullable = false)
-    private short amount;
-    @Column(length = 255, nullable = false)
     private String date;
-    @ManyToOne(optional = false)
-    private Product product;
 
     public OperationShowDTO asShowDTO() {
         OperationShowDTO operationShowDTO = new OperationShowDTO();
         operationShowDTO.setId(this.getId());
         operationShowDTO.setType(this.getType());
-        operationShowDTO.setAmount(this.getAmount());
+        operationShowDTO.setProductSet(this.getProductSet().asShowDTO());
+        operationShowDTO.setProductElementCodes(this.getProductElementCodes());
         operationShowDTO.setDate(this.getDate());
-        operationShowDTO.setProduct(this.getProduct().asShowDTO());
         return operationShowDTO;
+    }
+
+    public int getAmount() {
+        List<String> productElementCodesList = Arrays.asList(this.getProductElementCodes().split(","));
+        return productElementCodesList.size();
     }
 }

@@ -11,9 +11,9 @@ import lombok.Setter;
 public class ProductActivatedDTO extends BaseActivatedDTO<Product> {
     @Override
     public Product asEntity() {
-        Product product = new Product();
-        product.setId(this.getId());
-        product.setActivated(this.getActivated());
-        return product;
+        Product productSet = new Product();
+        productSet.setId(this.getId());
+        productSet.setActivated(this.getActivated());
+        return productSet;
     }
 }

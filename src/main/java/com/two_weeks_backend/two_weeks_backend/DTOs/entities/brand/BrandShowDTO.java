@@ -10,6 +10,5 @@ import lombok.Setter;
 @Setter
 public class BrandShowDTO extends BaseShowDTO<Brand> {
     private String name;
-    private String code;
     private boolean activated;
 }

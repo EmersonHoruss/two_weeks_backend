@@ -1,9 +1,9 @@
 package com.two_weeks_backend.two_weeks_backend.services.sell;
 
-import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
+import com.two_weeks_backend.two_weeks_backend.entities.product.ProductSet;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.DetailSell;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
-import com.two_weeks_backend.two_weeks_backend.repositories.product.ProductRepository;
+import com.two_weeks_backend.two_weeks_backend.repositories.product.ProductSetRepository;
 import com.two_weeks_backend.two_weeks_backend.repositories.sell.SellRepository;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 
@@ -16,7 +16,7 @@ public class DetailSellService extends BaseServiceImplementation<DetailSell> {
     @Autowired
     private SellRepository sellRepository;
     @Autowired
-    private ProductRepository productRepository;
+    private ProductSetRepository productSetRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -32,8 +32,8 @@ public class DetailSellService extends BaseServiceImplementation<DetailSell> {
                 .orElseThrow(() -> new RuntimeException("sell not found"));
     }
 
-    private Product loadProduct(Long productId) {
-        return productRepository.findById(productId)
+    private ProductSet loadProduct(Long productId) {
+        return productSetRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("product not found"));
     }
 }

@@ -2,6 +2,7 @@ package com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.product;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.brand.Brand;
+import com.two_weeks_backend.two_weeks_backend.entities.company.Company;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
 import com.two_weeks_backend.two_weeks_backend.entities.size.Size;
 import com.two_weeks_backend.two_weeks_backend.entities.type.Type;
@@ -15,41 +16,44 @@ import jakarta.validation.constraints.*;
 public class ProductCreateDTO extends BaseCreateDTO<Product> {
     @NotNull
     @Min(0)
-    private short stock;
-    @NotNull
-    @Min(0)
-    private float purchasePrice;
-    @NotNull
-    @Min(0)
     private float sellPriceNormal;
+
     @NotNull
     @Min(0)
-    private float sellPriceWholesale1;
+    private float sellPriceAuction;
+
     @NotNull
     @Min(0)
-    private float sellPriceWholesale2;
-    private String code;
+    private float sellPriceWholesale;
+
+    @NotNull
+    @Min(0)
+    private float sellPriceWholesaleSuper;
+
     @NotNull
     private Long typeId;
+
     @NotNull
     private Long brandId;
+
     @NotNull
     private Long sizeId;
+
+    @NotNull
+    private Long companyId;
 
     @Override
     public Product asEntity() {
         Product product = new Product();
-        product.setStock(this.getStock());
-        product.setPurchasePrice(this.getPurchasePrice());
+        product.setStock(0);
         product.setSellPriceNormal(this.getSellPriceNormal());
-        product.setSellPriceWholesale1(this.getSellPriceWholesale1());
-        product.setSellPriceWholesale2(this.getSellPriceWholesale2());
-        String name = this.getTypeId() + "-" + this.getBrandId() + "-" + this.getSizeId();
-        product.setName(name);
-        product.setCode(this.getCode());
+        product.setSellPriceAuction(this.getSellPriceAuction());
+        product.setSellPriceWholesale(this.getSellPriceWholesale());
+        product.setSellPriceWholesaleSuper(this.getSellPriceWholesaleSuper());
         product.setType(this.getTypeEntity());
         product.setBrand(this.getBrandEntity());
         product.setSize(this.getSizeEntity());
+        product.setCompany(this.getCompanyEntity());
         return product;
     }
 
@@ -76,6 +80,15 @@ public class ProductCreateDTO extends BaseCreateDTO<Product> {
             Size size = new Size();
             size.setId(this.getSizeId());
             return size;
+        }
+        return null;
+    }
+
+    private Company getCompanyEntity() {
+        if (this.getCompanyId() != null) {
+            Company company = new Company();
+            company.setId(this.getCompanyId());
+            return company;
         }
         return null;
     }

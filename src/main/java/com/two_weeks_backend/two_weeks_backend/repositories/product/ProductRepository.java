@@ -6,5 +6,5 @@ import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
 import com.two_weeks_backend.two_weeks_backend.repositories.BaseRepository;
 
 @Repository
-public interface ProductRepository extends BaseRepository<Product>{
+public interface ProductRepository extends BaseRepository<Product> {
 }

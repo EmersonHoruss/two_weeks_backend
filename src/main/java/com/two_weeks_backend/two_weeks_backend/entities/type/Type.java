@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,9 @@ import lombok.ToString;
 
 @SuppressWarnings("rawtypes")
 @Entity
-@Table(name = "type")
+@Table(name = "type", uniqueConstraints = {
+        @UniqueConstraint(name = "uq_name", columnNames = "name")
+})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,9 +27,6 @@ import lombok.ToString;
 public class Type extends BaseEntity {
     @Column(length = 255, nullable = false, unique = true)
     private String name;
-
-    @Column(name = "code", nullable = false, unique = true)
-    private String code;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
@@ -44,7 +44,6 @@ public class Type extends BaseEntity {
         typeShowDTO.setId(this.getId());
         typeShowDTO.setActivated(this.getActivated());
         typeShowDTO.setName(this.getName());
-        typeShowDTO.setCode(this.getCode());
         return typeShowDTO;
     }
 }

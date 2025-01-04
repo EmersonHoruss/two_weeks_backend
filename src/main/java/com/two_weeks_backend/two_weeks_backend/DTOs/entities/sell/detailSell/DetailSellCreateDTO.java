@@ -1,7 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.detailSell;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
+import com.two_weeks_backend.two_weeks_backend.entities.product.ProductSet;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.DetailSell;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
 
@@ -44,9 +44,9 @@ public class DetailSellCreateDTO extends BaseCreateDTO<DetailSell> {
         }
         return null;
     }
-    private Product getProductEntity(){
+    private ProductSet getProductEntity(){
         if(this.getProduct()!=null){
-            Product product = new Product();
+            ProductSet product = new ProductSet();
             product.setId(this.getProduct());
             return product;
         }

@@ -7,9 +7,11 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.product.Pro
 import com.two_weeks_backend.two_weeks_backend.DTOs.responses.ResponseDTO;
 import com.two_weeks_backend.two_weeks_backend.controllers.BaseControllerImplementation;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
+import com.two_weeks_backend.two_weeks_backend.services.product.ProductService;
 
 import jakarta.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,10 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController extends
         BaseControllerImplementation<Product, ProductCreateDTO, ProductShowDTO, ProductUpdateDTO, ProductActivatedDTO> {
 
+    @Autowired
+    private ProductService productService;
+
     @PatchMapping("")
     public ResponseEntity<ResponseDTO> setActivation(
             @Valid @RequestBody ProductActivatedDTO dto) {
-        Product entity = this.service.update(dto.asEntity());
+        Product entity = this.productService.setActivation(dto.asEntity());
         return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
     }
 }

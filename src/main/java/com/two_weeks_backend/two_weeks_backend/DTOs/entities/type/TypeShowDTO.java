@@ -10,6 +10,5 @@ import lombok.Setter;
 @Setter
 public class TypeShowDTO extends BaseShowDTO<Type> {
     private String name;
-    private String code;
     private boolean activated;
 }

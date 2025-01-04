@@ -58,8 +58,9 @@ public class SizeController
         Page<Product> page = this.productService.get(specification, pageable);
         if (!page.isEmpty()) {
             throw new NotAllowed(
-                    "No se puede eliminar la talla porque hay productos con esa talla, eliminar primero todos los productos relacionados a la talla para eliminar la talla");
+                    "Operación fallida: Necesitas eliminar todos los productos relacionados a la talla a eliminar");
         }
+
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -59,8 +59,9 @@ public class TypeController
         Page<Product> page = this.productService.get(specification, pageable);
         if (!page.isEmpty()) {
             throw new NotAllowed(
-                    "No se puede eliminar el tipo porque hay productos con ese tipo, eliminar primero todos los productos relacionados al tipo para eliminar el tipo");
+                    "Operación fallida: Necesitas eliminar todos los productos relacionados al tipo a eliminar");
         }
+
         this.service.delete(id);
         return ResponseEntity.noContent().build();
     }

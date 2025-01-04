@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("rawtypes")
 public abstract class BaseServiceImplementation<E extends BaseEntity> {
     @Autowired
     protected BaseRepository<E> baseRepository;
 
+    @Transactional(rollbackFor = Exception.class)
     public E create(E entity) {
         return baseRepository.save(entity);
     }
@@ -26,11 +28,13 @@ public abstract class BaseServiceImplementation<E extends BaseEntity> {
         return baseRepository.findAll(specification, pageable);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public E update(E entity) {
         baseRepository.getReferenceById(entity.getId());
         return baseRepository.save(entity);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
         E entity = baseRepository.getReferenceById(id);
         baseRepository.delete(entity);

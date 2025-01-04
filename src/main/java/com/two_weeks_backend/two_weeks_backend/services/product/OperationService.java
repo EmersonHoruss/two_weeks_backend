@@ -2,9 +2,10 @@ package com.two_weeks_backend.two_weeks_backend.services.product;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.product.operation.OperationCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.product.Operation;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
+import com.two_weeks_backend.two_weeks_backend.entities.product.OperationType;
+import com.two_weeks_backend.two_weeks_backend.entities.product.ProductSet;
 import com.two_weeks_backend.two_weeks_backend.exceptions.UnableToExecute;
-import com.two_weeks_backend.two_weeks_backend.repositories.product.ProductRepository;
+import com.two_weeks_backend.two_weeks_backend.repositories.product.ProductSetRepository;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -14,49 +15,48 @@ import org.springframework.stereotype.Service;
 @Service
 public class OperationService extends BaseServiceImplementation<Operation> {
     @Autowired
-    private ProductRepository productRepository;
+    private ProductSetRepository productSetRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public Operation create(OperationCreateDTO operation) {
-        Long productId = operation.getProductId();
-        Product product = this.loadProduct(productId);
-        if (!product.getActivated()) {
-            throw new UnableToExecute("el producto está eliminado lógicamente");
+        Long productSetId = operation.getProductSetId();
+        ProductSet retrievedProductSet = this.loadProductSet(productSetId);
+        if (!retrievedProductSet.getActivated()) {
+            throw new UnableToExecute("Operación fallida: El producto está eliminado");
         }
 
-        short stock = product.getStock();
-        short operationAmount = operation.getAmount();
+        int stock = retrievedProductSet.getStock();
+        int amount = operation.getAmount();
 
-        boolean isSubtract = operation.getType().equals("Quitar");
+        OperationType operationType = operation.getType();
+        boolean isSubtract = operationType == OperationType.SUBTRACT;
 
-        if (isSubtract && stock < operationAmount) {
+        if (isSubtract && stock < amount) {
             throw new UnableToExecute(
-                    "la substracción de productos debe ser menor o igual al stock.");
+                    "Operación fallida: Sustracción de productos debe ser menor o igual al stock (" + stock + ")");
         }
 
-        short newStock = stock;
+        int newStock = stock;
         if (isSubtract) {
-            newStock -= operationAmount;
+            newStock -= amount;
         }
 
-        boolean isAdd = operation.getType().equals("Agregar");
+        boolean isAdd = operationType == OperationType.ADD;
         if (isAdd) {
-            newStock += operationAmount;
+            newStock += amount;
         }
-
-        Product updatedProduct = new Product();
-        updatedProduct.setId(productId);
-        updatedProduct.setStock(newStock);
-
-        productRepository.save(updatedProduct);
 
         Operation savedOperation = super.create(operation.asEntity());
-        savedOperation.setProduct(this.loadProduct(savedOperation.getProduct().getId()));
+
+        retrievedProductSet.setStock(newStock);
+        this.productSetRepository.save(retrievedProductSet);
+
+        savedOperation.setProductSet(retrievedProductSet);
         return savedOperation;
     }
 
-    private Product loadProduct(Long productId) {
-        return productRepository.findById(productId)
+    private ProductSet loadProductSet(Long productSetId) {
+        return productSetRepository.findById(productSetId)
                 .orElseThrow(() -> new RuntimeException("product not found"));
     }
 }

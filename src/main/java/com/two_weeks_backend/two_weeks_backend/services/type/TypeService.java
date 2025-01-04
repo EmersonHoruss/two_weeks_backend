@@ -1,72 +1,35 @@
 package com.two_weeks_backend.two_weeks_backend.services.type;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.two_weeks_backend.two_weeks_backend.entities.management.EntityName;
-import com.two_weeks_backend.two_weeks_backend.entities.management.ManagementCode;
 import com.two_weeks_backend.two_weeks_backend.entities.type.Type;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
-import com.two_weeks_backend.two_weeks_backend.services.management.ManagementCodeService;
 
 @Service
 public class TypeService extends BaseServiceImplementation<Type> {
-    @Autowired
-    private ManagementCodeService managementCodeService;
-
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Type create(Type type) {
-        ManagementCode managementCode = this.managementCodeService.get(EntityName.TYPE);
-        String code = "";
-        if (managementCode == null) {
-            managementCode = new ManagementCode(EntityName.TYPE);
-            code = managementCode.getFirstCode();
-            managementCode.subtractCode(code);
-            this.managementCodeService.create(managementCode);
-        } else {
-            code = managementCode.getFirstCode();
-            managementCode.subtractCode(code);
-            this.managementCodeService.update(managementCode);
-        }
-
-        if (managementCode.allCodesAreUsed()) {
-            throw new RuntimeException("se ha alcanzado el límite de códigos, no se puede crear ningún tipo más");
-        }
-
-        type.setCode(code);
-        Type savedType = super.create(type);
-        return savedType;
-    }
-
-    @Override
     public Type update(Type type) {
         Type retrievedType = baseRepository.getReferenceById(type.getId());
-        type.setActivated(retrievedType.getActivated());
-        type.setCode(retrievedType.getCode());
-        return baseRepository.save(type);
-    }
 
-    public Type setActivation(Type type) {
-        Type retrievedType = baseRepository.getReferenceById(type.getId());
-        retrievedType.setActivated(type.getActivated());
+        if (type.getName().trim().equals(retrievedType.getName()))
+            return retrievedType;
+
+        retrievedType.setName(type.getName());
+
         return baseRepository.save(retrievedType);
     }
 
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
+    public Type setActivation(Type type) {
+        Type retrievedType = baseRepository.getReferenceById(type.getId());
 
-        Type type = baseRepository.getReferenceById(id);
-        this.baseRepository.delete(type);
+        if (type.getActivated() == retrievedType.getActivated())
+            return retrievedType;
 
-        ManagementCode managementCode = this.managementCodeService.get(EntityName.TYPE);
-        if (managementCode == null)
-            throw new RuntimeException("eliminación no se puede ejecutar porque no existe el código");
+        retrievedType.setActivated(type.getActivated());
 
-        String code = type.getCode();
-        managementCode.addCode(code);
-        this.managementCodeService.update(managementCode);
+        return baseRepository.save(retrievedType);
     }
 }

@@ -2,7 +2,7 @@ package com.two_weeks_backend.two_weeks_backend.entities.sell;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.detailSell.DetailSellShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.product.Product;
+import com.two_weeks_backend.two_weeks_backend.entities.product.ProductSet;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,7 +25,9 @@ public class DetailSell extends BaseEntity {
     @ManyToOne(optional = false)
     private Sell sell;
     @ManyToOne(optional = false)
-    private Product product;
+    private ProductSet product;
+
+    private String productElementCodes;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
@@ -46,7 +48,7 @@ public class DetailSell extends BaseEntity {
         detailSellShowDTO.setAmount(this.getAmount());
         detailSellShowDTO.setTotalPrice(this.getTotalPrice());
         detailSellShowDTO.setSell(this.getSell().asShowDTO());
-        detailSellShowDTO.setProduct(this.getProduct().asShowDTO());
+        // detailSellShowDTO.setProduct(this.getProduct().asShowDTO());
         return detailSellShowDTO;
     }
 }
