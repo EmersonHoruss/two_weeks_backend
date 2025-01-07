@@ -47,7 +47,7 @@ public class BrandService extends BaseServiceImplementation<Brand> {
 
         String nameInTenant = brand.getName() + retrievedBrand.getTenant().getId();
         boolean existBrandInTenant = this.existsBrandInTenant(nameInTenant);
-        if (existBrandInTenant)
+        if (existBrandInTenant && !brand.getName().equals(retrievedBrand.getName()))
             throw new RuntimeException("Ya existe la marca " + brand.getName());
 
         if (!retrievedBrand.getActivated())

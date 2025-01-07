@@ -47,7 +47,7 @@ public class SizeService extends BaseServiceImplementation<Size> {
 
         String nameInTenant = size.getName() + retrievedSize.getTenant().getId();
         boolean existsSizeInTenant = this.existsSizeInTenant(nameInTenant);
-        if (existsSizeInTenant)
+        if (existsSizeInTenant && !size.getName().equals(retrievedSize.getName()))
             throw new RuntimeException("Ya existe la talla " + size.getName());
 
         if (!retrievedSize.getActivated())

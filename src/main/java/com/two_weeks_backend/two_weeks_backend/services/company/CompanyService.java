@@ -51,7 +51,7 @@ public class CompanyService extends BaseServiceImplementation<Company> {
 
         String nameInTenant = company.getName() + retrievedCompany.getTenant().getId();
         boolean existCompayInTenant = this.existsCompanyInTenant(nameInTenant);
-        if (existCompayInTenant)
+        if (existCompayInTenant && !company.getName().equals(retrievedCompany.getName()))
             throw new RuntimeException("Ya existe la empresa" + company.getName());
 
         if (!retrievedCompany.getActivated())

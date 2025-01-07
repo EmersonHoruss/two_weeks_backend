@@ -47,7 +47,7 @@ public class TypeService extends BaseServiceImplementation<Type> {
 
         String nameInTenant = type.getName() + retrievedType.getTenant().getId();
         boolean existsTypeInTenant = this.existsTypeInTenant(nameInTenant);
-        if (existsTypeInTenant)
+        if (existsTypeInTenant && !type.getName().equals(retrievedType.getName()))
             throw new RuntimeException("Ya existe el tipo " + type.getName());
 
         if (!retrievedType.getActivated())
