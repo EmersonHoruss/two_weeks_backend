@@ -9,6 +9,7 @@ import lombok.*;
 @Setter
 public class ProviderShowDTO extends BaseShowDTO<Provider> {
     private String name;
+    private String alias;
     private String phone;
     private String whatsapp;
     private String bcpAccount;

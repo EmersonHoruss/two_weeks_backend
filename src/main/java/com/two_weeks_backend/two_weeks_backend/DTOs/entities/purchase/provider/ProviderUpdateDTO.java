@@ -9,8 +9,11 @@ import lombok.*;
 @Getter
 @Setter
 public class ProviderUpdateDTO extends BaseUpdateDTO<Provider> {
-    @NotNull
+    @NotBlank
     private String name;
+
+    @NotBlank
+    private String alias;
 
     @Size(max = Provider.PROVIDER_PHONE_LENGTH)
     private String phone;
@@ -35,6 +38,7 @@ public class ProviderUpdateDTO extends BaseUpdateDTO<Provider> {
         Provider provider = new Provider();
         provider.setId(this.getId());
         provider.setName(this.getName());
+        provider.setAlias(this.getAlias());
         provider.setPhone(this.getPhone());
         provider.setWhatsapp(this.getWhatsapp());
         provider.setBcpAccount(this.getBcpAccount());
