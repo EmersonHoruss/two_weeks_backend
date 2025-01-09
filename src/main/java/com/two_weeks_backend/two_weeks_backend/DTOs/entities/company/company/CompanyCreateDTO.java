@@ -29,10 +29,10 @@ public class CompanyCreateDTO extends BaseCreateDTO<Company> {
         Company company = new Company();
         String name = this.getName().trim();
         String nameInTenant = name + this.getTenantId();
-        String logo = this.getLogo().trim();
-        String RUC = this.getRUC().trim();
-        String standNumbers = this.getStandNumbers().trim();
-        String place = this.getPlace().trim();
+        String logo = this.getLogo() != null ? this.getLogo().trim() : null;
+        String RUC = this.getRUC() != null ? this.getRUC().trim() : null;
+        String standNumbers = this.getStandNumbers() != null ? this.getStandNumbers().trim() : null;
+        String place = this.getPlace() != null ? this.getPlace().trim() : null;
 
         company.setName(name);
         company.setNameInTenant(nameInTenant);
