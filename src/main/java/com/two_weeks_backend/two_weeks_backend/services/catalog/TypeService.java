@@ -51,7 +51,7 @@ public class TypeService extends BaseServiceImplementation<Type> {
             throw new RuntimeException("Ya existe el tipo " + type.getName());
 
         if (!retrievedType.getActivated())
-            throw new RuntimeException("El tipo " + type.getName() + " está eliminado");
+            throw new RuntimeException("El tipo " + retrievedType.getName() + " está eliminado");
 
         if (type.getName().equals(retrievedType.getName()))
             return retrievedType;

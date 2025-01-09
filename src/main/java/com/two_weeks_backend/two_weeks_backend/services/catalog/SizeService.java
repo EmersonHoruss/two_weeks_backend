@@ -51,7 +51,7 @@ public class SizeService extends BaseServiceImplementation<Size> {
             throw new RuntimeException("Ya existe la talla " + size.getName());
 
         if (!retrievedSize.getActivated())
-            throw new RuntimeException("La talla " + size.getName() + " está eliminada");
+            throw new RuntimeException("La talla " + retrievedSize.getName() + " está eliminada");
 
         if (size.getName().equals(retrievedSize.getName()))
             return retrievedSize;

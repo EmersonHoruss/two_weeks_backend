@@ -51,7 +51,7 @@ public class ProviderService extends BaseServiceImplementation<Provider> {
             throw new RuntimeException("Ya existe el proveedor con el alias " + provider.getAlias());
 
         if (!retrievedProvider.getActivated())
-            throw new RuntimeException("El proveedor " + provider.getName() + " está eliminado");
+            throw new RuntimeException("El proveedor " + retrievedProvider.getName() + " está eliminado");
 
         retrievedProvider.setName(provider.getName());
         retrievedProvider.setAlias(provider.getAlias());

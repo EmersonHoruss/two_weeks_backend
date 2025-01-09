@@ -51,7 +51,7 @@ public class BrandService extends BaseServiceImplementation<Brand> {
             throw new RuntimeException("Ya existe la marca " + brand.getName());
 
         if (!retrievedBrand.getActivated())
-            throw new RuntimeException("La marca " + brand.getName() + " está eliminada");
+            throw new RuntimeException("La marca " + retrievedBrand.getName() + " está eliminada");
 
         if (brand.getName().equals(retrievedBrand.getName()))
             return retrievedBrand;
