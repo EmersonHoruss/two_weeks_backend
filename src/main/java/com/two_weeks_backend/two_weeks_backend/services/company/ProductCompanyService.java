@@ -47,7 +47,7 @@ public class ProductCompanyService extends BaseServiceImplementation<ProductComp
         return this.baseRepository.save(productCompany);
     }
 
-    private ProductCompany getProductCompany(Long productId, Long companyId) {
+    public ProductCompany getProductCompany(Long productId, Long companyId) {
         String productAttribute = "product.id";
         String productOperator = "<eq>";
         String productQuery = productAttribute + productOperator + productId;
