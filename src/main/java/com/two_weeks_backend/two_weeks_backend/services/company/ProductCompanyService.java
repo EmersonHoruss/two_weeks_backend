@@ -44,10 +44,6 @@ public class ProductCompanyService extends BaseServiceImplementation<ProductComp
         if (foundCompany == null)
             throw new RuntimeException("Empresa no encontrada para agregar el producto");
 
-        String code = foundCompany.getLastConsecutiveBarCode();
-        productCompany.setCode(code);
-        this.companyService.createNextBarCode(foundCompany);
-
         return this.baseRepository.save(productCompany);
     }
 

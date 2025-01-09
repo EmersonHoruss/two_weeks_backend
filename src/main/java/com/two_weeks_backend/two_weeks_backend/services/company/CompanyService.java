@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.two_weeks_backend.two_weeks_backend.entities.company.Company;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
-import com.two_weeks_backend.two_weeks_backend.utils.BarCodeGenerator;
 import com.two_weeks_backend.two_weeks_backend.utils.specification.Specification;
 
 @Service
@@ -22,10 +21,6 @@ public class CompanyService extends BaseServiceImplementation<Company> {
         if (existsCompanyInTenant)
             throw new RuntimeException("Ya existe la empresa " + company.getName());
 
-        String countryCode = company.getCountryCode();
-        String companyCode = company.getCompanyCode();
-        String barCode = BarCodeGenerator.firstCodeBar(countryCode, companyCode);
-        company.setLastConsecutiveBarCode(barCode);
         return this.baseRepository.save(company);
     }
 
@@ -55,18 +50,20 @@ public class CompanyService extends BaseServiceImplementation<Company> {
             throw new RuntimeException("Ya existe la empresa" + company.getName());
 
         if (!retrievedCompany.getActivated())
-            throw new RuntimeException("La empresa " + company.getName() + " está eliminada");
+            throw new RuntimeException("La empresa " + retrievedCompany.getName() + " está eliminada");
 
         if (company.getName().equals(retrievedCompany.getName())
                 && company.getLogo().equals(retrievedCompany.getLogo())
-                && company.getCompanyCode().equals(retrievedCompany.getCompanyCode())
-                && company.getCountryCode().equals(retrievedCompany.getCountryCode()))
+                && company.getRUC().equals(retrievedCompany.getRUC())
+                && company.getStandNumbers().equals(retrievedCompany.getStandNumbers())
+                && company.getPlace().equals(retrievedCompany.getPlace()))
             return retrievedCompany;
 
         retrievedCompany.setName(company.getName());
         retrievedCompany.setLogo(company.getLogo());
-        retrievedCompany.setCompanyCode(company.getCompanyCode());
-        retrievedCompany.setCountryCode(company.getCountryCode());
+        retrievedCompany.setRUC(company.getRUC());
+        retrievedCompany.setStandNumbers(company.getStandNumbers());
+        retrievedCompany.setPlace(company.getPlace());
         return this.baseRepository.save(retrievedCompany);
     }
 
@@ -82,17 +79,5 @@ public class CompanyService extends BaseServiceImplementation<Company> {
 
         retrievedCompany.setActivated(company.getActivated());
         return this.baseRepository.save(retrievedCompany);
-    }
-
-    public void createNextBarCode(Company company) {
-        if (!company.getActivated())
-            throw new RuntimeException("La empresa " + company.getName() + " está eliminada");
-
-        String countryCode = company.getCountryCode();
-        String companyCode = company.getCompanyCode();
-        String barCode = company.getLastConsecutiveBarCode();
-        String nextBarCode = BarCodeGenerator.getNextCodeBar(countryCode, companyCode, barCode);
-        company.setLastConsecutiveBarCode(nextBarCode);
-        this.baseRepository.save(company);
     }
 }

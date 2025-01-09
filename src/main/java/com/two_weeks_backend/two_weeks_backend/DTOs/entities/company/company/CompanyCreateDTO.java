@@ -3,7 +3,6 @@ package com.two_weeks_backend.two_weeks_backend.DTOs.entities.company.company;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.company.Company;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.Tenant;
-import com.two_weeks_backend.two_weeks_backend.utils.BarCodeGenerator;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -16,13 +15,11 @@ public class CompanyCreateDTO extends BaseCreateDTO<Company> {
 
     private String logo;
 
-    @NotBlank
-    @Size(max = BarCodeGenerator.COMPANY_CODE_MAX_LENGTH)
-    private String companyCode;
+    private String RUC;
 
-    @NotBlank
-    @Size(min = BarCodeGenerator.COUNTRY_CODE_LENGTH, max = BarCodeGenerator.COUNTRY_CODE_LENGTH)
-    private String countryCode;
+    private String standNumbers;
+
+    private String place;
 
     @NotNull
     private Long tenantId;
@@ -33,13 +30,16 @@ public class CompanyCreateDTO extends BaseCreateDTO<Company> {
         String name = this.getName().trim();
         String nameInTenant = name + this.getTenantId();
         String logo = this.getLogo().trim();
-        String companyCode = this.getCompanyCode().trim();
-        String countryCode = this.getCountryCode().trim();
+        String RUC = this.getRUC().trim();
+        String standNumbers = this.getStandNumbers().trim();
+        String place = this.getPlace().trim();
+
         company.setName(name);
         company.setNameInTenant(nameInTenant);
         company.setLogo(logo);
-        company.setCompanyCode(companyCode);
-        company.setCountryCode(countryCode);
+        company.setRUC(RUC);
+        company.setStandNumbers(standNumbers);
+        company.setPlace(place);
         company.setTenant(this.getTenantEntity());
         return company;
     }

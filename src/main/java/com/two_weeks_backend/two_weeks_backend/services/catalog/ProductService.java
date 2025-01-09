@@ -15,6 +15,7 @@ import com.two_weeks_backend.two_weeks_backend.entities.purchase.ProductProvider
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 import com.two_weeks_backend.two_weeks_backend.services.company.ProductCompanyService;
 import com.two_weeks_backend.two_weeks_backend.services.purchase.ProductProviderService;
+import com.two_weeks_backend.two_weeks_backend.services.tenant.TenantService;
 import com.two_weeks_backend.two_weeks_backend.utils.specification.Specification;
 
 @Service
@@ -24,6 +25,9 @@ public class ProductService extends BaseServiceImplementation<Product> {
 
     @Autowired
     private ProductProviderService productProviderService;
+
+    @Autowired
+    private TenantService tenantService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -37,6 +41,10 @@ public class ProductService extends BaseServiceImplementation<Product> {
                     + foundProduct.getSize().getName();
             throw new RuntimeException(exceptionMessage);
         }
+
+        String code = product.getTenant().getLastConsecutiveBarCode();
+        product.setCode(code);
+        this.tenantService.createNextBarCode(product.getTenant());
 
         return this.baseRepository.save(product);
     }

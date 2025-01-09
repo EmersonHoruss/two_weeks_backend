@@ -18,9 +18,6 @@ public class ProductCompany extends BaseEntity<ProductCompanyShowDTO> {
     @Column(name = "stock", nullable = false)
     private int stock;
 
-    @Column(name = "code", nullable = false)
-    private String code;
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false, foreignKey = @ForeignKey(name = "fk_product_company_product"))
     private Product product;
@@ -45,7 +42,6 @@ public class ProductCompany extends BaseEntity<ProductCompanyShowDTO> {
         productCompanyShowDTO.setId(this.getId());
         productCompanyShowDTO.setActivated(this.getActivated());
         productCompanyShowDTO.setStock(this.getStock());
-        productCompanyShowDTO.setCode(this.getCode());
         productCompanyShowDTO.setProduct(this.getProduct().asShowDTO());
         return productCompanyShowDTO;
     }

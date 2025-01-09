@@ -3,7 +3,7 @@ package com.two_weeks_backend.two_weeks_backend.entities.company;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.company.company.CompanyShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.Tenant;
-import com.two_weeks_backend.two_weeks_backend.utils.BarCodeGenerator;
+import com.two_weeks_backend.two_weeks_backend.utils.Constants;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,20 +21,20 @@ public class Company extends BaseEntity<CompanyShowDTO> {
     @Column(name = "name", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "logo", length = 255)
-    private String logo;
-
-    @Column(name = "company_code", length = BarCodeGenerator.COMPANY_CODE_MAX_LENGTH, nullable = false)
-    private String companyCode;
-
-    @Column(name = "country_code", length = BarCodeGenerator.COUNTRY_CODE_LENGTH, nullable = false)
-    private String countryCode;
-
     @Column(name = "name_in_tenant", length = 255, unique = true, nullable = false)
     private String nameInTenant;
 
-    @Column(name = "last_consecutive_bar_code", length = BarCodeGenerator.EAN13_LENGTH, nullable = false)
-    private String lastConsecutiveBarCode;
+    @Column(name = "logo", length = 255)
+    private String logo;
+
+    @Column(name = "RUC", length = Constants.RUC_LENGTH)
+    private String RUC;
+
+    @Column(name = "stands_number", length = 255)
+    private String standNumbers;
+
+    @Column(name = "place", length = 255)
+    private String place;
 
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
@@ -58,8 +58,9 @@ public class Company extends BaseEntity<CompanyShowDTO> {
         companyShowDTO.setId(this.getId());
         companyShowDTO.setName(this.getName());
         companyShowDTO.setLogo(this.getLogo());
-        companyShowDTO.setCompanyCode(this.getCompanyCode());
-        companyShowDTO.setCountryCode(this.getCountryCode());
+        companyShowDTO.setRUC(this.getRUC());
+        companyShowDTO.setStandNumbers(this.getStandNumbers());
+        companyShowDTO.setPlace(this.getPlace());
         companyShowDTO.setActivated(this.getActivated());
         return companyShowDTO;
     }

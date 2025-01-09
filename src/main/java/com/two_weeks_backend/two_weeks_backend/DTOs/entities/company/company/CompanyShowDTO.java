@@ -10,7 +10,8 @@ import lombok.*;
 public class CompanyShowDTO extends BaseShowDTO<Company> {
     private String name;
     private String logo;
-    private String companyCode;
-    private String countryCode;
+    private String RUC;
+    private String standNumbers;
+    private String place;
     private boolean activated;
 }

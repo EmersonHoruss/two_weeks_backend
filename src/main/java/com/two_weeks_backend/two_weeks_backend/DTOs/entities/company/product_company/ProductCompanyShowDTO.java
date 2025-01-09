@@ -10,7 +10,6 @@ import lombok.*;
 @Setter
 public class ProductCompanyShowDTO extends BaseShowDTO<ProductCompany> {
     private int stock;
-    private String code;
     private ProductShowDTO product;
     private boolean activated;
 }

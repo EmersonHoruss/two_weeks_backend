@@ -12,5 +12,4 @@ public class ProductCompanyUpdateDTO extends BaseUpdateDTO<ProductCompany> {
     public ProductCompany asEntity() {
         throw new UnsupportedOperationException("Producto de la empresa no tiene soporte a actualización por API");
     }
-
 }

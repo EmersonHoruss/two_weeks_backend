@@ -17,6 +17,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Product extends BaseEntity<ProductShowDTO> {
+    @Column(name = "code", nullable = false)
+    private String code;
+
     @Column(name = "sell_price_normal", nullable = false)
     private float sellPriceNormal;
 
@@ -65,6 +68,7 @@ public class Product extends BaseEntity<ProductShowDTO> {
     public ProductShowDTO asShowDTO() {
         ProductShowDTO productShowDTO = new ProductShowDTO();
         productShowDTO.setId(this.getId());
+        productShowDTO.setCode(this.getCode());
         productShowDTO.setSellPriceNormal(this.getSellPriceNormal());
         productShowDTO.setSellPriceAuction(this.getSellPriceAuction());
         productShowDTO.setSellPriceWholesale(this.getSellPriceWholesale());

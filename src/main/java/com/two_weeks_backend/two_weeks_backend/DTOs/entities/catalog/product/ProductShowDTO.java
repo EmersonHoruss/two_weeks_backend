@@ -11,6 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 public class ProductShowDTO extends BaseShowDTO<Product> {
+    private String code;
     private float sellPriceNormal;
     private float sellPriceAuction;
     private float sellPriceWholesale;

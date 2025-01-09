@@ -10,5 +10,8 @@ import lombok.*;
 public class TenantShowDTO extends BaseShowDTO<Tenant> {
     private String name;
     private boolean isFlexModeActivated;
+    private String companyCode;
+    private String countryCode;
+    private String lastConsecutiveBarCode;
     private boolean activated;
 }
