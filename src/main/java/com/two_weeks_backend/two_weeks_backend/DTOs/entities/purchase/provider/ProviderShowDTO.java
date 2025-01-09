@@ -12,11 +12,5 @@ public class ProviderShowDTO extends BaseShowDTO<Provider> {
     private String alias;
     private String phone;
     private String whatsapp;
-    private String bcpAccount;
-    private String bcpAccountCCI;
-    private String bbvaAccount;
-    private String bbvaAccountCCI;
-    private String yape;
-    private String plin;
     private boolean activated;
 }

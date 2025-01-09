@@ -57,12 +57,6 @@ public class ProviderService extends BaseServiceImplementation<Provider> {
         retrievedProvider.setAlias(provider.getAlias());
         retrievedProvider.setPhone(provider.getPhone());
         retrievedProvider.setWhatsapp(provider.getWhatsapp());
-        retrievedProvider.setBcpAccount(provider.getBcpAccount());
-        retrievedProvider.setBcpAccountCCI(provider.getBcpAccountCCI());
-        retrievedProvider.setBbvaAccount(provider.getBbvaAccount());
-        retrievedProvider.setBbvaAccountCCI(provider.getBbvaAccountCCI());
-        retrievedProvider.setYape(provider.getYape());
-        retrievedProvider.setPlin(provider.getPlin());
         return this.baseRepository.save(retrievedProvider);
     }
 

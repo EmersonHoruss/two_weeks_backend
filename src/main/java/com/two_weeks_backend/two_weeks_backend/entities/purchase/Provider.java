@@ -34,24 +34,6 @@ public class Provider extends BaseEntity<ProviderShowDTO> {
     @Column(name = "whatsapp", length = Provider.PROVIDER_PHONE_LENGTH)
     private String whatsapp;
 
-    @Column(name = "bcp_account")
-    private String bcpAccount;
-
-    @Column(name = "bcp_account_cci")
-    private String bcpAccountCCI;
-
-    @Column(name = "bbva_account")
-    private String bbvaAccount;
-
-    @Column(name = "bbva_account_cci")
-    private String bbvaAccountCCI;
-
-    @Column(name = "yape")
-    private String yape;
-
-    @Column(name = "plin")
-    private String plin;
-
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
@@ -77,12 +59,6 @@ public class Provider extends BaseEntity<ProviderShowDTO> {
         providerShowDTO.setAlias(this.getAlias());
         providerShowDTO.setPhone(this.getPhone());
         providerShowDTO.setWhatsapp(this.getWhatsapp());
-        providerShowDTO.setBcpAccount(this.getBcpAccount());
-        providerShowDTO.setBcpAccountCCI(this.getBbvaAccountCCI());
-        providerShowDTO.setBbvaAccount(this.getBbvaAccount());
-        providerShowDTO.setBbvaAccountCCI(this.getBbvaAccountCCI());
-        providerShowDTO.setYape(this.getYape());
-        providerShowDTO.setPlin(this.getPlin());
         return providerShowDTO;
     }
 
