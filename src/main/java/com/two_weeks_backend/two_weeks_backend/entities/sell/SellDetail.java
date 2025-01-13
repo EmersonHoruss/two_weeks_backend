@@ -1,8 +1,6 @@
 package com.two_weeks_backend.two_weeks_backend.entities.sell;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_detail.SellDetailShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.catalog.Product;
 
 import jakarta.persistence.*;
@@ -29,8 +27,8 @@ public class SellDetail {
     @Column(name = "amount", nullable = false)
     private int amount;
 
-    @Column(name = "is_lower_price", nullable = false)
-    private Boolean isLowerPrice;
+    @Column(name = "is_out_of_price", nullable = false)
+    private Boolean isOutOfPrice;
 
     @Column(name = "price", nullable = false)
     private float price;
@@ -38,8 +36,15 @@ public class SellDetail {
     @Column(name = "sub_total", nullable = false)
     private float subTotal;
 
+    @Column(name = "is_returned", nullable = false)
+    private Boolean isReturned;
+
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
+
+    @ManyToOne
+    @JoinColumn(name = "changed_from", nullable = false, foreignKey = @ForeignKey(name = "fk_sell_detail_changed_from"))
+    private Sell changedFrom;
 
     @ManyToOne
     @JoinColumn(name = "sell", nullable = false, foreignKey = @ForeignKey(name = "fk_sell_detail_sell"))
@@ -63,9 +68,12 @@ public class SellDetail {
         sellDetailShowDTO.setActivated(this.getActivated());
         sellDetailShowDTO.setDate(this.getDate());
         sellDetailShowDTO.setAmount(this.getAmount());
-        sellDetailShowDTO.setLowerPrice(this.getIsLowerPrice());
+        sellDetailShowDTO.setOutOfPrice(this.getIsOutOfPrice());
+        sellDetailShowDTO.setPrice(this.getPrice());
         sellDetailShowDTO.setSubTotal(this.getSubTotal());
+        sellDetailShowDTO.setReturned(this.getIsReturned());
         sellDetailShowDTO.setProduct(this.getProduct().asShowDTO());
+        sellDetailShowDTO.setChangedFrom(this.getChangedFrom().getId());
         return sellDetailShowDTO;
     }
 

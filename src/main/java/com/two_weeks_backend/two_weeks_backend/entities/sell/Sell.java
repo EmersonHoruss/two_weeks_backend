@@ -3,7 +3,6 @@ package com.two_weeks_backend.two_weeks_backend.entities.sell;
 import java.util.List;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.company.Company;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.PayMethod;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.Tenant;

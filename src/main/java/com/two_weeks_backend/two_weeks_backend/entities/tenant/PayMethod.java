@@ -25,6 +25,9 @@ public class PayMethod extends BaseEntity<PayMethodShowDTO> {
     @Column(name = "is_virtual", nullable = false)
     private Boolean isVirtual;
 
+    @Column(name = "is_just_for_sell", nullable = false)
+    private Boolean isJustForSell;
+
     @ManyToOne
     @JoinColumn(name = "tenant_id", nullable = false, foreignKey = @ForeignKey(name = "fk_pay_method_tenant"))
     private Tenant tenant;

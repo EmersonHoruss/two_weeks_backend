@@ -59,6 +59,7 @@ public class PayMethodService extends BaseServiceImplementation<PayMethod> {
 
         retrievedPayMethod.setName(payMethod.getName());
         retrievedPayMethod.setIsVirtual(payMethod.getIsVirtual());
+        retrievedPayMethod.setIsJustForSell(payMethod.getIsJustForSell());
         return this.baseRepository.save(retrievedPayMethod);
     }
 
@@ -75,4 +76,19 @@ public class PayMethodService extends BaseServiceImplementation<PayMethod> {
         retrievedPayMethod.setActivated(payMethod.getActivated());
         return this.baseRepository.save(retrievedPayMethod);
     }
+
+    public PayMethod validate(Long payMethodId) {
+        if (payMethodId == null)
+            throw new RuntimeException("Identificador del método de pago no existe");
+
+        PayMethod payMethod = this.baseRepository.getReferenceById(payMethodId);
+
+        if (payMethod == null)
+            throw new RuntimeException("No existe el método de pago con el identificador " + payMethodId);
+
+        if (!payMethod.getActivated())
+            throw new RuntimeException("El método de pago " + payMethod.getName() + " está eliminado");
+
+        return payMethod;
+    };
 }

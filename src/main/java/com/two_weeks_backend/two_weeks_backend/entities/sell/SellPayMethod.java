@@ -1,5 +1,6 @@
 package com.two_weeks_backend.two_weeks_backend.entities.sell;
 
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_pay_method.SellPayMethodShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.PayMethod;
 
 import jakarta.persistence.*;
@@ -24,7 +25,7 @@ public class SellPayMethod {
     private String date;
 
     @Column(name = "amount", nullable = false)
-    private int amount;
+    private float amount;
 
     @ManyToOne
     @JoinColumn(name = "pay_method", nullable = false, foreignKey = @ForeignKey(name = "fk_sell_pay_method_pay_method"))
@@ -42,5 +43,15 @@ public class SellPayMethod {
         if (this.activated == null) {
             this.activated = true;
         }
+    }
+
+    public SellPayMethodShowDTO asShowDTO() {
+        SellPayMethodShowDTO sellPayMethodShowDTO = new SellPayMethodShowDTO();
+        sellPayMethodShowDTO.setId(this.getId());
+        sellPayMethodShowDTO.setActivated(this.getActivated());
+        sellPayMethodShowDTO.setDate(this.getDate());
+        sellPayMethodShowDTO.setAmount(this.getAmount());
+        sellPayMethodShowDTO.setPayMethod(this.getPayMethod().asShowDTO());
+        return sellPayMethodShowDTO;
     }
 }

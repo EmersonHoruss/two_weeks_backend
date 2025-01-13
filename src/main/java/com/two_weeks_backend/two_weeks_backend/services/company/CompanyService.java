@@ -80,4 +80,19 @@ public class CompanyService extends BaseServiceImplementation<Company> {
         retrievedCompany.setActivated(company.getActivated());
         return this.baseRepository.save(retrievedCompany);
     }
+
+    public Company validate(Long companyId) {
+        if (companyId == null)
+            throw new RuntimeException("Identificador de la empresa no existe");
+
+        Company company = this.baseRepository.getReferenceById(companyId);
+
+        if (company == null)
+            throw new RuntimeException("No existe la empresa con el identificador " + companyId);
+
+        if (!company.getActivated())
+            throw new RuntimeException("La empresa " + company.getName() + " está eliminada");
+
+        return company;
+    }
 }

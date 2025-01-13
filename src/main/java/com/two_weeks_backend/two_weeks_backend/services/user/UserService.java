@@ -76,4 +76,19 @@ public class UserService extends BaseServiceImplementation<User> {
         retrievedUser.setActivated(user.getActivated());
         return this.baseRepository.save(retrievedUser);
     }
+
+    public User validate(Long userId) {
+        if (userId == null)
+            throw new RuntimeException("Identificador del usuario no existe");
+
+        User user = this.baseRepository.getReferenceById(userId);
+
+        if (user == null)
+            throw new RuntimeException("No existe el usuario con el identificador " + userId);
+
+        if (!user.getActivated())
+            throw new RuntimeException("El usuario " + user.getNickname() + " está eliminado");
+
+        return user;
+    }
 }

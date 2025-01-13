@@ -15,12 +15,16 @@ public class PayMethodUpdateDTO extends BaseUpdateDTO<PayMethod> {
     @NotNull
     private boolean isVirtual;
 
+    @NotNull
+    private boolean isJustForSell;
+
     @Override
     public PayMethod asEntity() {
         PayMethod payMethod = new PayMethod();
         payMethod.setId(this.getId());
         payMethod.setName(this.getName());
         payMethod.setIsVirtual(this.isVirtual());
+        payMethod.setIsJustForSell(this.isJustForSell());
         return payMethod;
     }
 }

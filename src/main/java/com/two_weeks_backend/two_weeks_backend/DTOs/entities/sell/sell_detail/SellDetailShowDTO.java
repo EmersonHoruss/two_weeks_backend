@@ -11,8 +11,10 @@ public class SellDetailShowDTO {
     private boolean activated;
     private String date;
     private int amount;
-    private boolean isLowerPrice;
+    private boolean isOutOfPrice;
     private float price;
     private float subTotal;
+    private boolean isReturned;
     private ProductShowDTO product;
+    private Long changedFrom;
 }

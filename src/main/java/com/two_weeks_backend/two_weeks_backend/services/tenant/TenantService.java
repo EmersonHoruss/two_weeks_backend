@@ -100,4 +100,19 @@ public class TenantService extends BaseServiceImplementation<Tenant> {
         tenant.setLastConsecutiveBarCode(nextBarCode);
         this.baseRepository.save(tenant);
     }
+
+    public Tenant validate(Long tenantId) {
+        if (tenantId == null)
+            throw new RuntimeException("Identificador del cliente no existe");
+
+        Tenant tenant = this.baseRepository.getReferenceById(tenantId);
+
+        if (tenant == null)
+            throw new RuntimeException("No existe el cliente con el identificador " + tenantId);
+
+        if (!tenant.getActivated())
+            throw new RuntimeException("El cliente " + tenant.getName() + " está eliminado");
+
+        return tenant;
+    }
 }

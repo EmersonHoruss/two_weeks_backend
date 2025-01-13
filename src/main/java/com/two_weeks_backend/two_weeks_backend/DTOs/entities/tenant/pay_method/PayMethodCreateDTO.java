@@ -17,6 +17,9 @@ public class PayMethodCreateDTO extends BaseCreateDTO<PayMethod> {
     private boolean isVirtual;
 
     @NotNull
+    private boolean isJustForSell;
+
+    @NotNull
     private Long tenantId;
 
     @Override
@@ -24,6 +27,8 @@ public class PayMethodCreateDTO extends BaseCreateDTO<PayMethod> {
         PayMethod payMethod = new PayMethod();
         payMethod.setName(name);
         payMethod.setNameInTenant(name + this.getTenantId());
+        payMethod.setIsVirtual(this.isVirtual());
+        payMethod.setIsJustForSell(this.isJustForSell());
         payMethod.setTenant(this.getTenantEntity());
         return payMethod;
     }

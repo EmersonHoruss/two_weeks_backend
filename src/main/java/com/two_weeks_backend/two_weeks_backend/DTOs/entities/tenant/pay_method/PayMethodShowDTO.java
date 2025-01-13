@@ -10,5 +10,6 @@ import lombok.*;
 public class PayMethodShowDTO extends BaseShowDTO<PayMethod> {
     private String name;
     private boolean isVirtual;
+    private boolean isJustForSell;
     private boolean activated;
 }
