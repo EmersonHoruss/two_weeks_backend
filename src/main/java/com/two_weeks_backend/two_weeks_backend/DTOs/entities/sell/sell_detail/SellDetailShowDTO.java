@@ -1,6 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_detail;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.catalog.product.ProductShowDTO;
+import com.two_weeks_backend.two_weeks_backend.entities.catalog.PriceType;
 
 import lombok.*;
 
@@ -9,9 +10,8 @@ import lombok.*;
 public class SellDetailShowDTO {
     private Long id;
     private boolean activated;
-    private String date;
     private int amount;
-    private boolean isOutOfPrice;
+    private PriceType priceType;
     private float price;
     private float subTotal;
     private boolean isReturned;

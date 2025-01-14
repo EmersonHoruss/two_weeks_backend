@@ -127,4 +127,26 @@ public class ProductCompanyService extends BaseServiceImplementation<ProductComp
 
         return this.baseRepository.save(retrievedProductCompany);
     }
+
+    public ProductCompany validate(Long productId, Long companyId) {
+        if (productId == null || companyId == null)
+            throw new RuntimeException("Identificador del producto o de la companía no existe");
+
+        ProductCompany productCompany = this.getProductCompany(productId, companyId);
+
+        if (productCompany == null)
+            throw new RuntimeException("No existe el producto de la empresa con el identificador de producto "
+                    + productId + ", y la empresa " + companyId);
+
+        if (!productCompany.getActivated()) {
+            Product product = productCompany.getProduct();
+            Company company = productCompany.getCompany();
+
+            throw new RuntimeException("En la empresa " + company.getName() + " el producto con el tipo "
+                    + product.getType().getName() + " , marca "
+                    + product.getBrand().getName() + " , y talla " + product.getSize().getName() + " está eliminado");
+        }
+
+        return productCompany;
+    }
 }

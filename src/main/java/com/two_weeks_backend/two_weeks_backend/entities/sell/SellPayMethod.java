@@ -21,9 +21,6 @@ public class SellPayMethod {
     @Version
     private Long version;
 
-    @Column(name = "date", length = 255, nullable = false)
-    private String date;
-
     @Column(name = "amount", nullable = false)
     private float amount;
 
@@ -49,7 +46,6 @@ public class SellPayMethod {
         SellPayMethodShowDTO sellPayMethodShowDTO = new SellPayMethodShowDTO();
         sellPayMethodShowDTO.setId(this.getId());
         sellPayMethodShowDTO.setActivated(this.getActivated());
-        sellPayMethodShowDTO.setDate(this.getDate());
         sellPayMethodShowDTO.setAmount(this.getAmount());
         sellPayMethodShowDTO.setPayMethod(this.getPayMethod().asShowDTO());
         return sellPayMethodShowDTO;

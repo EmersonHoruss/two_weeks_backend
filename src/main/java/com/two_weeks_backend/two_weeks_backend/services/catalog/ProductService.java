@@ -122,4 +122,20 @@ public class ProductService extends BaseServiceImplementation<Product> {
         retrievedProduct.setActivated(product.getActivated());
         return this.baseRepository.save(retrievedProduct);
     }
+
+    public Product validate(Long productId) {
+        if (productId == null)
+            throw new RuntimeException("Identificador del producto no existe");
+
+        Product product = this.baseRepository.getReferenceById(productId);
+
+        if (product == null)
+            throw new RuntimeException("No existe el producto con el identificador " + productId);
+
+        if (!product.getActivated())
+            throw new RuntimeException("El producto con el tipo " + product.getType().getName() + " , marca "
+                    + product.getBrand().getName() + " , y talla " + product.getSize().getName() + " está eliminado");
+
+        return product;
+    }
 }

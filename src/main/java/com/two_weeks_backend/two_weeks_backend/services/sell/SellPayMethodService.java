@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_pay_method.SellPayMethodCreateDTO;
+import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.SellPayMethod;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Totals;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.PayMethod;
@@ -21,7 +22,12 @@ public class SellPayMethodService {
     @Autowired
     private PayMethodService payMethodService;
 
-    public List<SellPayMethod> create(List<SellPayMethodCreateDTO> sellPayMethodsCreateDTO) {
+    public List<SellPayMethod> create(List<SellPayMethodCreateDTO> sellPayMethodsCreateDTO, Long sellId) {
+        if (sellId == null)
+            throw new RuntimeException("Para crear los métodos de pagos de la venta debe existir la venta");
+        Sell sell = new Sell();
+        sell.setId(sellId);
+
         List<SellPayMethodCreateDTO> uniquePayMethodsDTO = new ArrayList<>(
                 sellPayMethodsCreateDTO.stream()
                         .collect(Collectors.toMap(
@@ -44,6 +50,7 @@ public class SellPayMethodService {
                     }
 
                     SellPayMethod sellPayMethod = uniquePayMethodDTO.asEntity();
+                    sellPayMethod.setSell(sell);
                     sellPayMethod = this.sellPayMethodRepository.save(sellPayMethod);
                     sellPayMethod.setPayMethod(payMethod);
 

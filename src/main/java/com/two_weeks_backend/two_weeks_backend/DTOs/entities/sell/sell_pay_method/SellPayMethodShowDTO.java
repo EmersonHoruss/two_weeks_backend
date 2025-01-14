@@ -9,7 +9,6 @@ import lombok.*;
 public class SellPayMethodShowDTO {
     private Long id;
     private boolean activated;
-    private String date;
     private float amount;
     private PayMethodShowDTO payMethod;
 }

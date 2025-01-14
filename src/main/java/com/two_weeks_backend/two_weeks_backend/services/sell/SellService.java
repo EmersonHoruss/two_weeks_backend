@@ -41,17 +41,22 @@ public class SellService {
 
         this.validate(sellCreateDTO);
 
+        sell = this.sellRepository.save(sell);
+        Long sellId = sell.getId();
+        Long companyId = sellCreateDTO.getCompanyId();
+
         List<SellPayMethodCreateDTO> sellPayMethodsDTO = sellCreateDTO.getPayMethods();
-        List<SellPayMethod> sellPayMethods = this.sellPayMethodService.create(sellPayMethodsDTO);
+        List<SellPayMethod> sellPayMethods = this.sellPayMethodService.create(sellPayMethodsDTO, sellId);
         Totals totals = this.sellPayMethodService.getTotals(sellPayMethods);
         sell.setTotal(totals.getTotal());
         sell.setTotalPhisical(totals.getTotalPhisical());
         sell.setTotalVirtual(totals.getTotalVirtual());
 
         List<SellDetailCreateDTO> detailsDTO = sellCreateDTO.getDetails();
-        this.sellDetailService.create(detailsDTO);
+        this.sellDetailService.create(detailsDTO, sellId, companyId);
 
-        return this.sellRepository.save(sell);
+        sell = this.sellRepository.save(sell);
+        return sell;
     }
 
     private void validate(SellCreateDTO sellCreateDTO) {
