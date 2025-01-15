@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellCreateDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellUpdateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_detail.SellDetailCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_pay_method.SellPayMethodCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
@@ -84,4 +85,10 @@ public class SellService {
             throw new RuntimeException(
                     "La cantidad del total de los detalles de venta no concuerda con el total de las cantidades del método de pago");
     }
+
+    // @Transactional(rollbackFor = Exception.class)
+    // public Sell update(SellUpdateDTO sellUpdateDTO) {
+    //     Sell sell = sellUpdateDTO.asEntity();
+    //     return sell;
+    // }
 }
