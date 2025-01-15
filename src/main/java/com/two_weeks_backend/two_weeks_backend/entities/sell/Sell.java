@@ -39,6 +39,10 @@ public class Sell {
     @Column(name = "client_RUC", length = Constants.RUC_LENGTH)
     private String clientRUC;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "document_type", nullable = false, length = 255)
+    private DocumentType documentType;
+
     @Column(name = "total", nullable = false)
     private float total;
 
