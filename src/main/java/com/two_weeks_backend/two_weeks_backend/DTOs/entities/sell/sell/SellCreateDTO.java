@@ -16,7 +16,7 @@ import lombok.*;
 @Getter
 @Setter
 public class SellCreateDTO {
-    @NotNull
+    @NotBlank
     private String date;
 
     private String clientName;
@@ -25,6 +25,7 @@ public class SellCreateDTO {
 
     private String clientRUC;
 
+    @NotNull
     private DocumentType documentType;
 
     @NotNull

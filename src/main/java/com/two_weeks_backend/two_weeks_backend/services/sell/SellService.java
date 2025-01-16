@@ -86,9 +86,9 @@ public class SellService {
                     "La cantidad del total de los detalles de venta no concuerda con el total de las cantidades del método de pago");
     }
 
-    // @Transactional(rollbackFor = Exception.class)
-    // public Sell update(SellUpdateDTO sellUpdateDTO) {
-    //     Sell sell = sellUpdateDTO.asEntity();
-    //     return sell;
-    // }
+    @Transactional(rollbackFor = Exception.class)
+    public Sell update(SellUpdateDTO sellUpdateDTO) {
+        Sell sell = sellUpdateDTO.asEntity();
+        return sell;
+    }
 }
