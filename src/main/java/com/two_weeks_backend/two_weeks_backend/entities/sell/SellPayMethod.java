@@ -1,6 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.entities.sell;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_pay_method.SellPayMethodShowDTO;
+import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.PayMethod;
 
 import jakarta.persistence.*;
@@ -13,14 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class SellPayMethod {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Version
-    private Long version;
-
+public class SellPayMethod extends BaseEntity<SellPayMethodShowDTO> {
     @Column(name = "amount", nullable = false)
     private float amount;
 

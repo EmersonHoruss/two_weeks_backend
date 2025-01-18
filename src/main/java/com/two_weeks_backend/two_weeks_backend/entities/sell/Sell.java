@@ -1,10 +1,8 @@
 package com.two_weeks_backend.two_weeks_backend.entities.sell;
 
-import java.util.List;
-
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellShowDTO;
+import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.company.Company;
-import com.two_weeks_backend.two_weeks_backend.entities.tenant.PayMethod;
 import com.two_weeks_backend.two_weeks_backend.entities.tenant.Tenant;
 import com.two_weeks_backend.two_weeks_backend.entities.user.User;
 import com.two_weeks_backend.two_weeks_backend.utils.Constants;
@@ -19,15 +17,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Sell {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Version
-    private Long version;
-
-    @Column(name = "date", length = 255, nullable = false)
+public class Sell extends BaseEntity<SellShowDTO> {
+    @Column(name = "date", length = 255)
     private String date;
 
     @Column(name = "client_name", length = 255)
@@ -40,7 +31,7 @@ public class Sell {
     private String clientRUC;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "document_type", nullable = false, length = 255)
+    @Column(name = "document_type", length = 255)
     private DocumentType documentType;
 
     @Column(name = "total", nullable = false)
@@ -51,6 +42,12 @@ public class Sell {
 
     @Column(name = "total_phisical", nullable = false)
     private float totalPhisical;
+
+    @Column(name = "is_returned", nullable = false)
+    private Boolean isReturned;
+
+    @Column(name = "is_changed", nullable = false)
+    private Boolean isChanged;
 
     @ManyToOne
     @JoinColumn(name = "seller_id", nullable = false, foreignKey = @ForeignKey(name = "fk_sell_seller"))
@@ -72,6 +69,12 @@ public class Sell {
         if (this.activated == null) {
             this.activated = true;
         }
+        if (this.isReturned == null) {
+            this.isReturned = false;
+        }
+        if (this.isChanged == null) {
+            this.isChanged = false;
+        }
     }
 
     public SellShowDTO asShowDTO() {
@@ -89,14 +92,5 @@ public class Sell {
         sellShowDTO.setTotalPhisical(this.getTotalPhisical());
         sellShowDTO.setSellerNickname(this.getSeller().getNickname());
         return sellShowDTO;
-    }
-
-    public void calculateTotal(List<PayMethod> payMethods) {
-    }
-
-    public void calculateTotalPhisical(List<PayMethod> payMethods) {
-    }
-
-    public void calculateTotalVirtual(List<PayMethod> payMethods) {
     }
 }

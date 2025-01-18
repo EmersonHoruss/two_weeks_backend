@@ -1,31 +1,20 @@
 package com.two_weeks_backend.two_weeks_backend.services.sell;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell.SellUpdateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_detail.SellDetailCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sell.sell_pay_method.SellPayMethodCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
-import com.two_weeks_backend.two_weeks_backend.entities.sell.SellPayMethod;
-import com.two_weeks_backend.two_weeks_backend.entities.sell.Totals;
 import com.two_weeks_backend.two_weeks_backend.repositories.sell.SellRepository;
+import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 import com.two_weeks_backend.two_weeks_backend.services.company.CompanyService;
 import com.two_weeks_backend.two_weeks_backend.services.tenant.TenantService;
 import com.two_weeks_backend.two_weeks_backend.services.user.UserService;
 
-public class SellService {
+@Service
+public class SellService extends BaseServiceImplementation<Sell> {
     @Autowired
     private SellRepository sellRepository;
-
-    @Autowired
-    private SellDetailService sellDetailService;
-
-    @Autowired
-    private SellPayMethodService sellPayMethodService;
 
     @Autowired
     private UserService userService;
@@ -36,59 +25,67 @@ public class SellService {
     @Autowired
     private CompanyService companyService;
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public Sell create(SellCreateDTO sellCreateDTO) {
-        Sell sell = sellCreateDTO.asEntity();
-
-        this.validate(sellCreateDTO);
-
-        sell = this.sellRepository.save(sell);
-        Long sellId = sell.getId();
-        Long companyId = sellCreateDTO.getCompanyId();
-
-        List<SellPayMethodCreateDTO> sellPayMethodsDTO = sellCreateDTO.getPayMethods();
-        List<SellPayMethod> sellPayMethods = this.sellPayMethodService.create(sellPayMethodsDTO, sellId);
-        Totals totals = this.sellPayMethodService.getTotals(sellPayMethods);
-        sell.setTotal(totals.getTotal());
-        sell.setTotalPhisical(totals.getTotalPhisical());
-        sell.setTotalVirtual(totals.getTotalVirtual());
-
-        List<SellDetailCreateDTO> detailsDTO = sellCreateDTO.getDetails();
-        this.sellDetailService.create(detailsDTO, sellId, companyId);
-
-        sell = this.sellRepository.save(sell);
-        return sell;
-    }
-
-    private void validate(SellCreateDTO sellCreateDTO) {
-        Long sellerId = sellCreateDTO.getSellerId();
-        Long tenantId = sellCreateDTO.getTenantId();
-        Long companyId = sellCreateDTO.getCompanyId();
-
-        this.validateTotal(sellCreateDTO);
+    public Sell create(Sell sell) {
+        Long sellerId = sell.getSeller().getId();
         this.userService.validate(sellerId);
+
+        Long tenantId = sell.getTenant().getId();
         this.tenantService.validate(tenantId);
+
+        Long companyId = sell.getCompany().getId();
         this.companyService.validate(companyId);
+
+        return this.sellRepository.save(sell);
     }
 
-    private void validateTotal(SellCreateDTO sellCreateDTO) {
-        List<SellPayMethodCreateDTO> sellPayMethods = sellCreateDTO.getPayMethods();
-        List<SellDetailCreateDTO> details = sellCreateDTO.getDetails();
-        float total = (float) details.stream()
-                .mapToDouble(SellDetailCreateDTO::getSubTotal)
-                .sum();
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Sell update(Sell sell) {
+        Sell retrievedSell = this.baseRepository.getReferenceById(sell.getId());
 
-        float totalFromSellPayMethods = (float) sellPayMethods.stream().mapToDouble(SellPayMethodCreateDTO::getAmount)
-                .sum();
+        if (retrievedSell == null)
+            throw new RuntimeException("No se ha encontrado la venta");
 
-        if (totalFromSellPayMethods != total)
-            throw new RuntimeException(
-                    "La cantidad del total de los detalles de venta no concuerda con el total de las cantidades del método de pago");
+        if (!retrievedSell.getActivated())
+            throw new RuntimeException("La venta está eliminada");
+
+        if (retrievedSell.getDate().equals(sell.getDate()) && retrievedSell.getClientName().equals(sell.getClientName())
+                && retrievedSell.getClientDNI().equals(sell.getClientDNI())
+                && retrievedSell.getClientRUC().equals(sell.getClientRUC())
+                && retrievedSell.getDocumentType() == sell.getDocumentType()
+                && retrievedSell.getTotal() == sell.getTotal()
+                && retrievedSell.getTotalVirtual() == sell.getTotalVirtual()
+                && retrievedSell.getTotalPhisical() == sell.getTotalPhisical()
+                && retrievedSell.getIsReturned() == sell.getIsReturned()
+                && retrievedSell.getIsChanged() == sell.getIsChanged())
+            return retrievedSell;
+
+        retrievedSell.setDate(sell.getDate());
+        retrievedSell.setClientName(sell.getClientName());
+        retrievedSell.setClientDNI(sell.getClientDNI());
+        retrievedSell.setClientRUC(sell.getClientRUC());
+        retrievedSell.setDocumentType(sell.getDocumentType());
+        retrievedSell.setTotal(sell.getTotal());
+        retrievedSell.setTotalVirtual(sell.getTotalVirtual());
+        retrievedSell.setTotalPhisical(sell.getTotalPhisical());
+        retrievedSell.setIsReturned(sell.getIsReturned());
+        retrievedSell.setIsChanged(sell.getIsChanged());
+        return retrievedSell;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Sell update(SellUpdateDTO sellUpdateDTO) {
-        Sell sell = sellUpdateDTO.asEntity();
-        return sell;
+    public Sell setActivation(Sell sell) {
+        Sell retrievedSell = this.baseRepository.getReferenceById(sell.getId());
+
+        if (retrievedSell == null)
+            throw new RuntimeException("No se ha encontrado la venta");
+
+        if (sell.getActivated() == retrievedSell.getActivated())
+            return retrievedSell;
+
+        retrievedSell.setActivated(sell.getActivated());
+        return this.baseRepository.save(retrievedSell);
     }
 }

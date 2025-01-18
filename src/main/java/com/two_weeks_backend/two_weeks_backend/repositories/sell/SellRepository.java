@@ -1,11 +1,11 @@
 package com.two_weeks_backend.two_weeks_backend.repositories.sell;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.two_weeks_backend.two_weeks_backend.entities.sell.Sell;
+import com.two_weeks_backend.two_weeks_backend.repositories.BaseRepository;
 
 @Repository
-public interface SellRepository extends JpaRepository<Sell, Long> {
+public interface SellRepository extends BaseRepository<Sell> {
 
 }
