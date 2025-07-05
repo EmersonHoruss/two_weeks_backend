@@ -25,7 +25,7 @@ public class CajaController {
         @Valid @RequestBody CajaUpdateDTO dto
     ){
         CajaEntity cajaEntity = cajaService.update(dto.asEntity());
-        return ResponseEntity.ok(new ResponseDTO(cajaEntity.asShowDTO()))
+        return ResponseEntity.ok(new ResponseDTO(cajaEntity.asShowDTO()));
     }
 
     @GetMapping("/{id}")
@@ -35,15 +35,9 @@ public class CajaController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDTO> get(
-        @PageableDefault(size = 10) Pageable pageable
-    ) {
+    public ResponseEntity<ResponseDTO> get(@PageableDefault(size = 10) Pageable pageable) {
         Page<CajaEntity> page = this.cajaService.get(pageable);
-        List<CajaShowDTO> dtos = page
-            .getContent()
-            .stream()
-            .map(e -> e.asShowDTO())
-            .collect(Collectors.toList());
+        List<CajaShowDTO> dtos = page.getContent().stream().map(e -> e.asShowDTO()).collect(Collectors.toList());
         return ResponseEntity.ok(new ResponseDTO(dtos, page, ""));
     }
 }

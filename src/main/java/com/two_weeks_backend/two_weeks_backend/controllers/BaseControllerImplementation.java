@@ -24,20 +24,16 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("rawtypes")
 public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extends BaseCreateDTO<E>, ShowDTO extends BaseShowDTO<E>, UpdateDTO extends BaseUpdateDTO<E>, ActivatedDTO extends BaseActivatedDTO<E>> {
     @Autowired
     protected BaseServiceImplementation<E> service;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDTO> create(
-            @Valid @RequestBody CreateDTO createDTO,
-            UriComponentsBuilder uriBuilder,
+    public ResponseEntity<ResponseDTO> create(@Valid @RequestBody CreateDTO createDTO, UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
         E entity = service.create(createDTO.asEntity());
         String requestUri = request.getRequestURI() + "/{id}";
         URI uri = uriBuilder.path(requestUri).buildAndExpand(entity.getId()).toUri();
-        @SuppressWarnings("unchecked")
         BaseShowDTO<E> dto = entity.asShowDTO();
         return ResponseEntity.created(uri).body(new ResponseDTO(dto));
     }
@@ -49,8 +45,7 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDTO> get(
-            @RequestParam(required = false) String query,
+    public ResponseEntity<ResponseDTO> get(@RequestParam(required = false) String query,
             @PageableDefault(size = 10) Pageable pageable) {
         String decodedQuery = "";
         if (query != null) {
@@ -61,18 +56,13 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
             }
         }
 
-        Page<E> page = service.get(new Specification<E>(decodedQuery), pageable);
-        List<BaseShowDTO> dtos = page
-                .getContent()
-                .stream()
-                .map(e -> e.asShowDTO())
-                .collect(Collectors.toList());
+        Page<E> page = service.get(new Specification<>(decodedQuery), pageable);
+        List<BaseShowDTO> dtos = page.getContent().stream().map(e -> e.asShowDTO()).collect(Collectors.toList());
         return ResponseEntity.ok(new ResponseDTO(dtos, page, query));
     }
 
     @PutMapping("")
-    public ResponseEntity<ResponseDTO> update(
-            @Valid @RequestBody UpdateDTO dto) {
+    public ResponseEntity<ResponseDTO> update(@Valid @RequestBody UpdateDTO dto) {
         E entity = service.update(dto.asEntity());
         return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
     }
