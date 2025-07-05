@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name="caja")
@@ -44,5 +45,18 @@ public class CajaEntity {
         cajaShowDTO.setMontoFinalDigital(this.getMontoFinalDigital());
         cajaShowDTO.ganancia(this.getGanancia());
         return cajaShowDTO;
+    }
+
+    public void checkIfPossibleUpdating() {
+        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+        OffsetDateTime cajaFecha = this.fecha.withOffsetSameInstant(ZoneOffset.UTC);
+
+        if (!cajaFecha.truncatedTo(ChronoUnit.DAYS).equals(now.truncatedTo(ChronoUnit.DAYS))) {
+            throw new IllegalStateException("No se puede modificar una caja de otra fecha.");
+        }
+    }
+
+    public void recalculateTotal() {
+        this.total = this.montoInicial - this.montoFinalDigital - this.montoFinalFisico;
     }
 }
