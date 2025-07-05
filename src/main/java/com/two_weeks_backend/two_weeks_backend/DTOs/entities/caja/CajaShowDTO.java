@@ -1,5 +1,8 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.caja;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+
 import lombok.*;
 
 @Getter

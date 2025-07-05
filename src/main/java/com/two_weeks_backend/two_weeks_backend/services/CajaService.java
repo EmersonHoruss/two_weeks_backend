@@ -19,7 +19,7 @@ public class CajaService {
         
         retrievedCaja.checkIfPossibleUpdating();
         retrievedCaja.setMontoInicial(caja.getMontoInicial());
-        retrievedCaja.recalculateTotal();
+        retrievedCaja.calculateGanancia();
 
         return this.cajaRepository.save(retrievedCaja);
     }

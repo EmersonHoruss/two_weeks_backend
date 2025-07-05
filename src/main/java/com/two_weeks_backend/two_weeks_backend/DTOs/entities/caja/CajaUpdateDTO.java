@@ -1,6 +1,8 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.caja;
 
-import com.two_weeks_backend.two_weeks_backend.entities.Caja;
+import java.math.BigDecimal;
+
+import com.two_weeks_backend.two_weeks_backend.entities.CajaEntity;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -14,8 +16,8 @@ public class CajaUpdateDTO {
     @NotNull
     private BigDecimal montoInicial;
 
-    public Caja asEntity() {
-        Caja caja = new Caja();
+    public CajaEntity asEntity() {
+        CajaEntity caja = new CajaEntity();
         caja.setId(this.getId());
         caja.setMontoInicial(this.getMontoINicial());
         return caja;

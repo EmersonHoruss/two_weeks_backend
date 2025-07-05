@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 
 @Entity
@@ -35,7 +36,6 @@ public class CajaEntity {
     @Column(name="ganancia", nullable=false)
     private BigDecimal ganancia;
 
-    @Override
     public CajaShowDTO asShowDTO() {
         CajaShowDTO cajaShowDTO = new CajaShowDTO();
         cajaShowDTO.setId(this.getId());
@@ -43,7 +43,7 @@ public class CajaEntity {
         cajaShowDTO.setMontoInicial(this.getMontoInicial());
         cajaShowDTO.setMontoFinalFisico(this.getMontoFinalFisico());
         cajaShowDTO.setMontoFinalDigital(this.getMontoFinalDigital());
-        cajaShowDTO.ganancia(this.getGanancia());
+        cajaShowDTO.setGanancia(this.getGanancia());
         return cajaShowDTO;
     }
 
@@ -56,7 +56,8 @@ public class CajaEntity {
         }
     }
 
-    public void recalculateTotal() {
-        this.total = this.montoInicial - this.montoFinalDigital - this.montoFinalFisico;
+    public void calculateGanancia() {
+        BigDecimal montoFinal = this.montoFinalDigital.add(this.montoFinalFisico);
+        this.ganancia = this.montoInicial.subtract(montoFinal);
     }
 }

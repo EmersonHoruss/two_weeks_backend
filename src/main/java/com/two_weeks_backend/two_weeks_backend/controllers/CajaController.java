@@ -2,8 +2,8 @@ package com.two_weeks_backend.two_weeks_backend.controllers;
 
 import com.two_weeks_backend.two_weeks_backend.entities.CajaEntity;
 import com.two_weeks_backend.two_weeks_backend.services.CajaService;
-import com.two_weeks_backend.two_weeks_backend.DTOs.CajaUpdateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.CajaShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.caja.CajaUpdateDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.caja.CajaShowDTO;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
