@@ -19,9 +19,6 @@ public class CajaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Version
-    private Long version;
-    
     @Column(name ="fecha", nullable = false)
     private OffsetDateTime fecha;
 
