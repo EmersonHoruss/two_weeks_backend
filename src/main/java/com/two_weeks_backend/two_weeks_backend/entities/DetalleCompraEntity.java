@@ -2,8 +2,8 @@ package com.two_weeks_backend.two_weeks_backend.entities;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.detalle_compra.DetalleCompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.Compra;
-import com.two_weeks_backend.two_weeks_backend.entities.Producto;
+import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
+import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,11 +31,11 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
 
     @ManyToOne
     @JoinColumn(name = "producto", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_compra_producto"))
-    private Producto producto;
+    private ProductoEntity producto;
     
     @ManyToOne
     @JoinColumn(name = "compra", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_compra_compra"))
-    private Compra compra;
+    private CompraEntity compra;
 
     @PrePersist
     private void prePersist() {

@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 
 import com.two_weeks_backend.two_weeks_backend.entities.CajaEntity;
 
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -19,7 +20,7 @@ public class CajaUpdateDTO {
     public CajaEntity asEntity() {
         CajaEntity caja = new CajaEntity();
         caja.setId(this.getId());
-        caja.setMontoInicial(this.getMontoINicial());
+        caja.setMontoInicial(this.getMontoInicial());
         return caja;
     }
 }
