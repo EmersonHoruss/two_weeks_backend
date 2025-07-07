@@ -1,14 +1,21 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_venta.DetalleVentaShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.Venta;
-import com.two_weeks_backend.two_weeks_backend.entities.Producto;
-import com.two_weeks_backend.two_weeks_backend.entities.Trabajador;
-
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
+
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_venta.DetalleVentaShowDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "detalle_venta")
@@ -32,23 +39,24 @@ public class DetalleVentaEntity extends BaseEntity<DetalleVentaShowDTO> {
 
     @ManyToOne
     @JoinColumn(name = "venta", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_venta_venta"))
-    private Venta venta;
+    private VentaEntity venta;
 
     @ManyToOne
     @JoinColumn(name = "producto", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_venta_producto"))
-    private Producto producto;
+    private ProductoEntity producto;
 
     @ManyToOne
     @JoinColumn(name = "vendedor", nullable = false, foreignKey = @ForeignKey(name = "fk_detale_venta_vendedor"))
-    private Trabajador vendedor;
+    private TrabajadorEntity vendedor;
 
     @ManyToOne
     @JoinColumn(name = "cobrador", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_venta_cobrador"))
-    private Trabajador cobrador;
+    private TrabajadorEntity cobrador;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
-        if(this.activated == null) {
+        if (this.activated == null) {
             this.activated = true;
         }
     }
@@ -61,10 +69,9 @@ public class DetalleVentaEntity extends BaseEntity<DetalleVentaShowDTO> {
         detalleVentaShowDTO.setCantidad(this.getCantidad());
         detalleVentaShowDTO.setPrecioVenta(this.getPrecioVenta());
         detalleVentaShowDTO.setSubTotal(this.getSubTotal());
-        detalleVentaShowDTO.setVenta(this.getVenta().asShowDTO());
-        detalleVentaShowDTO.setProducto(this.getProducto().asShowDTO());
-        detalleVentaShowDTO.setVendedor(this.getVendedor().asShowDTO());
-        detalleVentaShowDTO.setCobrador(this.getCobrador().asShowDTO());
+        detalleVentaShowDTO.setProducto(this.getProducto().getNombre());
+        detalleVentaShowDTO.setVendedor(this.getVendedor().getNombre());
+        detalleVentaShowDTO.setCobrador(this.getCobrador().getNombre());
         return detalleVentaShowDTO;
     }
 }

@@ -1,12 +1,19 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "compra")
@@ -27,7 +34,7 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
 
     @Column(name = "otros_gastos_cantidad", nullable = true)
     private BigDecimal otrosGastosCantidad;
-    
+
     @Column(name = "otros_gastos_detalle", nullable = true)
     private String otrosGastosDetalle;
 
@@ -38,8 +45,9 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
     private Boolean activated;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
-        if(this.activated == null) {
+        if (this.activated == null) {
             this.activated = true;
         }
     }

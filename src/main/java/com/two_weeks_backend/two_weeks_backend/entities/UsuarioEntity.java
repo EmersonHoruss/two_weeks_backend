@@ -1,10 +1,16 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.usuario.UsuarioShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.usuario.UsuarioShowDTO;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "usuario")
@@ -30,20 +36,20 @@ public class UsuarioEntity extends BaseEntity<UsuarioShowDTO> {
     private Boolean activated;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
         if (this.activated == null) {
             this.activated = true;
         }
     }
 
-     @Override
+    @Override
     public UsuarioShowDTO asShowDTO() {
         UsuarioShowDTO usuarioShowDTO = new UsuarioShowDTO();
         usuarioShowDTO.setId(this.getId());
         usuarioShowDTO.setActivated(this.getActivated());
         usuarioShowDTO.setNombre(this.getNombre());
         usuarioShowDTO.setCorreo(this.getCorreo());
-        usuarioShowDTO.setContrasenia(this.getContrasenia());
         usuarioShowDTO.setRoles(this.getRoles());
         return usuarioShowDTO;
     }

@@ -1,12 +1,12 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.venta.VentaShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.venta.VentaShowDTO;
 
 @Entity
 @Table(name = "venta")
@@ -35,13 +35,14 @@ public class VentaEntity extends BaseEntity<VentaShowDTO> {
     private Boolean activated;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
         if (this.activated == null) {
             this.activated = true;
         }
     }
 
-     @Override
+    @Override
     public VentaShowDTO asShowDTO() {
         VentaShowDTO ventaShowDTO = new VentaShowDTO();
         ventaShowDTO.setId(this.getId());

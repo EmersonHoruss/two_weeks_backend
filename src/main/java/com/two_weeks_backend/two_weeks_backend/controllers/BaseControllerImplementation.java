@@ -1,5 +1,25 @@
 package com.two_weeks_backend.two_weeks_backend.controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseActivatedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
@@ -8,26 +28,16 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.responses.ResponseDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
 import com.two_weeks_backend.two_weeks_backend.services.BaseServiceImplementation;
 import com.two_weeks_backend.two_weeks_backend.utils.specification.Specification;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
-
+@SuppressWarnings("rawtypes")
 public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extends BaseCreateDTO<E>, ShowDTO extends BaseShowDTO<E>, UpdateDTO extends BaseUpdateDTO<E>, ActivatedDTO extends BaseActivatedDTO<E>> {
     @Autowired
     protected BaseServiceImplementation<E> service;
 
+    @SuppressWarnings("unchecked")
     @PostMapping("")
     public ResponseEntity<ResponseDTO> create(@Valid @RequestBody CreateDTO createDTO, UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
@@ -45,6 +55,7 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     }
 
     @GetMapping("")
+    @SuppressWarnings("CallToPrintStackTrace")
     public ResponseEntity<ResponseDTO> get(@RequestParam(required = false) String query,
             @PageableDefault(size = 10) Pageable pageable) {
         String decodedQuery = "";

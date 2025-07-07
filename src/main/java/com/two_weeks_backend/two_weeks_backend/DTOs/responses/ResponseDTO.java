@@ -1,12 +1,14 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.responses;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
 import org.springframework.data.domain.Page;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import lombok.Getter;
 
 @Getter
 public class ResponseDTO {
-    private Object content;
+    private final Object content;
     
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private PageableDTO pageable;

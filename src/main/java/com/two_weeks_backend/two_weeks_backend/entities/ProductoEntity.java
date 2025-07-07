@@ -1,11 +1,18 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.producto.ProductoShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
+
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoShowDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "producto")
@@ -37,6 +44,7 @@ public class ProductoEntity extends BaseEntity<ProductoShowDTO> {
     private Boolean activated;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
         if (this.activated == null) {
             this.activated = true;

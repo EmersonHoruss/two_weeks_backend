@@ -1,10 +1,18 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.trabajador.TrabajadorShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.trabajador.TrabajadorShowDTO;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "trabajador")
@@ -37,6 +45,7 @@ public class TrabajadorEntity extends BaseEntity<TrabajadorShowDTO> {
     private Boolean activated;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
         if (this.activated == null) {
             this.activated = true;
@@ -49,26 +58,11 @@ public class TrabajadorEntity extends BaseEntity<TrabajadorShowDTO> {
         trabajadorShowDTO.setId(this.getId());
         trabajadorShowDTO.setActivated(this.getActivated());
         trabajadorShowDTO.setNombre(this.getNombre());
-        trabajadorShowDTO.setSexo(this.getSexo());
+        trabajadorShowDTO.setSexo(this.getSexo().getValue());
         trabajadorShowDTO.setDni(this.getDni());
         trabajadorShowDTO.setDireccion(this.getDireccion());
         trabajadorShowDTO.setNumeroCelular(this.getNumeroCelular());
         trabajadorShowDTO.setWhatsapp(this.getWhatsapp());
         return trabajadorShowDTO;
-    }
-}
-
-public enum SexoEnum {
-    MASCULINO("Masculino"),
-    FEMENINO("Femenino");
-
-    private String value;
-
-    SexoEnum(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return this.value;
     }
 }

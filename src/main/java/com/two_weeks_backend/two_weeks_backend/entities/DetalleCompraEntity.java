@@ -1,13 +1,21 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.detalle_compra.DetalleCompraShowDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.BaseEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
-
-import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
+
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "detalle_compra")
@@ -22,24 +30,25 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
 
     @Column(name = "precio_compra_unitario", nullable = false)
     private BigDecimal precioCompraUnitario;
-    
+
     @Column(name = "sub_total", nullable = false)
     private BigDecimal subTotal;
-    
+
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
     @ManyToOne
     @JoinColumn(name = "producto", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_compra_producto"))
     private ProductoEntity producto;
-    
+
     @ManyToOne
     @JoinColumn(name = "compra", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_compra_compra"))
     private CompraEntity compra;
 
     @PrePersist
+    @SuppressWarnings("unused")
     private void prePersist() {
-        if(this.activated == null) {
+        if (this.activated == null) {
             this.activated = true;
         }
     }
@@ -52,7 +61,7 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
         detalleCompraShowDTO.setCantidad(this.getCantidad());
         detalleCompraShowDTO.setPrecioCompraUnitario(this.getPrecioCompraUnitario());
         detalleCompraShowDTO.setSubTotal(this.getSubTotal());
-        detalleCompraShowDTO.setProducto(this.getProducto.asShowDTO());
+        detalleCompraShowDTO.setProducto(this.getProducto().getNombre());
         return detalleCompraShowDTO;
     }
 }
