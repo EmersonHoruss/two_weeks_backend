@@ -13,7 +13,7 @@ public class TrabajadorShowDTO extends BaseShowDTO<TrabajadorEntity> {
     private String sexo;
     private String dni;
     private String direccion;
-    private String numeroCelular;
+    private String celular;
     private String whatsapp;
     private Boolean activated;
 }

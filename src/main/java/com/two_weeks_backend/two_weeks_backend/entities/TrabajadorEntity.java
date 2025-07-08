@@ -36,7 +36,7 @@ public class TrabajadorEntity extends BaseEntity<TrabajadorShowDTO> {
     private String direccion;
 
     @Column(name = "numero_celular", nullable = false)
-    private String numeroCelular;
+    private String celular;
 
     @Column(name = "whatsapp", nullable = false)
     private String whatsapp;
@@ -61,7 +61,7 @@ public class TrabajadorEntity extends BaseEntity<TrabajadorShowDTO> {
         trabajadorShowDTO.setSexo(this.getSexo().getValue());
         trabajadorShowDTO.setDni(this.getDni());
         trabajadorShowDTO.setDireccion(this.getDireccion());
-        trabajadorShowDTO.setNumeroCelular(this.getNumeroCelular());
+        trabajadorShowDTO.setcelular(this.getcelular());
         trabajadorShowDTO.setWhatsapp(this.getWhatsapp());
         return trabajadorShowDTO;
     }

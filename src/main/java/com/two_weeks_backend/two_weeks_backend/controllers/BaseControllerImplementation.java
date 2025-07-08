@@ -37,15 +37,13 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     @Autowired
     protected BaseServiceImplementation<E> service;
 
-    @SuppressWarnings("unchecked")
     @PostMapping("")
-    public ResponseEntity<ResponseDTO> create(@Valid @RequestBody CreateDTO createDTO, UriComponentsBuilder uriBuilder,
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateDTO createDTO, UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
         E entity = service.create(createDTO.asEntity());
         String requestUri = request.getRequestURI() + "/{id}";
         URI uri = uriBuilder.path(requestUri).buildAndExpand(entity.getId()).toUri();
-        BaseShowDTO<E> dto = entity.asShowDTO();
-        return ResponseEntity.created(uri).body(new ResponseDTO(dto));
+        return ResponseEntity.created(uri).body(null);
     }
 
     @GetMapping("/{id}")
@@ -73,9 +71,9 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     }
 
     @PutMapping("")
-    public ResponseEntity<ResponseDTO> update(@Valid @RequestBody UpdateDTO dto) {
-        E entity = service.update(dto.asEntity());
-        return ResponseEntity.ok(new ResponseDTO(entity.asShowDTO()));
+    public ResponseEntity<Object> update(@Valid @RequestBody UpdateDTO dto) {
+        service.update(dto.asEntity());
+        return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/{id}")

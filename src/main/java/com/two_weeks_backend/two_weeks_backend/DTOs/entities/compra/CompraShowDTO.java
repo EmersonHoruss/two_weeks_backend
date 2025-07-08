@@ -16,11 +16,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CompraShowDTO extends BaseShowDTO<CompraEntity> {
-    private String distribuidor;
+    private String distribuidorDuenio;
+    private String distribuidorEmpresa;
     private OffsetDateTime fecha;
     private BigDecimal flete;
-    private BigDecimal otrosGastosCantidad;
-    private String otrosGastosDetalle;
+    private BigDecimal taxi;
+    private BigDecimal otrosGastos;
     private BigDecimal total;
     private Boolean activated;
     private List<DetalleCompraShowDTO> detalles = new ArrayList<>();
