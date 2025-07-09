@@ -20,7 +20,7 @@ public abstract class BaseServiceImplementation<E extends BaseEntity> {
     }
 
     public E get(Long id) {
-        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("not found"));
+        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("no encontrado"));
     }
 
     public Page<E> get(Specification<E> specification, Pageable pageable) {

@@ -37,7 +37,7 @@ public class CompraController
     public ResponseEntity<Object> create(@Valid @RequestBody CompraCreateDTO createDTO, UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
         createDTO.setAllCalculatedData();
-        Long id = service.create(createDTO.asEntity());
+        Long id = this.compraService.create(createDTO);
         String requestUri = request.getRequestURI() + "/{id}";
         URI uri = uriBuilder.path(requestUri).buildAndExpand(id).toUri();
         return ResponseEntity.created(uri).build();

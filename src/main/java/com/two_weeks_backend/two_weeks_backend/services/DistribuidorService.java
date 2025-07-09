@@ -16,4 +16,14 @@ public class DistribuidorService extends BaseServiceImplementation<DistribuidorE
 
         this.update(distribuidorEntity);
     }
+
+    public void isItOperative(Long id) {
+        DistribuidorEntity distribuidor = baseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("distribuidor no encontrado"));
+
+        Boolean activated = distribuidor.getActivated();
+        if (!activated) {
+            throw new RuntimeException("El distribuidor " + distribuidor.getDuenio() + " está desactivado");
+        }
+    }
 }

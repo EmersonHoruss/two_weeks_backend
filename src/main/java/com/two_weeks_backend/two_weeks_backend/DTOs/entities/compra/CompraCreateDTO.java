@@ -46,6 +46,11 @@ public class CompraCreateDTO extends BaseCreateDTO<CompraEntity> {
     }
 
     private void calculateTotal() {
+        this.getDetalles().forEach(DetalleCompraCreateDTO::setAllCalculatedData);
+
+        if (this.detalles.stream().anyMatch(d -> d.getSubTotal() == null)) {
+            throw new IllegalStateException("Debe calcular el subTotal de cada detalle antes de calcular el total");
+        }
         BigDecimal detallesSubTotal = this.getDetalles().stream().map(DetalleCompraCreateDTO::getSubTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
