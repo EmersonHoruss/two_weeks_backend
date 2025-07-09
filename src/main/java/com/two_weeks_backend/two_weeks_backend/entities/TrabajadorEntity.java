@@ -61,7 +61,7 @@ public class TrabajadorEntity extends BaseEntity<TrabajadorShowDTO> {
         trabajadorShowDTO.setSexo(this.getSexo().getValue());
         trabajadorShowDTO.setDni(this.getDni());
         trabajadorShowDTO.setDireccion(this.getDireccion());
-        trabajadorShowDTO.setcelular(this.getcelular());
+        trabajadorShowDTO.setCelular(this.getCelular());
         trabajadorShowDTO.setWhatsapp(this.getWhatsapp());
         return trabajadorShowDTO;
     }
