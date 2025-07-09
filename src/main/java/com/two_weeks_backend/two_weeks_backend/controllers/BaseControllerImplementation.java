@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseActivatedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseUpdateDTO;
@@ -33,17 +32,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @SuppressWarnings("rawtypes")
-public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extends BaseCreateDTO<E>, ShowDTO extends BaseShowDTO<E>, UpdateDTO extends BaseUpdateDTO<E>, ActivatedDTO extends BaseActivatedDTO<E>> {
+public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extends BaseCreateDTO<E>, ShowDTO extends BaseShowDTO<E>, UpdateDTO extends BaseUpdateDTO<E>> {
     @Autowired
     protected BaseServiceImplementation<E> service;
 
     @PostMapping("")
     public ResponseEntity<Object> create(@Valid @RequestBody CreateDTO createDTO, UriComponentsBuilder uriBuilder,
             HttpServletRequest request) {
-        E entity = service.create(createDTO.asEntity());
+        Long id = service.create(createDTO.asEntity());
         String requestUri = request.getRequestURI() + "/{id}";
-        URI uri = uriBuilder.path(requestUri).buildAndExpand(entity.getId()).toUri();
-        return ResponseEntity.created(uri).body(null);
+        URI uri = uriBuilder.path(requestUri).buildAndExpand(id).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
@@ -73,7 +72,7 @@ public class BaseControllerImplementation<E extends BaseEntity, CreateDTO extend
     @PutMapping("")
     public ResponseEntity<Object> update(@Valid @RequestBody UpdateDTO dto) {
         service.update(dto.asEntity());
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
