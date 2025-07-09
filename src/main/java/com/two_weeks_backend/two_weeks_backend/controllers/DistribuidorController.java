@@ -25,7 +25,7 @@ public class DistribuidorController extends
     @Autowired
     DistribuidorService distribuidorService;
 
-    @PutMapping("/activated")
+    @PutMapping("/activacion")
     public ResponseEntity<Object> setActivated(@Valid @RequestBody DistribuidorActivatedDTO dto) {
         distribuidorService.setActivated(dto.asEntity());
         return ResponseEntity.ok().build();

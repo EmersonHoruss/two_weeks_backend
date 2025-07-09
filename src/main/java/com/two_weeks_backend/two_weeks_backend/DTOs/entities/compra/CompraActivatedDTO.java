@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CompraActivatedDTO extends BaseActivatedDTO<CompraEntity> {
-
     @Override
     public CompraEntity asEntity() {
         CompraEntity compra = new CompraEntity();
@@ -17,5 +16,4 @@ public class CompraActivatedDTO extends BaseActivatedDTO<CompraEntity> {
         compra.setActivated(this.getActivated());
         return compra;
     }
-
 }
