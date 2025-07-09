@@ -49,7 +49,7 @@ public class CompraController
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO> get(@PathVariable Long id) {
-        CompraShowDTO compraShowDTO = this.compraService.get(id);
+        CompraShowDTO compraShowDTO = this.compraService.getCompraDTO(id);
         return ResponseEntity.ok(new ResponseDTO(compraShowDTO));
     }
 

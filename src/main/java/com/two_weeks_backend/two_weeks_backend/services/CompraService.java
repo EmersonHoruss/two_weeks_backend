@@ -13,7 +13,7 @@ import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.CompraRepository;
 
 @Service
-public class CompraService {
+public class CompraService extends BaseServiceImplementation<CompraEntity> {
     @Autowired
     CompraRepository compraRepository;
 
@@ -36,22 +36,25 @@ public class CompraService {
         return savedCompra.getId();
     }
 
-    public CompraShowDTO get(Long id) {
+    public CompraShowDTO getCompraDTO(Long id) {
         CompraEntity compraEntity = this.compraRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("compra no encontrada"));
 
-        CompraShowDTO compraDto = compraEntity.asShowDTO();
+        CompraShowDTO compraDTO = compraEntity.asShowDTO();
 
         List<DetalleCompraShowDTO> detalles = this.detalleCompraService.getAllByCompraId(id);
-        compraDto.setDetalles(detalles);
+        compraDTO.setDetalles(detalles);
 
-        return compraDto;
+        return compraDTO;
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(CompraEntity compraEntity) {
+
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
 
