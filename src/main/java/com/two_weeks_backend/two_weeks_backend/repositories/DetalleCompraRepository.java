@@ -1,9 +1,12 @@
 package com.two_weeks_backend.two_weeks_backend.repositories;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 
 @Repository
 public interface DetalleCompraRepository extends BaseRepository<DetalleCompraEntity> {
+    List<DetalleCompraEntity> findAllByCompra_Id(Long compraId);
 }

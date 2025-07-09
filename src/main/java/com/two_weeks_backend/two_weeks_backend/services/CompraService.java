@@ -1,15 +1,22 @@
 package com.two_weeks_backend.two_weeks_backend.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraCreateDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
+import com.two_weeks_backend.two_weeks_backend.repositories.CompraRepository;
 
 @Service
-public class CompraService extends BaseServiceImplementation<CompraEntity> {
+public class CompraService {
+    @Autowired
+    CompraRepository compraRepository;
+
     @Autowired
     DetalleCompraService detalleCompraService;
 
@@ -22,30 +29,35 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         this.distribuidorService.isItOperative(distribuidorId);
 
         compraCreateDTO.setAllCalculatedData();
-        CompraEntity savedCompra = this.baseRepository.save(compraCreateDTO.asEntity());
+        CompraEntity savedCompra = this.compraRepository.save(compraCreateDTO.asEntity());
 
         this.detalleCompraService.saveAll(savedCompra, compraCreateDTO.getDetalles());
 
         return savedCompra.getId();
     }
 
-    // @Override
-    // public CompraEntity get(Long id) {
+    public CompraShowDTO get(Long id) {
+        CompraEntity compraEntity = this.compraRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("compra no encontrada"));
 
-    // }
+        CompraShowDTO compraDto = compraEntity.asShowDTO();
 
-    // @Override
-    // @Transactional(rollbackFor = Exception.class)
-    // public void update(CompraEntity compraEntity) {
-    // }
+        List<DetalleCompraShowDTO> detalles = this.detalleCompraService.getAllByCompraId(id);
+        compraDto.setDetalles(detalles);
 
-    // @Override
-    // @Transactional(rollbackFor = Exception.class)
-    // public void delete(Long id) {
+        return compraDto;
+    }
 
-    // }
+    @Transactional(rollbackFor = Exception.class)
+    public void update(CompraEntity compraEntity) {
+    }
 
-    // public void setActivated(CompraEntity compraEntity) {
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(Long id) {
 
-    // }
+    }
+
+    public void setActivated(CompraEntity compraEntity) {
+
+    }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
-import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,10 +24,4 @@ public class CompraShowDTO extends BaseShowDTO<CompraEntity> {
     private BigDecimal total;
     private Boolean activated;
     private List<DetalleCompraShowDTO> detalles = new ArrayList<>();
-
-    public void setDetalles(List<DetalleCompraEntity> detalles) {
-        this.detalles = detalles.stream().map(detalle -> {
-            return detalle.asShowDTO();
-        }).toList();
-    }
 }
