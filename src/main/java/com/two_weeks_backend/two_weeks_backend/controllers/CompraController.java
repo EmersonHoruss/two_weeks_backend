@@ -16,7 +16,10 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreate
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraUpdateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.two_weeks_backend.two_weeks_backend.services.CompraService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
