@@ -23,5 +23,6 @@ public class CompraShowDTO extends BaseShowDTO<CompraEntity> {
     private BigDecimal otrosGastos;
     private BigDecimal total;
     private Boolean activated;
+    private Boolean llego;
     private List<DetalleCompraShowDTO> detalles = new ArrayList<>();
 }

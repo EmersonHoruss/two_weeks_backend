@@ -74,6 +74,7 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
         compraShowDTO.setTaxi(this.getTaxi());
         compraShowDTO.setOtrosGastos(this.getOtrosGastos());
         compraShowDTO.setTotal(this.getTotal());
+        compraShowDTO.setLlego(this.getLlego());
         return compraShowDTO;
     }
 }
