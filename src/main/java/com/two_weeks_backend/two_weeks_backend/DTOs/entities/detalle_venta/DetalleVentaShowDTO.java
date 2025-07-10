@@ -13,6 +13,7 @@ import lombok.Setter;
 public class DetalleVentaShowDTO extends BaseShowDTO<DetalleCompraEntity> {
     private int cantidad;
     private BigDecimal precioVenta;
+    private BigDecimal precioCompra;
     private BigDecimal subTotal;
     private String producto = "";
     private String vendedor = "";

@@ -31,6 +31,9 @@ public class DetalleVentaEntity extends BaseEntity<DetalleVentaShowDTO> {
     @Column(name = "precio_venta", nullable = false)
     private BigDecimal precioVenta;
 
+    @Column(name = "precio_compra", nullable = false)
+    private BigDecimal precioCompra;
+
     @Column(name = "sub_total", nullable = false)
     private BigDecimal subTotal;
 
@@ -68,6 +71,7 @@ public class DetalleVentaEntity extends BaseEntity<DetalleVentaShowDTO> {
         detalleVentaShowDTO.setActivated(this.getActivated());
         detalleVentaShowDTO.setCantidad(this.getCantidad());
         detalleVentaShowDTO.setPrecioVenta(this.getPrecioVenta());
+        detalleVentaShowDTO.setPrecioCompra(this.getPrecioCompra());
         detalleVentaShowDTO.setSubTotal(this.getSubTotal());
         detalleVentaShowDTO.setProducto(this.getProducto().getNombre());
         detalleVentaShowDTO.setVendedor(this.getVendedor().getNombre());
