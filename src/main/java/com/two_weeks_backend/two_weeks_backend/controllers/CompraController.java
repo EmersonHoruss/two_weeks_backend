@@ -56,8 +56,7 @@ public class CompraController
     @Override
     @PutMapping("")
     public ResponseEntity<Object> update(@Valid @RequestBody CompraUpdateDTO updateDTO) {
-        updateDTO.setAllCalculatedData();
-        service.update(updateDTO.asEntity());
+        this.compraService.update(updateDTO);
         return ResponseEntity.ok().build();
     }
 

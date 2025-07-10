@@ -48,11 +48,17 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
+    @Column(name = "llego", columnDefinition = "boolean default false", nullable = false)
+    private Boolean llego;
+
     @PrePersist
     @SuppressWarnings("unused")
     private void prePersist() {
         if (this.activated == null) {
             this.activated = true;
+        }
+        if (this.llego == null) {
+            this.llego = false;
         }
     }
 

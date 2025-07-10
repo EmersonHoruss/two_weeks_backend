@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseUpdateDTO;
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraCreateDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraUpdateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
 
@@ -18,7 +18,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CompraUpdateDTO extends BaseUpdateDTO<CompraEntity>{
+public class CompraUpdateDTO extends BaseUpdateDTO<CompraEntity> {
     @NotNull(message = "La fecha es obligatoria")
     private OffsetDateTime fecha;
 
@@ -33,7 +33,7 @@ public class CompraUpdateDTO extends BaseUpdateDTO<CompraEntity>{
 
     @NotNull(message = "Debe haber al menos un producto para vender")
     @NotEmpty(message = "Debe haber al menos un producto para vender")
-    private List<DetalleCompraCreateDTO> detalles;
+    private List<DetalleCompraUpdateDTO> detalles;
 
     @NotNull(message = "El distribuidor es obligatorio")
     private Long distribuidorId;
@@ -46,7 +46,13 @@ public class CompraUpdateDTO extends BaseUpdateDTO<CompraEntity>{
     }
 
     private void calculateTotal() {
-        BigDecimal detallesSubTotal = this.getDetalles().stream().map(DetalleCompraCreateDTO::getSubTotal)
+        if (this.detalles == null || this.detalles.isEmpty()) {
+            throw new RuntimeException("Debe haber al menos un producto para vender");
+        }
+
+        boolean hasAtLeastOneActivated = this.detalles.stream().anyMatch(detalle -> Boolean.TRUE.equals(detalle.getActi))
+
+        BigDecimal detallesSubTotal = this.getDetalles().stream().map(DetalleCompraUpdateDTO::getSubTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.total = detallesSubTotal.add(flete).add(taxi).add(otrosGastos);

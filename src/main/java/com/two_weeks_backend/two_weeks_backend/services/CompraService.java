@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraUpdateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.CompraRepository;
@@ -48,10 +49,12 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         return compraDTO;
     }
 
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(CompraEntity compraEntity) {
+    public void update(CompraUpdateDTO compraUpdateDTO) {
+        Long distribuidorId = compraUpdateDTO.getDistribuidorId();
+        this.distribuidorService.isItOperative(distribuidorId);
 
+        
     }
 
     @Override
