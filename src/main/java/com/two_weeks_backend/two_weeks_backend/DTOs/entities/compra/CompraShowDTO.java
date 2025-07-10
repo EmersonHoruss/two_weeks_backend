@@ -24,5 +24,6 @@ public class CompraShowDTO extends BaseShowDTO<CompraEntity> {
     private BigDecimal total;
     private Boolean activated;
     private Boolean llego;
+    private OffsetDateTime llegoFecha;
     private List<DetalleCompraShowDTO> detalles = new ArrayList<>();
 }

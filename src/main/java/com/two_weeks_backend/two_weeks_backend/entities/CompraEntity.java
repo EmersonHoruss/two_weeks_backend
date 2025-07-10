@@ -51,6 +51,9 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
     @Column(name = "llego", columnDefinition = "boolean default false", nullable = false)
     private Boolean llego;
 
+    @Column(name = "llego_fecha", nullable = true)
+    private OffsetDateTime llegoFecha;
+
     @PrePersist
     @SuppressWarnings("unused")
     private void prePersist() {
@@ -75,6 +78,7 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
         compraShowDTO.setOtrosGastos(this.getOtrosGastos());
         compraShowDTO.setTotal(this.getTotal());
         compraShowDTO.setLlego(this.getLlego());
+        compraShowDTO.setLlegoFecha(this.getLlegoFecha());
         return compraShowDTO;
     }
 }
