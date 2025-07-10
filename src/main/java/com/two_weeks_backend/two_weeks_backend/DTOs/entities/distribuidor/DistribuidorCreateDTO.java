@@ -5,7 +5,6 @@ import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +20,6 @@ public class DistribuidorCreateDTO extends BaseCreateDTO<DistribuidorEntity> {
 
     private String empresaNombre;
 
-    @Size(min = 11, max = 11)
     @Pattern(regexp = "\\d{11}", message = "El RUC debe tener exactamente 11 dígitos numéricos")
     private String empresaRuc;
 
