@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraArrivedDTO;
 import com.two_weeks_backend.two_weeks_backend.services.CompraService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,7 +63,13 @@ public class CompraController
 
     @PutMapping("/activacion")
     public ResponseEntity<Object> setActivated(@Valid @RequestBody CompraActivatedDTO dto) {
-        compraService.setActivated(dto.asEntity());
+        this.compraService.setActivated(dto.asEntity());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/llego")
+    public ResponseEntity<Object> setArrived(@Valid @RequestBody CompraArrivedDTO compraArrivedDTO) {
+        this.compraService.setArrived(compraArrivedDTO);
         return ResponseEntity.ok().build();
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraArrivedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraUpdateDTO;
@@ -54,7 +55,6 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         Long distribuidorId = compraUpdateDTO.getDistribuidorId();
         this.distribuidorService.isItOperative(distribuidorId);
 
-        
     }
 
     @Override
@@ -64,6 +64,10 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
     }
 
     public void setActivated(CompraEntity compraEntity) {
+
+    }
+
+    public void setArrived(CompraArrivedDTO compraArrivedDTO) {
 
     }
 }
