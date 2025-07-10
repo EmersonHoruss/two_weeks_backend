@@ -1,6 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.entities;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
 
@@ -37,6 +38,12 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
     @Column(name = "activated", columnDefinition = "boolean default true", nullable = false)
     private Boolean activated;
 
+    @Column(name = "fecha_creacion", nullable = false)
+    private OffsetDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = true)
+    private OffsetDateTime fechaActualizacion;
+
     @ManyToOne
     @JoinColumn(name = "producto", nullable = false, foreignKey = @ForeignKey(name = "fk_detalle_compra_producto"))
     private ProductoEntity producto;
@@ -62,6 +69,8 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
         detalleCompraShowDTO.setPrecioCompraUnitario(this.getPrecioCompraUnitario());
         detalleCompraShowDTO.setSubTotal(this.getSubTotal());
         detalleCompraShowDTO.setProducto(this.getProducto().getNombre());
+        detalleCompraShowDTO.setFechaCreacion(this.getFechaCreacion());
+        detalleCompraShowDTO.setFechaActualizacion(this.getFechaActualizacion());
         return detalleCompraShowDTO;
     }
 }

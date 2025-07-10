@@ -54,6 +54,12 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
     @Column(name = "llego_fecha", nullable = true)
     private OffsetDateTime llegoFecha;
 
+    @Column(name = "fecha_creacion", nullable = false)
+    private OffsetDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion", nullable = true)
+    private OffsetDateTime fechaActualizacion;
+
     @PrePersist
     @SuppressWarnings("unused")
     private void prePersist() {
@@ -79,6 +85,8 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
         compraShowDTO.setTotal(this.getTotal());
         compraShowDTO.setLlego(this.getLlego());
         compraShowDTO.setLlegoFecha(this.getLlegoFecha());
+        compraShowDTO.setFechaCrecion(this.getFechaCreacion());
+        compraShowDTO.setFechaActualizacion(this.getFechaActualizacion());
         return compraShowDTO;
     }
 }

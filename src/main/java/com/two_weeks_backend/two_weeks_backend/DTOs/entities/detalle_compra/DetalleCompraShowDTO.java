@@ -1,6 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
@@ -16,4 +17,6 @@ public class DetalleCompraShowDTO extends BaseShowDTO<DetalleCompraEntity> {
     private BigDecimal subTotal;
     private Boolean activated;
     private String producto = "";
+    private OffsetDateTime fechaCreacion;
+    private OffsetDateTime fechaActualizacion;
 }
