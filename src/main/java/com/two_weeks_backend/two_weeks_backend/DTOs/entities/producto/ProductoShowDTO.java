@@ -10,8 +10,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductoShowDTO extends  BaseShowDTO<ProductoEntity>{
+public class ProductoShowDTO extends BaseShowDTO<ProductoEntity> {
     private String nombre;
+    private BigDecimal precioCompra;
     private BigDecimal precioVentaMenor;
     private BigDecimal precioVentaMayor;
     private BigDecimal precioVentaSuperMayor;

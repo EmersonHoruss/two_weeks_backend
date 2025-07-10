@@ -25,6 +25,9 @@ public class ProductoEntity extends BaseEntity<ProductoShowDTO> {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
+    @Column(name = "precio_compra", nullable = false)
+    private BigDecimal precioCompra;
+
     @Column(name = "precio_venta_menor", nullable = false)
     private BigDecimal precioVentaMenor;
 
@@ -57,6 +60,7 @@ public class ProductoEntity extends BaseEntity<ProductoShowDTO> {
         productoShowDTO.setId(this.getId());
         productoShowDTO.setActivated(this.getActivated());
         productoShowDTO.setNombre(this.getNombre());
+        productoShowDTO.setPrecioCompra(this.getPrecioCompra());
         productoShowDTO.setPrecioVentaMenor(this.getPrecioVentaMenor());
         productoShowDTO.setPrecioVentaMayor(this.getPrecioVentaMayor());
         productoShowDTO.setPrecioVentaSuperMayor(this.getPrecioVentaSuperMayor());
