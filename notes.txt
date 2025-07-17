@@ -15,4 +15,9 @@ el precio de compra solo se puede setear por primera vez cuando arranca mi app, 
 
 
 
-crear un script de inicialización para setear la entidad sistema desde un inicio
+crear un script de inicialización para setear la entidad sistema desde un inicio, sistema debe tener una opción para la creación de un
+producto con todo el precio de compra y venta sin importar la lógica del negocio, esto servirá para los datos de entrada y para 
+actualizaciones forzadas de inventario. tener cuidado con esta funcionalidad porque puede desastabilizar la aplicación, sólo el usuario
+con permiso de admin puedo hacer la modificación, la bandera se llamará edicionManualProductos
+
+crear un distribuidor llamado anonimo o no recordado
