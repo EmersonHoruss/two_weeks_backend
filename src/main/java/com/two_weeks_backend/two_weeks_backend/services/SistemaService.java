@@ -45,4 +45,8 @@ public class SistemaService {
 
         this.sistemaRepository.save(sistema);
     }
+
+    public void validateExistence(Long id) {
+        this.sistemaRepository.findById(id).orElseThrow(() -> new RuntimeException("Sistema no encontrado"));
+    }
 }
