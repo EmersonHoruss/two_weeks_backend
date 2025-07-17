@@ -32,11 +32,10 @@ public class CajaController {
     private CajaService cajaService;
 
     @PutMapping("")
-    public ResponseEntity<ResponseDTO> update(
-        @Valid @RequestBody CajaUpdateDTO dto
-    ){
-        CajaEntity cajaEntity = cajaService.update(dto.asEntity());
-        return ResponseEntity.ok(new ResponseDTO(cajaEntity.asShowDTO()));
+    public ResponseEntity<Object> update(@Valid @RequestBody CajaUpdateDTO dto) {
+        cajaService.update(dto.asEntity());
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")
