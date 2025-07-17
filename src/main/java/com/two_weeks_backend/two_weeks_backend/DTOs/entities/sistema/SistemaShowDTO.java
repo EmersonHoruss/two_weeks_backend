@@ -18,4 +18,5 @@ public class SistemaShowDTO extends BaseShowDTO<SistemaEntity> {
     private String duenioCelular;
     private OffsetTime abre;
     private OffsetTime cierra;
+    private Boolean edicionManualProducto;
 }

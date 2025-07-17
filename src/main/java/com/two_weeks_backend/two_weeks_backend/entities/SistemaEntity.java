@@ -6,6 +6,7 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.sistema.SistemaShow
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +40,17 @@ public class SistemaEntity extends BaseEntity<SistemaShowDTO> {
     @Column(name = "cierra", nullable = true)
     private OffsetTime cierra;
 
+    @Column(name = "edicion_manual_producto", columnDefinition = "boolean default false", nullable = false)
+    private Boolean edicionManualProducto;
+
+    @PrePersist
+    @SuppressWarnings("unused")
+    private void prePersist() {
+        if (this.edicionManualProducto == null) {
+            this.edicionManualProducto = false;
+        }
+    }
+
     @Override
     public SistemaShowDTO asShowDTO() {
         SistemaShowDTO sistemaShowDTO = new SistemaShowDTO();
@@ -49,6 +61,7 @@ public class SistemaEntity extends BaseEntity<SistemaShowDTO> {
         sistemaShowDTO.setDuenioCelular(this.getDuenioCelular());
         sistemaShowDTO.setAbre(this.getAbre());
         sistemaShowDTO.setCierra(this.getCierra());
+        sistemaShowDTO.setEdicionManualProducto(this.getEdicionManualProducto());
         return sistemaShowDTO;
     }
 }
