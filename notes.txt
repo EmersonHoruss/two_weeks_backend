@@ -1,2 +1,18 @@
 crear un trigger de la base de datos para la creación
 automática de la caja 
+
+
+cuando llegue tengo que
+	aumentar el stock
+	actualizar mi precio de compra	
+
+cuando elimine un llego tengo que
+	reducir el stock
+	acutalizar mi precio de compra
+
+
+el precio de compra solo se puede setear por primera vez cuando arranca mi app, después no se podrá setear, se hará automáticamente con los detalles de compra
+
+
+
+crear un script de inicialización para setear la entidad sistema desde un inicio
