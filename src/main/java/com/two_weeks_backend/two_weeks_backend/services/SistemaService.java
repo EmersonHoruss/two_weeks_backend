@@ -16,7 +16,7 @@ public class SistemaService {
 
     public SistemaShowDTO get(Long id) {
         SistemaEntity sistema = this.sistemaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("sistema no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Sistema no encontrado"));
 
         return sistema.asShowDTO();
     }
@@ -24,7 +24,7 @@ public class SistemaService {
     public void update(SistemaUpdateDTO sistemaUpdateDTO) {
         Long id = sistemaUpdateDTO.getId();
         SistemaEntity sistema = this.sistemaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("sistema no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Sistema no encontrado"));
 
         sistema.setEmpresaNombre(sistemaUpdateDTO.getEmpresaNombre());
         sistema.setEmpresaRuc(sistemaUpdateDTO.getEmpresaRuc());
@@ -39,7 +39,7 @@ public class SistemaService {
     public void setEdicionManualProducto(SistemaEdicionManualProductoDTO edicionManualProductoDTO) {
         Long id = edicionManualProductoDTO.getId();
         SistemaEntity sistema = this.sistemaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("sistema no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Sistema no encontrado"));
 
         sistema.setEdicionManualProducto(edicionManualProductoDTO.getEdicionManualProducto());
 
