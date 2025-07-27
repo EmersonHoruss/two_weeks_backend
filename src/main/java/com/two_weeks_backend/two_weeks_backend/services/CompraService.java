@@ -71,3 +71,6 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
 
     }
 }
+// productoId
+// precioCompra
+// cantidad

@@ -6,4 +6,5 @@ import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
 
 @Repository
 public interface ProductoRepository extends BaseRepository<ProductoEntity> {
+    boolean existsByNombreUnico(String nombreUnico);
 }

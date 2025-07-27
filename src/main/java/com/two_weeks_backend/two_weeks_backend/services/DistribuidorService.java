@@ -6,6 +6,11 @@ import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
 
 @Service
 public class DistribuidorService extends BaseServiceImplementation<DistribuidorEntity> {
+    @Override
+    public DistribuidorEntity get(Long id) {
+        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("Distribuidor no encontrado"));
+    }
+
     public void setActivated(DistribuidorEntity distribuidorEntity) {
         Long distribuidorId = distribuidorEntity.getId();
 
@@ -19,7 +24,7 @@ public class DistribuidorService extends BaseServiceImplementation<DistribuidorE
 
     public void isItOperative(Long id) {
         DistribuidorEntity distribuidor = baseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("distribuidor no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Distribuidor no encontrado"));
 
         Boolean activated = distribuidor.getActivated();
         if (!activated) {

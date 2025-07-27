@@ -62,7 +62,11 @@ public class ProductoEntity extends BaseEntity<ProductoShowDTO> {
         if (this.activated == null) {
             this.activated = true;
         }
-        this.nombreUnico = this.nombre + " (" + this.distribuidor.getEmpresaNombre() + ")";
+        this.nombreUnico = buildNombreUnico(this.nombre, this.distribuidor.getEmpresaNombre());
+    }
+
+    public static String buildNombreUnico(String nombre, String distribuidorEmpresaNombre) {
+        return nombre + " (" + distribuidorEmpresaNombre + ")";
     }
 
     @Override
@@ -79,5 +83,22 @@ public class ProductoEntity extends BaseEntity<ProductoShowDTO> {
         productoShowDTO.setStock(this.getStock());
         productoShowDTO.setCodigo(this.getCodigo());
         return productoShowDTO;
+    }
+
+    public void addStock(int stockToAdd) {
+        if (stockToAdd < 0) {
+            throw new IllegalArgumentException("El stock a añadir no puede ser negativo.");
+        }
+        this.stock += stockToAdd;
+    }
+
+    public void reduceStock(int stockToReduce) {
+        if (stockToReduce < 0) {
+            throw new IllegalArgumentException("El stock a reducir no puede ser negativo.");
+        }
+        if (this.stock < stockToReduce) {
+            throw new IllegalStateException("No hay suficiente stock para realizar la operación.");
+        }
+        this.stock -= stockToReduce;
     }
 }
