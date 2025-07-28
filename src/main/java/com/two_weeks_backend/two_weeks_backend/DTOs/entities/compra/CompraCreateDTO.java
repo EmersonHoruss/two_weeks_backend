@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
@@ -38,25 +37,6 @@ public class CompraCreateDTO extends BaseCreateDTO<CompraEntity> {
     @NotNull(message = "El distribuidor es obligatorio")
     private Long distribuidorId;
 
-    @JsonIgnore
-    private BigDecimal total;
-
-    public void setAllCalculatedData() {
-        this.calculateTotal();
-    }
-
-    private void calculateTotal() {
-        this.getDetalles().forEach(DetalleCompraCreateDTO::setAllCalculatedData);
-
-        if (this.detalles.stream().anyMatch(d -> d.getSubTotal() == null)) {
-            throw new IllegalStateException("Debe calcular el subTotal de cada detalle antes de calcular el total");
-        }
-        BigDecimal detallesSubTotal = this.getDetalles().stream().map(DetalleCompraCreateDTO::getSubTotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        this.total = detallesSubTotal.add(flete).add(taxi).add(otrosGastos);
-    }
-
     @Override
     public CompraEntity asEntity() {
         CompraEntity compra = new CompraEntity();
@@ -64,11 +44,6 @@ public class CompraCreateDTO extends BaseCreateDTO<CompraEntity> {
         compra.setFlete(this.getFlete());
         compra.setTaxi(this.getTaxi());
         compra.setOtrosGastos(this.getOtrosGastos());
-
-        if (this.getTotal() == null || this.getTotal().compareTo(BigDecimal.ZERO) == 0) {
-            throw new IllegalArgumentException("El total no puede ser cero.");
-        }
-        compra.setTotal(this.getTotal());
 
         DistribuidorEntity distribuidor = new DistribuidorEntity();
         distribuidor.setId(this.getDistribuidorId());

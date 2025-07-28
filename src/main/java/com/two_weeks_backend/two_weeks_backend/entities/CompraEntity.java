@@ -2,6 +2,7 @@ package com.two_weeks_backend.two_weeks_backend.entities;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
 
@@ -69,6 +70,9 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
         if (this.llego == null) {
             this.llego = false;
         }
+        if (this.getTotal() == null || this.getTotal().compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("El total no puede ser cero.");
+        }
     }
 
     @Override
@@ -88,5 +92,14 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
         compraShowDTO.setFechaCrecion(this.getFechaCreacion());
         compraShowDTO.setFechaActualizacion(this.getFechaActualizacion());
         return compraShowDTO;
+    }
+
+    public void calculateTotal(List<DetalleCompraEntity> detalles) {
+        detalles.forEach(DetalleCompraEntity::calculateSubTotal);
+
+        BigDecimal detallesSubTotal = detalles.stream().filter(DetalleCompraEntity::isActivo)
+                .map(DetalleCompraEntity::getSubTotal).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.total = detallesSubTotal.add(flete).add(taxi).add(otrosGastos);
     }
 }

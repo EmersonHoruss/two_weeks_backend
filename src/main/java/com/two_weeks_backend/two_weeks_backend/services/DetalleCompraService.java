@@ -25,6 +25,7 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
 
             DetalleCompraEntity detalleCompraEntity = detalleDTO.asEntity();
 
+            detalleCompraEntity.calculateSubTotal();
             detalleCompraEntity.setCompra(compra);
 
             return detalleCompraEntity;

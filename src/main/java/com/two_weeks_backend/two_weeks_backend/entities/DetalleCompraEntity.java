@@ -58,6 +58,9 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
         if (this.activated == null) {
             this.activated = true;
         }
+        if (this.getSubTotal() == null || this.getSubTotal().compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("El sub total no puede ser cero.");
+        }
     }
 
     @Override
@@ -72,5 +75,15 @@ public class DetalleCompraEntity extends BaseEntity<DetalleCompraShowDTO> {
         detalleCompraShowDTO.setFechaCreacion(this.getFechaCreacion());
         detalleCompraShowDTO.setFechaActualizacion(this.getFechaActualizacion());
         return detalleCompraShowDTO;
+    }
+
+    public void calculateSubTotal() {
+        this.subTotal = this.precioCompraUnitario.multiply(BigDecimal.valueOf(cantidad));
+    }
+
+    public boolean isActivo() {
+        if (this.activated == null)
+            return true;
+        return this.activated;
     }
 }

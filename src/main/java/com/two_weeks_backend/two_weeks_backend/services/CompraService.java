@@ -1,5 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.services;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraArrive
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraUpdateDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra.DetalleCompraShowDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.CompraEntity;
+import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.CompraRepository;
 
 @Service
@@ -30,8 +34,14 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         Long distribuidorId = compraCreateDTO.getDistribuidorId();
         this.distribuidorService.isItOperative(distribuidorId);
 
-        compraCreateDTO.setAllCalculatedData();
-        CompraEntity savedCompra = this.compraRepository.save(compraCreateDTO.asEntity());
+        List<DetalleCompraEntity> detalles = compraCreateDTO.getDetalles().stream()
+                .map(DetalleCompraCreateDTO::asEntity).toList();
+
+        CompraEntity compraEntity = compraCreateDTO.asEntity();
+        compraEntity.calculateTotal(detalles);
+        compraEntity.setFechaCreacion(OffsetDateTime.now(ZoneOffset.UTC));
+
+        CompraEntity savedCompra = this.compraRepository.save(compraEntity);
 
         this.detalleCompraService.saveAll(savedCompra, compraCreateDTO.getDetalles());
 
@@ -50,6 +60,7 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         return compraDTO;
     }
 
+    // no debe permitir la actualización una vez ya se marcó como recibido
     @Transactional(rollbackFor = Exception.class)
     public void update(CompraUpdateDTO compraUpdateDTO) {
         Long distribuidorId = compraUpdateDTO.getDistribuidorId();
@@ -63,14 +74,13 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void setActivated(CompraEntity compraEntity) {
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void setArrived(CompraArrivedDTO compraArrivedDTO) {
 
     }
 }
-// productoId
-// precioCompra
-// cantidad

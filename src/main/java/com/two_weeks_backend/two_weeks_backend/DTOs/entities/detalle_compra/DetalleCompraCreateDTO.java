@@ -2,7 +2,6 @@ package com.two_weeks_backend.two_weeks_backend.DTOs.entities.detalle_compra;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.BaseCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
@@ -26,27 +25,11 @@ public class DetalleCompraCreateDTO extends BaseCreateDTO<DetalleCompraEntity> {
     @NotNull(message = "El producto es obligatorio")
     private Long productoId;
 
-    @JsonIgnore
-    private BigDecimal subTotal;
-
-    public void setAllCalculatedData() {
-        this.calculateTotal();
-    }
-
-    private void calculateTotal() {
-        this.subTotal = this.precioCompraUnitario.multiply(BigDecimal.valueOf(cantidad));
-    }
-
     @Override
     public DetalleCompraEntity asEntity() {
         DetalleCompraEntity detalleCompraEntity = new DetalleCompraEntity();
         detalleCompraEntity.setCantidad(this.getCantidad());
         detalleCompraEntity.setPrecioCompraUnitario(this.getPrecioCompraUnitario());
-
-        if (this.getSubTotal() == null || this.getSubTotal().compareTo(BigDecimal.ZERO) == 0) {
-            throw new IllegalArgumentException("El sub total no puede ser cero.");
-        }
-        detalleCompraEntity.setSubTotal(this.getSubTotal());
 
         ProductoEntity producto = new ProductoEntity();
         producto.setId(this.getProductoId());
