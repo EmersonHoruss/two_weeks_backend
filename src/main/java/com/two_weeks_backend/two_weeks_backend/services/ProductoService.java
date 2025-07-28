@@ -1,16 +1,18 @@
 package com.two_weeks_backend.two_weeks_backend.services;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoCreateDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoActivatedDTO;
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoUpdateDTO;
 import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
+import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.ProductoRepository;
 
 @Service
@@ -80,6 +82,26 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
         ProductoEntity producto = this.get(id);
 
         validateIsActivated(producto);
+    }
+
+    public void areTheyOperative(Set<Long> productoIds) {
+        if (productoIds == null || productoIds.isEmpty()) {
+            throw new IllegalArgumentException("Debe proporcionar al menos un ID de producto.");
+        }
+
+        List<ProductoEntity> productos = productoRepository.findAllById(productoIds);
+
+        Set<Long> encontrados = productos.stream().map(ProductoEntity::getId).collect(Collectors.toSet());
+
+        for (Long id : productoIds) {
+            if (!encontrados.contains(id)) {
+                throw new RuntimeException("El producto con ID " + id + " no existe.");
+            }
+        }
+
+        for (ProductoEntity producto : productos) {
+            validateIsActivated(producto);
+        }
     }
 
     @Override

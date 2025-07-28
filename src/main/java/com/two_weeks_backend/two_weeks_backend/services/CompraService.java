@@ -1,5 +1,6 @@
 package com.two_weeks_backend.two_weeks_backend.services;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -31,6 +32,7 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
 
     @Transactional(rollbackFor = Exception.class)
     public Long create(CompraCreateDTO compraCreateDTO) {
+        OffsetDateTime fechaCreacion = OffsetDateTime.now(ZoneOffset.UTC);
         Long distribuidorId = compraCreateDTO.getDistribuidorId();
         this.distribuidorService.isItOperative(distribuidorId);
 
@@ -39,18 +41,17 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
 
         CompraEntity compraEntity = compraCreateDTO.asEntity();
         compraEntity.calculateTotal(detalles);
-        compraEntity.setFechaCreacion(OffsetDateTime.now(ZoneOffset.UTC));
+        compraEntity.setFechaCreacion(fechaCreacion);
 
         CompraEntity savedCompra = this.compraRepository.save(compraEntity);
 
-        this.detalleCompraService.saveAll(savedCompra, compraCreateDTO.getDetalles());
+        this.detalleCompraService.saveAll(savedCompra, compraCreateDTO.getDetalles(), fechaCreacion);
 
         return savedCompra.getId();
     }
 
     public CompraShowDTO getCompraDTO(Long id) {
-        CompraEntity compraEntity = this.compraRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("compra no encontrada"));
+        CompraEntity compraEntity = this.get(id);
 
         CompraShowDTO compraDTO = compraEntity.asShowDTO();
 
@@ -60,12 +61,45 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         return compraDTO;
     }
 
-    // no debe permitir la actualización una vez ya se marcó como recibido
     @Transactional(rollbackFor = Exception.class)
     public void update(CompraUpdateDTO compraUpdateDTO) {
-        Long distribuidorId = compraUpdateDTO.getDistribuidorId();
+        CompraEntity compraEntity = compraUpdateDTO.asEntity();
+
+        if (compraEntity.getLlego()) {
+            throw new RuntimeException("No se puede actualizar una compra que ya llegó.");
+        }
+
+        OffsetDateTime fechaActualizacion = OffsetDateTime.now(ZoneOffset.UTC);
+        Long distribuidorId = compraEntity.getDistribuidor().getId();
         this.distribuidorService.isItOperative(distribuidorId);
 
+        Long compraId = compraEntity.getId();
+        CompraEntity compraEntityRetrieved = this.get(compraId);
+        validateIsActivated(compraEntityRetrieved);
+
+        compraEntityRetrieved.setFecha(compraUpdateDTO.getFecha());
+        compraEntityRetrieved.setFlete(compraUpdateDTO.getFlete());
+        compraEntityRetrieved.setTaxi(compraUpdateDTO.getTaxi());
+        compraEntityRetrieved.setOtrosGastos(compraUpdateDTO.getOtrosGastos());
+        compraEntityRetrieved.setFechaActualizacion(fechaActualizacion);
+
+        BigDecimal detallesTotal = this.detalleCompraService.saveAllAndGetTotal(compraEntityRetrieved,
+                compraUpdateDTO.getDetalles(), fechaActualizacion);
+
+        compraEntityRetrieved.calculateTotal(detallesTotal);
+        this.compraRepository.save(compraEntityRetrieved);
+    }
+
+    @Override
+    public CompraEntity get(Long id) {
+        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("Compra no encontrada."));
+    }
+
+    public static void validateIsActivated(CompraEntity compra) {
+        Boolean isActivated = compra.getActivated();
+        if (!isActivated) {
+            throw new RuntimeException("La compra está desactivada.");
+        }
     }
 
     @Override

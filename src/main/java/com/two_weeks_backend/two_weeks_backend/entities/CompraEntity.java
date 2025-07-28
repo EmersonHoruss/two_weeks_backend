@@ -102,4 +102,8 @@ public class CompraEntity extends BaseEntity<CompraShowDTO> {
 
         this.total = detallesSubTotal.add(flete).add(taxi).add(otrosGastos);
     }
+
+    public void calculateTotal(BigDecimal detallesTotal) {
+        this.total = detallesTotal.add(flete).add(taxi).add(otrosGastos);
+    }
 }
