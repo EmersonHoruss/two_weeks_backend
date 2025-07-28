@@ -29,6 +29,16 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
     ProductoService productoService;
 
     public void saveAll(CompraEntity compra, List<DetalleCompraCreateDTO> detalles, OffsetDateTime fechaCreacion) {
+        Set<Long> productoIds = detalles.stream().map(DetalleCompraCreateDTO::getProductoId)
+                .collect(Collectors.toSet());
+        List<ProductoEntity> productos = productoService.areTheyOperative(productoIds);
+        for (ProductoEntity productoEntity : productos) {
+            if (!productoEntity.getDistribuidor().getId().equals(compra.getDistribuidor().getId())) {
+                throw new RuntimeException(
+                        "El producto " + productoEntity.getNombre() + " no pertence al distribuidor seleccionado.");
+            }
+        }
+
         List<DetalleCompraEntity> detallesCompraEntity = detalles.stream().map(detalleDTO -> {
             this.validate(detalleDTO);
 
@@ -48,9 +58,13 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             OffsetDateTime fechaActualizacion) {
         Set<Long> productoIds = detalles.stream().map(DetalleCompraUpdateDTO::getProductoId)
                 .collect(Collectors.toSet());
-        List<ProductoEntity> productosRetrieved = productoService.areTheyOperative(productoIds);
-        Map<Long, ProductoEntity> productoMap = productosRetrieved.stream()
-                .collect(Collectors.toMap(ProductoEntity::getId, Function.identity()));
+        List<ProductoEntity> productos = productoService.areTheyOperative(productoIds);
+        for (ProductoEntity productoEntity : productos) {
+            if (!productoEntity.getDistribuidor().getId().equals(compra.getDistribuidor().getId())) {
+                throw new RuntimeException(
+                        "El producto " + productoEntity.getNombre() + " no pertence al distribuidor seleccionado.");
+            }
+        }
 
         Long compraId = compra.getId();
         List<DetalleCompraEntity> currentDetalles = this.detalleCompraRepository.findAllByCompra_Id(compraId);
@@ -77,7 +91,6 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             }
         }
 
-        List<ProductoEntity> productosToUpdate = new ArrayList<>();
         List<DetalleCompraEntity> detallesToUpdate = updateables.stream().map(dto -> {
             DetalleCompraEntity currentDetalle = currentDetallesMap.get(dto.getId());
 
@@ -93,14 +106,6 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
 
             currentDetalle.calculateSubTotal();
 
-            ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
-            if (productoOriginal != null
-                    && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
-                productoOriginal.setPrecioCompra(dto.getPrecioCompraUnitario());
-
-                productosToUpdate.add(productoOriginal);
-            }
-
             return currentDetalle;
         }).toList();
 
@@ -109,14 +114,6 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             detalleToCreate.setCompra(compra);
             detalleToCreate.calculateSubTotal();
             detalleToCreate.setFechaCreacion(fechaActualizacion);
-
-            ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
-            if (productoOriginal != null
-                    && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
-                productoOriginal.setPrecioCompra(dto.getPrecioCompraUnitario());
-
-                productosToUpdate.add(productoOriginal);
-            }
 
             return detalleToCreate;
         }).toList();
@@ -132,8 +129,6 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .add(allToSave.stream().map(DetalleCompraEntity::getSubTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
 
-        this.productoService.update(productosToUpdate);
-
         return total;
     }
 
@@ -147,4 +142,17 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
 
         return detallesEntity.stream().map(DetalleCompraEntity::asShowDTO).toList();
     }
+
+    // validar que los productos pertenezcan al distribuidor
+
+    // remover la funcionalida de actualizacion automatica, agregarla cuando se
+    // marca como llegado
+
+    // el llegado es de doble snetido, cuando se marca de llegado a no llegado
+    // entonces
+    // se busca el detalle de compra con fecha de creacion o de actualización más
+    // cercano y además la compra
+    // debe estar activa y haber llegado
+
+    // si voy a desactivar una compra que ya llegó entonces
 }
