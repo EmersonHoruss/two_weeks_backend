@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoActivatedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoUpdateDTO;
+import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.ProductoRepository;
@@ -84,17 +85,17 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
         validateIsActivated(producto);
     }
 
-    public void areTheyOperative(Set<Long> productoIds) {
+    public List<ProductoEntity> areTheyOperative(Set<Long> productoIds) {
         if (productoIds == null || productoIds.isEmpty()) {
             throw new IllegalArgumentException("Debe proporcionar al menos un ID de producto.");
         }
 
         List<ProductoEntity> productos = productoRepository.findAllById(productoIds);
 
-        Set<Long> encontrados = productos.stream().map(ProductoEntity::getId).collect(Collectors.toSet());
+        Set<Long> productoIdsEncontrados = productos.stream().map(ProductoEntity::getId).collect(Collectors.toSet());
 
         for (Long id : productoIds) {
-            if (!encontrados.contains(id)) {
+            if (!productoIdsEncontrados.contains(id)) {
                 throw new RuntimeException("El producto con ID " + id + " no existe.");
             }
         }
@@ -102,6 +103,8 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
         for (ProductoEntity producto : productos) {
             validateIsActivated(producto);
         }
+
+        return productos;
     }
 
     @Override
@@ -130,5 +133,8 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
         productoEntity.reduceStock(amount);
 
         this.update(productoEntity);
+    }
+
+    public void updatePrices(List<ProductoEntity> productos, List<DetalleCompraEntity> detalles) {
     }
 }

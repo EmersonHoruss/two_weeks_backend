@@ -45,10 +45,12 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
     }
 
     public BigDecimal saveAllAndGetTotal(CompraEntity compra, List<DetalleCompraUpdateDTO> detalles,
-            OffsetDateTime fechaActulizacion) {
+            OffsetDateTime fechaActualizacion) {
         Set<Long> productoIds = detalles.stream().map(DetalleCompraUpdateDTO::getProductoId)
                 .collect(Collectors.toSet());
-        productoService.areTheyOperative(productoIds);
+        List<ProductoEntity> productosRetrieved = productoService.areTheyOperative(productoIds);
+        Map<Long, ProductoEntity> productoMap = productosRetrieved.stream()
+                .collect(Collectors.toMap(ProductoEntity::getId, Function.identity()));
 
         Long compraId = compra.getId();
         List<DetalleCompraEntity> currentDetalles = this.detalleCompraRepository.findAllByCompra_Id(compraId);
@@ -75,6 +77,7 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             }
         }
 
+        List<ProductoEntity> productosToUpdate = new ArrayList<>();
         List<DetalleCompraEntity> detallesToUpdate = updateables.stream().map(dto -> {
             DetalleCompraEntity currentDetalle = currentDetallesMap.get(dto.getId());
 
@@ -82,13 +85,19 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             currentDetalle.setPrecioCompraUnitario(dto.getPrecioCompraUnitario());
             currentDetalle
                     .setActivated(dto.getActivated() != null ? dto.getActivated() : currentDetalle.getActivated());
-            currentDetalle.setFechaActualizacion(fechaActulizacion);
+            currentDetalle.setFechaActualizacion(fechaActualizacion);
 
             ProductoEntity producto = new ProductoEntity();
             producto.setId(dto.getProductoId());
             currentDetalle.setProducto(producto);
 
             currentDetalle.calculateSubTotal();
+
+            ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
+            if (productoOriginal != null
+                    && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
+                productosToUpdate.add(productoOriginal);
+            }
 
             return currentDetalle;
         }).toList();
@@ -97,7 +106,14 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             DetalleCompraEntity detalleToCreate = dto.asEntity();
             detalleToCreate.setCompra(compra);
             detalleToCreate.calculateSubTotal();
-            detalleToCreate.setFechaCreacion(fechaActulizacion);
+            detalleToCreate.setFechaCreacion(fechaActualizacion);
+
+            ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
+            if (productoOriginal != null
+                    && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
+                productosToUpdate.add(productoOriginal);
+            }
+            
             return detalleToCreate;
         }).toList();
 
@@ -111,6 +127,8 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
                 .filter(DetalleCompraEntity::getActivated).map(DetalleCompraEntity::getSubTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .add(allToSave.stream().map(DetalleCompraEntity::getSubTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
+
+        this.productoService.updatePrices(productosToUpdate, allToSave);
 
         return total;
     }
