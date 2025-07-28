@@ -96,6 +96,8 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
             if (productoOriginal != null
                     && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
+                productoOriginal.setPrecioCompra(dto.getPrecioCompraUnitario());
+
                 productosToUpdate.add(productoOriginal);
             }
 
@@ -111,9 +113,11 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
             ProductoEntity productoOriginal = productoMap.get(dto.getProductoId());
             if (productoOriginal != null
                     && productoOriginal.getPrecioCompra().compareTo(dto.getPrecioCompraUnitario()) != 0) {
+                productoOriginal.setPrecioCompra(dto.getPrecioCompraUnitario());
+
                 productosToUpdate.add(productoOriginal);
             }
-            
+
             return detalleToCreate;
         }).toList();
 
@@ -128,7 +132,7 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .add(allToSave.stream().map(DetalleCompraEntity::getSubTotal).reduce(BigDecimal.ZERO, BigDecimal::add));
 
-        this.productoService.updatePrices(productosToUpdate, allToSave);
+        this.productoService.update(productosToUpdate);
 
         return total;
     }

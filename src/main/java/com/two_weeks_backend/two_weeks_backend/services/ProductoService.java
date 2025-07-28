@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoActivatedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.producto.ProductoUpdateDTO;
-import com.two_weeks_backend.two_weeks_backend.entities.DetalleCompraEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.DistribuidorEntity;
 import com.two_weeks_backend.two_weeks_backend.entities.ProductoEntity;
 import com.two_weeks_backend.two_weeks_backend.repositories.ProductoRepository;
@@ -135,6 +134,11 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
         this.update(productoEntity);
     }
 
-    public void updatePrices(List<ProductoEntity> productos, List<DetalleCompraEntity> detalles) {
+    public void update(List<ProductoEntity> productos) {
+        if (productos == null || productos.isEmpty()) {
+            return;
+        }
+
+        productoRepository.saveAll(productos);
     }
 }
