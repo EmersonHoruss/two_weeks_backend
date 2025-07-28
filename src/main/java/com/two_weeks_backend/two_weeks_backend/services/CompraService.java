@@ -105,7 +105,7 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long id) {
-
+        throw new RuntimeException("Funcionalidad no disponible.");
     }
 
     @Transactional(rollbackFor = Exception.class)
