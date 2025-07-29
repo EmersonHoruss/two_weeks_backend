@@ -55,7 +55,7 @@ public class CompraController {
 
     @PutMapping("/activacion")
     public ResponseEntity<Object> setActivated(@Valid @RequestBody CompraActivatedDTO dto) {
-        this.compraService.setActivated(dto.asEntity());
+        this.compraService.setActivated(dto);
         return ResponseEntity.ok().build();
     }
 
