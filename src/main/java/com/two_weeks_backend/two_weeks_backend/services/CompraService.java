@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,11 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         return compraDTO;
     }
 
+    @Override
+    public CompraEntity get(Long id) {
+        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("Compra no encontrada."));
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public void update(CompraUpdateDTO compraUpdateDTO) {
         CompraEntity compraEntity = compraUpdateDTO.asEntity();
@@ -74,8 +80,7 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         this.distribuidorService.isItOperative(distribuidorId);
 
         Long compraId = compraEntity.getId();
-        CompraEntity compraEntityRetrieved = this.get(compraId);
-        validateIsActivated(compraEntityRetrieved);
+        CompraEntity compraEntityRetrieved = isItOperative(compraId);
 
         compraEntityRetrieved.setFecha(compraUpdateDTO.getFecha());
         compraEntityRetrieved.setFlete(compraUpdateDTO.getFlete());
@@ -90,9 +95,12 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         this.compraRepository.save(compraEntityRetrieved);
     }
 
-    @Override
-    public CompraEntity get(Long id) {
-        return baseRepository.findById(id).orElseThrow(() -> new RuntimeException("Compra no encontrada."));
+    private CompraEntity isItOperative(Long id) {
+        CompraEntity compraEntityRetrieved = this.get(id);
+
+        validateIsActivated(compraEntityRetrieved);
+
+        return compraEntityRetrieved;
     }
 
     public static void validateIsActivated(CompraEntity compra) {
@@ -102,19 +110,34 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
         }
     }
 
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
-        throw new RuntimeException("Funcionalidad no disponible.");
+    public void setArrived(CompraArrivedDTO compraArrivedDTO) {
+        if (compraArrivedDTO.getLlego() && compraArrivedDTO.getLlegoFecha() == null) {
+            throw new RuntimeException("Es necesaria la fecha cuando una comprase ha marcado que ha llegado.");
+        }
+
+        Long compraId = compraArrivedDTO.getId();
+        CompraEntity compraEntity = this.get(compraId);
+
+        if (Objects.equals(compraArrivedDTO.getLlego(), compraEntity.getLlego())) // as there is no changes, so skip
+            return;
+
+        compraEntity.setLlego(compraArrivedDTO.getLlego());
+        compraEntity.setLlegoFecha(compraArrivedDTO.getLlego() ? compraArrivedDTO.getLlegoFecha() : null);
+
+        this.detalleCompraService.setArrived(compraId, compraArrivedDTO.getLlego());
+
+        this.compraRepository.save(compraEntity);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void setActivated(CompraEntity compraEntity) {
-
+        // if llego throw else deactivate or activate
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void setArrived(CompraArrivedDTO compraArrivedDTO) {
-
+    public void delete(Long id) {
+        throw new RuntimeException("Funcionalidad no disponible.");
     }
 }

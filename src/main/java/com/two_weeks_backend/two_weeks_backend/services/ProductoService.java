@@ -139,6 +139,14 @@ public class ProductoService extends BaseServiceImplementation<ProductoEntity> {
             return;
         }
 
-        productoRepository.saveAll(productos);
+        this.productoRepository.saveAll(productos);
+    }
+
+    public void saveAll(List<ProductoEntity> productos) {
+        if (productos == null || productos.isEmpty()) {
+            return;
+        }
+
+        this.productoRepository.saveAll(productos);
     }
 }

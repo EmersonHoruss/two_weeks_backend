@@ -143,16 +143,45 @@ public class DetalleCompraService extends BaseServiceImplementation<DetalleCompr
         return detallesEntity.stream().map(DetalleCompraEntity::asShowDTO).toList();
     }
 
-    // validar que los productos pertenezcan al distribuidor
+    public void setArrived(Long compraId, Boolean arrived) {
+        List<DetalleCompraEntity> currentDetalles = this.detalleCompraRepository.findAllByCompra_Id(compraId);
 
-    // remover la funcionalida de actualizacion automatica, agregarla cuando se
-    // marca como llegado
+        List<ProductoEntity> productos = arrived ? this.insertProducts(currentDetalles)
+                : this.rollbackProducts(compraId, currentDetalles);
 
-    // el llegado es de doble snetido, cuando se marca de llegado a no llegado
-    // entonces
-    // se busca el detalle de compra con fecha de creacion o de actualización más
-    // cercano y además la compra
-    // debe estar activa y haber llegado
+        this.productoService.saveAll(productos);
+    }
 
-    // si voy a desactivar una compra que ya llegó entonces
+    private List<ProductoEntity> insertProducts(List<DetalleCompraEntity> detallesCompra) {
+        return detallesCompra.stream().filter(DetalleCompraEntity::isActivo).map(detalle -> {
+            ProductoEntity producto = detalle.getProducto();
+            producto.setPrecioCompra(detalle.getPrecioCompraUnitario());
+            producto.addStock(detalle.getCantidad());
+            return producto;
+        }).collect(Collectors.toList());
+    }
+
+    private List<ProductoEntity> rollbackProducts(Long compraId, List<DetalleCompraEntity> detallesCompra) {
+        List<Long> productoIds = detallesCompra.stream().filter(DetalleCompraEntity::isActivo)
+                .map(detalle -> detalle.getProducto().getId()).toList();
+
+        List<DetalleCompraEntity> detallesPrevios = this.detalleCompraRepository
+                .findMostRecentArrivedDetallesByProductoIdsExcludingCompra(productoIds, compraId);
+
+        Map<Long, DetalleCompraEntity> detallesPreviosMap = detallesPrevios.stream()
+                .collect(Collectors.toMap(detalle -> detalle.getProducto().getId(), Function.identity()));
+
+        return detallesCompra.stream().filter(DetalleCompraEntity::isActivo).map(detalle -> {
+            ProductoEntity producto = detalle.getProducto();
+            int cantidad = detalle.getCantidad();
+
+            DetalleCompraEntity previo = detallesPreviosMap.get(producto.getId());
+            if (previo != null) {
+                producto.setPrecioCompra(previo.getPrecioCompraUnitario());
+            }
+
+            producto.reduceStock(cantidad);
+            return producto;
+        }).collect(Collectors.toList());
+    }
 }

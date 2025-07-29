@@ -15,6 +15,5 @@ public class CompraArrivedDTO {
     @NotNull
     private Boolean llego;
 
-    @NotNull
     private OffsetDateTime llegoFecha;
 }
