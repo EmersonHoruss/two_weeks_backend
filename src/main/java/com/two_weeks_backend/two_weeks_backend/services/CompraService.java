@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraActivatedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraArrivedDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraCreateDTO;
 import com.two_weeks_backend.two_weeks_backend.DTOs.entities.compra.CompraShowDTO;
@@ -131,8 +132,21 @@ public class CompraService extends BaseServiceImplementation<CompraEntity> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void setActivated(CompraEntity compraEntity) {
-        // if llego throw else deactivate or activate
+    public void setActivated(CompraActivatedDTO compraActivatedDTO) {
+        Long compraId = compraActivatedDTO.getId();
+        CompraEntity compraEntity = this.get(compraId);
+
+        Boolean llego = compraEntity.getLlego();
+        if (llego) {
+            throw new RuntimeException("No se puede desactivar porque ya llegó.");
+        }
+
+        if (Objects.equals(compraActivatedDTO.getActivated(), compraEntity.getActivated()))
+            return;
+
+        compraEntity.setActivated(llego);
+
+        this.compraRepository.save(compraEntity);
     }
 
     @Override
