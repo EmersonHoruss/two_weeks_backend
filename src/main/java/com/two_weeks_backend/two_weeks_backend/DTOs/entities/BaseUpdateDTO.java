@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class BaseUpdateDTO<E extends BaseEntity> implements BaseDTO<E> {
-    @NotNull
+    @NotNull(message = "El id es obligatorio.")
     private Long id;
 }

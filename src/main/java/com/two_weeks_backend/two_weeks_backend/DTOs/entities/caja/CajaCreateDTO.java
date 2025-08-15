@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CajaUpdateDTO {
+public class CajaCreateDTO {
     @NotNull(message = "El id es obligatorio.")
     private Long id;
 
