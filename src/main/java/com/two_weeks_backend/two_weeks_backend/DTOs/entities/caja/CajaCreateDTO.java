@@ -14,9 +14,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CajaCreateDTO {
-    @NotNull(message = "El id es obligatorio.")
-    private Long id;
-
     @NotNull(message = "La fecha es obligatoria.")
     @FutureOrPresent(message = "La fecha debe ser presente o futura")
     private OffsetDateTime fecha;
@@ -27,7 +24,6 @@ public class CajaCreateDTO {
 
     public CajaEntity asEntity() {
         CajaEntity caja = new CajaEntity();
-        caja.setId(this.getId());
         caja.setFecha(this.getFecha());
         caja.setMontoInicial(this.getMontoInicial());
         return caja;
