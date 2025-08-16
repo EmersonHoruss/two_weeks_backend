@@ -1,5 +1,7 @@
 package com.two_weeks_backend.two_weeks_backend.services;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +20,14 @@ public class CajaService {
     @Transactional(rollbackFor = Exception.class)
     public Long create(CajaCreateDTO cajaCreateDTO) {
         CajaEntity cajaEntity = cajaCreateDTO.asEntity();
+        cajaEntity.setMontoFinalFisico(BigDecimal.ZERO);
+        cajaEntity.setMontoFinalDigital(BigDecimal.ZERO);
+        cajaEntity.setGanancia(BigDecimal.ZERO);
 
         CajaEntity cajaEntitySaved = this.cajaRepository.save(cajaEntity);
 
         Long cajaId = cajaEntitySaved.getId();
-        
+
         return cajaId;
     }
 
