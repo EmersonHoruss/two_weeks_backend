@@ -5,7 +5,6 @@ import java.time.OffsetDateTime;
 
 import com.two_weeks_backend.two_weeks_backend.entities.CajaEntity;
 
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -18,7 +17,6 @@ public class CajaUpdateDTO {
     private Long id;
 
     @NotNull(message = "La fecha es obligatoria.")
-    @FutureOrPresent(message = "La fecha debe ser presente o futura")
     private OffsetDateTime fecha;
 
     @NotNull(message = "El monto inicial es obligatorio")
